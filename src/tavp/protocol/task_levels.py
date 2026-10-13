@@ -29,11 +29,10 @@ def l2_context(strategies, calibrated, ctx_logp, rg, ro, use_cfg: dict, carry: i
     rows = []
     cost = use_cfg["cost"]
     T = rg.shape[1]
-    logp_g, logp_o = assemble(ctx_logp, rg, carry), assemble(ctx_logp, ro, carry)
+    caches = [IndicatorCache(assemble(ctx_logp, r, carry), T + 2) for r in (rg, ro)]
     for name, s in strategies.items():
         params = calibrated[name][1]
-        mg = evaluate(logp_g, s.positions(logp_g, params), T, cost)
-        mo = evaluate(logp_o, s.positions(logp_o, params), T, cost)
+        mg, mo = (evaluate(c.logp[:, -c.tail:], cached_positions(name, params, c), T, cost) for c in caches)
         for metric, funcs in use_cfg["functionals"].items():
             w1 = float(np.mean(np.abs(np.sort(mg[metric]) - np.sort(mo[metric])))) if len(mg[metric]) == len(mo[metric]) else np.nan
             for f in funcs:

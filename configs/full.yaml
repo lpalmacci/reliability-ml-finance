@@ -1,5 +1,13 @@
-# Full pre-registered run. Runtime settings only; scientific settings are in preregistration.yaml.
+# Full run. Runtime settings, plus the deviations recorded in docs/DEVIATIONS.md.
+# Scientific settings are in preregistration.yaml (committed under the tag `prereg`).
 extends: preregistration.yaml
 runtime:
-  jobs: 6
+  jobs: 5
   torch_threads: 2
+# D1 (2026-10-13): pre-registered L0.4 contingency. At N = 40,000 the negative control showed
+# that several L2 cells were not resolvable (half-width > eta / 2); N is raised to the
+# pre-registered maximum of 100,000 for L2 and for the meta-validation. L3 keeps N = 40,000.
+protocol:
+  L2: {N: 100000}
+meta_validation:
+  N: 100000

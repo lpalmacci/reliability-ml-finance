@@ -1,6 +1,9 @@
 # Reproduce the results of the chapter. `make quick` is a smoke run (about 20 minutes);
 # `make all` is the full pre-registered run (about 4-5 hours on an 8-core laptop CPU).
 UV ?= uv
+export OMP_NUM_THREADS=1
+export VECLIB_MAXIMUM_THREADS=1
+export OPENBLAS_NUM_THREADS=1
 PY = $(UV) run python -m
 CFG ?= configs/full.yaml
 

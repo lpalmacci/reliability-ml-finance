@@ -18,4 +18,10 @@ pre-registered configuration.
 
 ## Deviations after pre-registration
 
-None yet.
+| Id | Date | Setting | Pre-registered | Applied | Reason |
+|---|---|---|---|---|---|
+| D1 | 2026-10-13 | N of L2 and of the meta-validation | 40,000 | 100,000 (configs/full.yaml) | Pre-registered L0.4 contingency. In the negative control (E1, first run) the 90% half-width exceeded eta/2 for the median and mean Sharpe ratio (0.025-0.032 against 0.025) and for the Expected Shortfall of buy-and-hold under GJR-GARCH (0.007 against 0.005), so that even the oracle failed these cells (pass rates 0.46-0.94). N is raised to the pre-registered maximum. The first E1 run is kept in results/e1_n40k for reference. L3 keeps N = 40,000: its negative control passed in every context. |
+
+## Observations from the negative control (not deviations)
+
+- L1, first E1 run: with the pre-registered null of B = 100 pairs, raw per-statistic false-alarm rates average 5.7% and exceed 9% in 6 of 52 (process, statistic) cells; the family-wise rate with the Holm correction, which is the rule used to flag, is 0% on every process. Part of the per-statistic dispersion comes from the null sample being shared by the 50 comparisons: against an independent null of B = 500 pairs, the largest rate (Hill index on D4) falls from 20% to 6%. A sensitivity analysis with B = 500 is part of E7.
