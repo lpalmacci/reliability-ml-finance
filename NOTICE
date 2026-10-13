@@ -1,0 +1,10 @@
+tavp: task-aware validation protocol for generative models of financial time series
+Copyright 2026 Luca Palmacci
+
+This product includes software developed by Songyan Hou and co-authors
+(Time-Causal VAE, https://github.com/justinhou95/TimeCausalVAE), commit
+a43effe0125d7c778d0560e4704754991d8e271b, licensed under the Apache License 2.0.
+The vendored files are in third_party/tcvae/ and are unmodified.
+
+Reference: B. Acciaio, S. Eckstein, S. Hou (2024), "Time-Causal VAE: Robust
+Financial Time Series Generator", arXiv:2411.02947.
