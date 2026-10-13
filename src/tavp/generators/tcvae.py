@@ -60,9 +60,14 @@ class TCVAEGenerator(Generator):
         self.meta: dict = {}
 
     # ---------------------------------------------------------------- training
-    def fit(self, train_windows: np.ndarray, val_windows: np.ndarray, seed: int, out_dir: str | Path,
-            epochs: int | None = None) -> "TCVAEGenerator":
-        """Train with the original trainer; the best model on the validation loss is kept."""
+    def fit(self, train_windows: np.ndarray, seed: int, out_dir: str | Path, epochs: int | None = None,
+            n_monitor: int = 1000) -> "TCVAEGenerator":
+        """Train with the original trainer and keep the model of the last epoch.
+
+        The original trainer always retains the last epoch: its evaluation step
+        only logs an MMD on 1000 samples. These monitoring samples are drawn
+        from the training windows, so no data are held out.
+        """
         from tsvae.dataset.base import BaseDataset
         from tsvae.models.network_pipeline import NetworkPipeline
         from tsvae.trainers.base_trainer_config import BaseTrainerConfig
@@ -80,6 +85,9 @@ class TCVAEGenerator(Generator):
             x = torch.tensor(w**self.power_k, dtype=torch.float32)[..., None]
             return BaseDataset(x, torch.ones((len(w), 1)))
 
+        if len(train_windows) < n_monitor:
+            raise ValueError(f"the original trainer needs at least {n_monitor} windows")
+        monitor = train_windows[np.random.default_rng(seed).permutation(len(train_windows))[:n_monitor]]
         set_seed(seed)
         model = NetworkPipeline()(exp_config)
         tcfg = BaseTrainerConfig(
@@ -90,7 +98,7 @@ class TCVAEGenerator(Generator):
         )
         t0 = time.time()
         trainer = TrainingPipeline(model=model, training_config=tcfg, exp_config=exp_config)(
-            train_dataset=to_dataset(train_windows), eval_dataset=to_dataset(val_windows), device_name="cpu")
+            train_dataset=to_dataset(train_windows), eval_dataset=to_dataset(monitor), device_name="cpu")
         trainer.train(log_output=False)
         elapsed = time.time() - t0
         final = Path(trainer.training_dir) / "final_model"
@@ -98,7 +106,7 @@ class TCVAEGenerator(Generator):
         shutil.rmtree(out_dir / "trainer", ignore_errors=True)
         self.meta = {
             "name": self.name, "target_hash": self.target_hash, "seed": seed, "power_k": self.power_k,
-            "epochs": cfg["epochs"], "n_train": len(train_windows), "n_val": len(val_windows),
+            "epochs": cfg["epochs"], "n_train": len(train_windows),
             "train_seconds": round(elapsed, 1), "model_cfg": cfg,
             "n_parameters": int(sum(p.numel() for p in model.parameters())),
         }
