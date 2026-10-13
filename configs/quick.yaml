@@ -1,0 +1,22 @@
+# Smoke run for reviewers (about 20 minutes): same code paths, smaller sizes.
+extends: full.yaml
+runtime:
+  jobs: 6
+  torch_threads: 2
+  epochs: 50
+  results_suffix: quick
+protocol:
+  L1: {n_paths: 1000, b_null: 20}
+  L2: {N: 2000, K: 5}
+  L3: {N: 2000, K: 2}
+  L4: {N: 1000, n_origins: 10}
+generators:
+  tcvae: {seeds: 1, regimes: [single]}
+  vae_mlp: {seeds: 1, regimes: [single]}
+  bootstrap: {seeds: 1}
+  garch: {seeds: 1}
+meta_validation:
+  severities: [0.0, 1.0]
+  K: 5
+  N: 2000
+  l4_histories: 2

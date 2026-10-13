@@ -106,3 +106,46 @@ def build_strategies(cfg: dict) -> dict[str, Strategy]:
         "VT": Strategy("VT", vol_target, _grid(lb=vt["lb"], target=vt["target"], lmax=vt["lmax"])),
         "TVF": Strategy("TVF", trend_vol_filter, tvf_grid, needs_threshold=True),
     }
+
+
+class IndicatorCache:
+    """Rolling indicators of a set of paths, computed once per window and kept on the last `tail` columns.
+
+    Used by L3, where every grid point is evaluated on the same scenarios: the moving
+    averages and volatilities are shared across grid points.
+    """
+
+    def __init__(self, logp: np.ndarray, tail: int):
+        self.logp, self.tail = logp, tail
+        self._ma: dict[int, np.ndarray] = {}
+        self._vol: dict[int, np.ndarray] = {}
+
+    def ma(self, w: int) -> np.ndarray:
+        if w not in self._ma:
+            self._ma[w] = rolling_mean(self.logp, w)[:, -self.tail:]
+        return self._ma[w]
+
+    def vol(self, lb: int) -> np.ndarray:
+        if lb not in self._vol:
+            self._vol[lb] = rolling_vol(self.logp, lb)[:, -self.tail:]
+        return self._vol[lb]
+
+
+def cached_positions(name: str, params: dict, cache: IndicatorCache) -> np.ndarray:
+    """Positions on the last `cache.tail` columns, identical to the rule applied to the full paths."""
+    if name == "BH":
+        return np.ones((cache.logp.shape[0], cache.tail))
+    if name in ("TF", "TVF"):
+        s = cache.ma(params["fast"]) - cache.ma(params["slow"])
+        pos = np.where(s > params["dz"], 1.0, np.where(s < -params["dz"], -1.0, 0.0))
+        pos[np.isnan(s)] = 0.0
+        if name == "TVF":
+            pos[~(cache.vol(params["lb"]) <= params["threshold"])] = 0.0
+        return pos
+    if name == "VT":
+        vol = cache.vol(params["lb"])
+        with np.errstate(divide="ignore", invalid="ignore"):
+            pos = np.clip(params["target"] / vol, 0.0, params["lmax"])
+        pos[~np.isfinite(vol) | (vol < 1e-8)] = 0.0
+        return pos
+    raise ValueError(name)

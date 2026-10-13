@@ -1,0 +1,5 @@
+# Full pre-registered run. Runtime settings only; scientific settings are in preregistration.yaml.
+extends: preregistration.yaml
+runtime:
+  jobs: 6
+  torch_threads: 2

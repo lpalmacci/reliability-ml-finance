@@ -102,3 +102,21 @@ def test_assemble_and_calibrate():
             m = scenario_metrics(s, p, ctx, scen, 200)
             assert m["sharpe"].shape == (100,)
     assert "threshold" in calibrate(strategies["TVF"], ctx, 200, Objective())[1]
+
+
+def test_cached_positions_match_rules():
+    from tavp.tasks.strategies import IndicatorCache, cached_positions
+    x = _logp(50, 259, seed=11)
+    cache = IndicatorCache(x, 61)
+    s = build_strategies(GRIDS)
+    for name in ["BH", "TF", "VT", "TVF"]:
+        grid = s[name].grid or ({},)
+        for g in grid:
+            p = dict(g)
+            if name == "TVF":
+                p.pop("q"); p["threshold"] = 0.18
+            full = s[name].positions(x, p)[:, -61:]
+            assert np.array_equal(full, cached_positions(name, p, cache)), (name, g)
+            m_full = evaluate(x, s[name].positions(x, p), 59)
+            m_tail = evaluate(x[:, -61:], cached_positions(name, p, cache), 59)
+            assert all(np.allclose(m_full[k], m_tail[k]) for k in m_full)
