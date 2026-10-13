@@ -24,4 +24,4 @@ pre-registered configuration.
 
 ## Observations from the negative control (not deviations)
 
-- L1, first E1 run: with the pre-registered null of B = 100 pairs, raw per-statistic false-alarm rates average 5.7% and exceed 9% in 6 of 52 (process, statistic) cells; the family-wise rate with the Holm correction, which is the rule used to flag, is 0% on every process. Part of the per-statistic dispersion comes from the null sample being shared by the 50 comparisons: against an independent null of B = 500 pairs, the largest rate (Hill index on D4) falls from 20% to 6%. A sensitivity analysis with B = 500 is part of E7.
+- L1, first E1 run: with the pre-registered null of B = 100 pairs, raw per-statistic false-alarm rates average 5.8% and exceed 9% in 7 of 52 (process, statistic) cells; the family-wise rate with the Holm correction, which is the rule used to flag, is 0% on every process. Part of the per-statistic dispersion comes from the null sample being shared by the 50 comparisons: against an independent null of B = 500 pairs, the largest rate (Hill index on D4) falls from 20% to 6%. A sensitivity analysis with B = 500 is part of E7.

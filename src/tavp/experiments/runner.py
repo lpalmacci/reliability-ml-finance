@@ -71,7 +71,8 @@ def l1_null_task(cfg: dict, dgp_key: str, b: int) -> dict:
     return {"dgp": dgp_key, "b": b, **l1.discrepancies(a, bb, c)}
 
 
-def task(cfg: dict, experiment: str, dgp_key: str, spec: dict, k: int, null: dict | None) -> dict[str, list]:
+def task(cfg: dict, experiment: str, dgp_key: str, spec: dict, k: int, null: dict | None,
+         parts: tuple[str, ...] = ("L1", "L2", "L3")) -> dict[str, list]:
     import torch
 
     torch.set_num_threads(1)
@@ -93,7 +94,7 @@ def task(cfg: dict, experiment: str, dgp_key: str, spec: dict, k: int, null: dic
     def valid(x):
         return bool(np.isfinite(x).all())
 
-    if k < K1 and null is not None:
+    if "L1" in parts and k < K1 and null is not None:
         rg = gen.sample_returns(P["L1"]["n_paths"], T, rng(m, "L1G", dgp_key, gid, k))
         ro = dgp.simulate_returns(P["L1"]["n_paths"], T, rng(m, "L1O", dgp_key, k))
         if valid(rg):
@@ -101,7 +102,7 @@ def task(cfg: dict, experiment: str, dgp_key: str, spec: dict, k: int, null: dic
             out["l1"] += [{**meta, "statistic": s, **v} for s, v in res.items()]
         out["l0"].append({**meta, "level": "L1", "hash_ok": hash_ok, "valid": valid(rg)})
 
-    if k < K2:
+    if "L2" in parts and k < K2:
         strategies = build_strategies(cfg["use"]["strategies"])
         ctx = common.context(cfg, dgp, k)
         calibrated = calibrate_all(strategies, ctx, carry, Objective(**cfg["use"]["objective"]), cfg["use"]["cost"])
@@ -114,7 +115,7 @@ def task(cfg: dict, experiment: str, dgp_key: str, spec: dict, k: int, null: dic
             rows = l2_context(strategies, calibrated, ctx, rg, ro, cfg["use"], carry, P["L2"]["tost_level"],
                               P["L0"]["resolvability_ratio"])
             out["l2"] += [{**meta, **r} for r in rows]
-            if k < K3:
+            if "L3" in parts and k < K3:
                 ro2 = dgp.simulate_returns(P["L3"]["N"], T, rng(m, "L3O2", dgp_key, k))
                 n3 = P["L3"]["N"]
                 rows = l3_context(strategies, ctx, rg[:n3], ro[:n3], ro2, cfg["use"], carry, P["L3"]["level"])
@@ -122,12 +123,13 @@ def task(cfg: dict, experiment: str, dgp_key: str, spec: dict, k: int, null: dic
     return out
 
 
-def run(cfg: dict, experiment: str, settings: list[tuple[str, dict]], jobs: int, with_l1: bool = True) -> dict:
-    null = load_l1_null(cfg) if with_l1 else None
-    K = max(cfg["protocol"]["L2"]["K"], cfg["protocol"]["L3"]["K"])
+def run(cfg: dict, experiment: str, settings: list[tuple[str, dict]], jobs: int,
+        parts: tuple[str, ...] = ("L1", "L2", "L3")) -> dict:
+    null = load_l1_null(cfg) if "L1" in parts else None
+    K = max(cfg["protocol"]["L2"]["K"], cfg["protocol"]["L3"]["K"] if "L3" in parts else 0)
     tasks = [(d, s, k) for d, s in settings for k in range(K)]
     results = Parallel(n_jobs=jobs, verbose=5, max_nbytes=None)(
-        delayed(task)(cfg, experiment, d, s, k, null) for d, s, k in tasks)
+        delayed(task)(cfg, experiment, d, s, k, null, parts) for d, s, k in tasks)
     tables = {}
     for level in ("l0", "l1", "l2", "l3"):
         rows = [r for res in results for r in res[level]]
