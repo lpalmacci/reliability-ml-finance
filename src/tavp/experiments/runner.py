@@ -8,6 +8,8 @@ across severities of the same defect, which makes power curves smooth in the sev
 from __future__ import annotations
 
 import json
+import os
+import pickle
 from functools import lru_cache
 
 import numpy as np
@@ -20,7 +22,7 @@ from tavp.protocol import l1
 from tavp.protocol.task_levels import calibrate_all, l2_context, l3_context
 from tavp.tasks.backtest import Objective
 from tavp.tasks.strategies import build_strategies
-from tavp.utils import rng
+from tavp.utils import rng, stable_hash
 
 
 def gen_id(spec: dict) -> str:
@@ -123,13 +125,36 @@ def task(cfg: dict, experiment: str, dgp_key: str, spec: dict, k: int, null: dic
     return out
 
 
+def cached_task(cfg: dict, experiment: str, dgp_key: str, spec: dict, k: int, null: dict | None,
+                parts: tuple[str, ...]) -> dict[str, list]:
+    """Run a task, or return its stored result if it was already computed with the same settings.
+
+    Results are stored per task under results/<experiment>/tasks/, so an interrupted
+    experiment resumes where it stopped and produces exactly the same output.
+    """
+    science = {k_: v for k_, v in cfg.items() if k_ != "runtime" and not k_.startswith("_")}
+    key = stable_hash({"cfg": science, "experiment": experiment, "dgp": dgp_key, "spec": spec, "k": k,
+                       "parts": list(parts)})
+    path = common.results_root(cfg) / experiment / "tasks" / dgp_key / f"{label(spec)}__k{k}__{key}.pkl"
+    if path.exists():
+        with open(path, "rb") as f:
+            return pickle.load(f)
+    out = task(cfg, experiment, dgp_key, spec, k, null, parts)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_suffix(".tmp")
+    with open(tmp, "wb") as f:
+        pickle.dump(out, f)
+    os.replace(tmp, path)
+    return out
+
+
 def run(cfg: dict, experiment: str, settings: list[tuple[str, dict]], jobs: int,
         parts: tuple[str, ...] = ("L1", "L2", "L3")) -> dict:
     null = load_l1_null(cfg) if "L1" in parts else None
     K = max(cfg["protocol"]["L2"]["K"], cfg["protocol"]["L3"]["K"] if "L3" in parts else 0)
     tasks = [(d, s, k) for d, s in settings for k in range(K)]
     results = Parallel(n_jobs=jobs, verbose=5, max_nbytes=None)(
-        delayed(task)(cfg, experiment, d, s, k, null, parts) for d, s, k in tasks)
+        delayed(cached_task)(cfg, experiment, d, s, k, null, parts) for d, s, k in tasks)
     tables = {}
     for level in ("l0", "l1", "l2", "l3"):
         rows = [r for res in results for r in res[level]]

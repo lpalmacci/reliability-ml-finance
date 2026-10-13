@@ -24,15 +24,34 @@ def calibrate_all(strategies: dict[str, Strategy], ctx_logp: np.ndarray, carry: 
     return {name: calibrate(s, ctx_logp, carry, objective, cost) for name, s in strategies.items()}
 
 
+CHUNK = 10_000  # scenarios processed at a time: bounds memory without changing any result
+
+
+def _chunks(n: int):
+    return [(i, min(i + CHUNK, n)) for i in range(0, n, CHUNK)]
+
+
+def _metrics_by_strategy(strategies, params: dict, ctx_logp, r, carry: int, cost: float) -> dict:
+    """Metrics of every calibrated rule on the scenarios r, computed chunk by chunk."""
+    T = r.shape[1]
+    parts = {name: [] for name in strategies}
+    for a, b in _chunks(len(r)):
+        cache = IndicatorCache(assemble(ctx_logp, r[a:b], carry), T + 2)
+        for name in strategies:
+            parts[name].append(evaluate(cache.logp[:, -cache.tail:], cached_positions(name, params[name], cache), T, cost))
+        del cache
+    return {name: {m: np.concatenate([p[m] for p in ps]) for m in ps[0]} for name, ps in parts.items()}
+
+
 def l2_context(strategies, calibrated, ctx_logp, rg, ro, use_cfg: dict, carry: int, level: float,
                resolvability_ratio: float) -> list[dict]:
     rows = []
     cost = use_cfg["cost"]
-    T = rg.shape[1]
-    caches = [IndicatorCache(assemble(ctx_logp, r, carry), T + 2) for r in (rg, ro)]
-    for name, s in strategies.items():
-        params = calibrated[name][1]
-        mg, mo = (evaluate(c.logp[:, -c.tail:], cached_positions(name, params, c), T, cost) for c in caches)
+    params = {name: calibrated[name][1] for name in strategies}
+    MG = _metrics_by_strategy(strategies, params, ctx_logp, rg, carry, cost)
+    MO = _metrics_by_strategy(strategies, params, ctx_logp, ro, carry, cost)
+    for name in strategies:
+        mg, mo = MG[name], MO[name]
         for metric, funcs in use_cfg["functionals"].items():
             w1 = float(np.mean(np.abs(np.sort(mg[metric]) - np.sort(mo[metric])))) if len(mg[metric]) == len(mo[metric]) else np.nan
             for f in funcs:
@@ -55,21 +74,27 @@ def l3_context(strategies, ctx_logp, rg, ro1, ro2, use_cfg: dict, carry: int, le
     T = rg.shape[1]
     eta = use_cfg["tolerances"]["regret"]
     z = norm.ppf(1.0 - level)
-    caches = [IndicatorCache(assemble(ctx_logp, r, carry), T + 2) for r in (rg, ro1, ro2)]
+    grids = {name: [resolve_params(s, g, ctx_logp, carry) for g in s.grid] for name, s in strategies.items() if s.grid}
+    sum_g = {name: np.zeros(len(p)) for name, p in grids.items()}
+    sum_1 = {name: np.zeros(len(p)) for name, p in grids.items()}
+    j2 = {name: [[] for _ in p] for name, p in grids.items()}
+    n = len(rg)
+    for a, b in _chunks(n):
+        caches = [IndicatorCache(assemble(ctx_logp, r[a:b], carry), T + 2) for r in (rg, ro1, ro2)]
+        for name, plist in grids.items():
+            for i, p in enumerate(plist):
+                jv = [objective(evaluate(c.logp[:, -c.tail:], cached_positions(name, p, c), T, cost)) for c in caches]
+                sum_g[name][i] += jv[0].sum()
+                sum_1[name][i] += jv[1].sum()
+                j2[name][i].append(jv[2])
+        del caches
     rows = []
     for name, s in strategies.items():
         if not s.grid:
             continue
-        jg, j1, j2 = [], [], []
-        for g in s.grid:
-            p = resolve_params(s, g, ctx_logp, carry)
-            jv = [objective(evaluate(c.logp[:, -c.tail:], cached_positions(name, p, c), T, cost)) for c in caches]
-            jg.append(jv[0].mean())
-            j1.append(jv[1].mean())
-            j2.append(jv[2])
-        jg, j1 = np.array(jg), np.array(j1)
+        jg, j1 = sum_g[name] / n, sum_1[name] / n
         ig, io = int(np.argmax(jg)), int(np.argmax(j1))
-        d = j2[io] - j2[ig]  # per-scenario regret on the independent oracle sample (paired)
+        d = np.concatenate(j2[name][io]) - np.concatenate(j2[name][ig])  # paired regret on the independent sample
         reg, se = float(d.mean()), float(d.std(ddof=1) / np.sqrt(len(d)))
         spread = float(np.max(j1) - np.median(j1))
         tau = kendalltau(jg, j1).statistic
