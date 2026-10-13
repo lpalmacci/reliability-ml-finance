@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "tavp: a task-aware validation protocol for generative models of financial time series"
+authors:
+  - family-names: Palmacci
+    given-names: Luca
+    affiliation: "Sapienza University of Rome"
+version: 0.1.0
+date-released: 2026-10-18
+license: Apache-2.0
