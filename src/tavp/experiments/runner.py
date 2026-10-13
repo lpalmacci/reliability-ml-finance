@@ -43,7 +43,7 @@ def _generator(cfg_path: str, dgp_key: str, spec_json: str):
     kind = spec["kind"]
     if kind == "oracle":
         return OracleGenerator(dgp, spec.get("defect"), spec.get("delta", 0.0))
-    if kind in ("tcvae", "vae_mlp"):
+    if kind in ("tcvae", "vae_mlp", "vae_mlp_wide"):
         from tavp.generators.tcvae import TCVAEGenerator
         return TCVAEGenerator.load(common.run_dir(cfg, kind, dgp.name, spec["regime"], spec["seed"]))
     train = common.history(cfg, dgp, spec["seed"])[: cfg["data"]["train_returns"]]

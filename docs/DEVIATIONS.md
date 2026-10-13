@@ -21,6 +21,7 @@ pre-registered configuration.
 | Id | Date | Setting | Pre-registered | Applied | Reason |
 |---|---|---|---|---|---|
 | D1 | 2026-10-13 | N of L2 and of the meta-validation | 40,000 | 100,000 (configs/full.yaml) | Pre-registered L0.4 contingency. In the negative control (E1, first run) the 90% half-width exceeded eta/2 for the median and mean Sharpe ratio (0.025-0.032 against 0.025) and for the Expected Shortfall of buy-and-hold under GJR-GARCH (0.007 against 0.005), so that even the oracle failed these cells (pass rates 0.46-0.94). N is raised to the pre-registered maximum. The first E1 run is kept in results/e1_n40k for reference. L3 keeps N = 40,000: its negative control passed in every context. |
+| D2 | 2026-10-13 | Non-causal ablation | G2 with the hyperparameters of G1 (16 hidden units) | G2 reported as pre-registered; in addition an exploratory variant with 256 hidden units (configs/exploratory.yaml, experiment X1) | After training, every run of G2 produced near-deterministic paths (annual volatility 0.02-0.04 against 0.18-0.20 of the processes): with a 16-unit bottleneck, a map from the whole path to the whole path cannot generate daily noise. G2 therefore does not isolate the effect of causality (VQ4). The wider variant is exploratory and labelled as such wherever it is reported. |
 
 ## Observations from the negative control (not deviations)
 

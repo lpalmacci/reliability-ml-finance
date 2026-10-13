@@ -76,7 +76,7 @@ def main():
     if args.only_scaling:
         return
     jobs = []
-    for gen_name in ("tcvae", "vae_mlp"):
+    for gen_name in cfg.get("runtime", {}).get("train_generators", ["tcvae", "vae_mlp"]):
         g = cfg["generators"][gen_name]
         for dgp_key in cfg["dgps"]:
             for regime in g["regimes"]:

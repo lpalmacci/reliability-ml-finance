@@ -85,3 +85,17 @@ def dissociation(l1: pd.DataFrame, l2: pd.DataFrame, pr_min: float, l1_threshold
         [out.l1_flag & out.l2_fail, out.l1_flag & ~out.l2_fail, ~out.l1_flag & out.l2_fail],
         ["both flag", "L1 only (irrelevant defect)", "L2 only (hidden defect)"], "both pass")
     return out
+
+
+def load_partial(root, experiment: str) -> dict[str, pd.DataFrame]:
+    """Tables assembled from the cached tasks of an experiment that is still running."""
+    import pickle
+    from pathlib import Path
+
+    rows = {"l0": [], "l1": [], "l2": [], "l3": []}
+    for f in sorted(Path(root, experiment, "tasks").rglob("*.pkl")):
+        with open(f, "rb") as fh:
+            out = pickle.load(fh)
+        for k in rows:
+            rows[k] += out[k]
+    return {k: pd.DataFrame(v) for k, v in rows.items() if v}
