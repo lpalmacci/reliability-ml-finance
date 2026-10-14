@@ -17,7 +17,7 @@ import pandas as pd
 from joblib import Parallel, delayed
 
 from tavp.experiments import common
-from tavp.generators.base import GarchBaseline, OracleGenerator, StationaryBootstrap
+from tavp.generators.base import EstimatedDriftOracle, GarchBaseline, OracleGenerator, StationaryBootstrap
 from tavp.protocol import l1
 from tavp.protocol.task_levels import calibrate_all, l2_context, l3_context
 from tavp.tasks.backtest import Objective
@@ -46,7 +46,12 @@ def _generator(cfg_path: str, dgp_key: str, spec_json: str):
     if kind in ("tcvae", "vae_mlp", "vae_mlp_wide"):
         from tavp.generators.tcvae import TCVAEGenerator
         return TCVAEGenerator.load(common.run_dir(cfg, kind, dgp.name, spec["regime"], spec["seed"]))
-    train = common.history(cfg, dgp, spec["seed"])[: cfg["data"]["train_returns"]]
+    if spec.get("regime") == "rich":  # E8: long history with as many returns as the rich training set
+        train = common.long_history(cfg, dgp, spec["seed"])
+    else:
+        train = common.history(cfg, dgp, spec["seed"])[: cfg["data"]["train_returns"]]
+    if kind == "oracle_drift":
+        return EstimatedDriftOracle(dgp, train)
     if kind == "bootstrap":
         return StationaryBootstrap(train, dgp.hash())
     if kind == "garch":

@@ -51,6 +51,30 @@ class OracleGenerator(Generator):
         return {**super().describe(), "defect": self.defect, "delta": self.delta, "sim_params": self.sim.params()}
 
 
+class EstimatedDriftOracle(Generator):
+    """Positive control of E8: the true dynamics with the drift estimated from a training history.
+
+    Scenarios are oracle scenarios shifted by the difference between the sample mean of the
+    training returns and the stationary drift of the process. The generator knows everything
+    about the process except what the history cannot tell precisely, its drift, which it
+    estimates by the sample mean, as a bootstrap of the same history does. The cells of level
+    L2 that it fails are therefore not attainable with histories of that length.
+    """
+
+    name = "oracle_drift"
+
+    def __init__(self, dgp: DGP, history: np.ndarray):
+        self.base = dgp
+        self.target_hash = dgp.hash()
+        self.shift = float(np.mean(history) - dgp.drift_per_step())
+
+    def sample_returns(self, n, T, rng):
+        return self.base.simulate_returns(n, T, rng) + self.shift
+
+    def describe(self):
+        return {**super().describe(), "drift_error_annual": self.shift / self.base.dt}
+
+
 class StationaryBootstrap(Generator):
     """B1: stationary bootstrap (Politis and Romano, 1994) of a single training history.
 

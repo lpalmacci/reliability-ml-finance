@@ -60,6 +60,16 @@ def rich_paths(cfg: dict, dgp, s: int) -> np.ndarray:
     return dgp.simulate_returns(cfg["data"]["rich_paths"], T, rng(cfg["master_seed"], "rich", dgp.name, s))
 
 
+def long_returns(cfg: dict) -> int:
+    """Length of the long history of E8: as many returns as the rich training set."""
+    return cfg["data"]["rich_paths"] * (cfg["data"]["scenario_prices"] - 1)
+
+
+def long_history(cfg: dict, dgp, s: int) -> np.ndarray:
+    """Long history s (E8): one stationary path with as many returns as the rich training set."""
+    return dgp.history(long_returns(cfg), rng(cfg["master_seed"], "long", dgp.name, s))
+
+
 def results_root(cfg: dict) -> Path:
     """results/ for the full run, results/<suffix>/ for smoke runs, so they never mix."""
     suffix = cfg.get("runtime", {}).get("results_suffix")

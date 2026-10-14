@@ -1,9 +1,10 @@
 import numpy as np
 
 from tavp.dgp.processes import GBM, GJRGarchT
-from tavp.generators.base import GarchBaseline, StationaryBootstrap
+from tavp.experiments import common
+from tavp.generators.base import EstimatedDriftOracle, GarchBaseline, StationaryBootstrap
 from tavp.generators.tcvae import TCVAEGenerator, returns_to_prices, windows_from_history
-from tavp.utils import REPO_ROOT, load_yaml, rng
+from tavp.utils import REPO_ROOT, load_config, load_yaml, rng
 
 
 def test_windows_from_history():
@@ -30,6 +31,27 @@ def test_garch_baseline_recovers_parameters_roughly():
     assert 0.9 < g.sim.persistence < 1.0
     assert abs(np.sqrt(g.sim.unconditional_variance * 252) - 0.18) < 0.05
     assert g.sample_returns(10, 59, rng(4, "s")).shape == (10, 59)
+
+
+def test_estimated_drift_oracle_shifts_only_the_drift():
+    d = GBM(mu=0.07, sigma=0.18)
+    h = d.history(2520, rng(5, "h"))
+    g = EstimatedDriftOracle(d, h)
+    assert g.target_hash == d.hash()
+    assert np.isclose(g.shift, h.mean() - d.drift_per_step())
+    a = g.sample_returns(4000, 59, rng(6, "s"))
+    b = d.simulate_returns(4000, 59, rng(6, "s"))
+    assert np.allclose(a - b, g.shift)  # same random numbers: only the mean moves
+
+
+def test_long_history_has_as_many_returns_as_the_rich_set():
+    cfg = load_config(REPO_ROOT / "configs" / "full.yaml")
+    cfg["data"]["rich_paths"] = 20
+    d = GBM(mu=0.07, sigma=0.18)
+    h = common.long_history(cfg, d, 0)
+    assert len(h) == 20 * (cfg["data"]["scenario_prices"] - 1) == common.long_returns(cfg)
+    assert np.array_equal(h, common.long_history(cfg, d, 0))
+    assert not np.array_equal(h, common.long_history(cfg, d, 1))
 
 
 def test_tcvae_trains_saves_and_samples(tmp_path):

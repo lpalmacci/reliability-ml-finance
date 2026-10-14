@@ -8,7 +8,7 @@ are three levels of verification, from the quickest to the most complete.
 |---|---|---|---|
 | 1 | The numbers of the chapter follow from the frozen result tables | `make verify-frozen` | about 1 minute |
 | 2 | The whole pipeline runs end to end (small sizes) | `make quick J=3` | about 25 minutes |
-| 3 | The full study, re-run from scratch | `make all`, then `make verify` | about 14 hours |
+| 3 | The full study, re-run from scratch | `make all`, then `make verify` | about 16 hours |
 
 Times are for the machine used for the thesis: Apple M2 Pro (12 cores, 16 GB), macOS,
 Python 3.12.11, CPU only.
@@ -76,6 +76,7 @@ and produces the same output.
 | E5 benchmarks and non-causal ablation | `python -m tavp.experiments.e5_compare` | `results/e5/` | 2.5 h (4) |
 | E6 L4 on held-out histories | `python -m tavp.experiments.e6_calibration --part case` | `results/e6_case/` | 10 min (4) |
 | E7 robustness | `python -m tavp.experiments.e7_robust` | `results/e7_*/` | 3 h (6) |
+| E8 attainability and rich-regime benchmarks (not pre-registered, D5) | `python -m tavp.experiments.e8_attain` | `results/e8/` | 2 h (6) |
 | X1 exploratory wide ablation | `make exploratory` | `results/x1_wide/` | 1.5 h (2) |
 | Tables, figures, numbers | `make thesis` | `thesis_assets/` | 1 min |
 
@@ -97,7 +98,8 @@ The scientific settings were committed under the git tag `prereg` before any exp
 (`git show prereg:configs/preregistration.yaml`). Every later change is recorded, with date
 and reason, in `docs/DEVIATIONS.md`, and results under the pre-registered settings are kept
 alongside: `p_prereg` and `flag_*_prereg` columns for the L1 null (D3), `reject_*_berkowitz_joint`
-columns for the L4 tests (D4), `results/e1_n40k/` for the first negative control (D1).
+columns for the L4 tests (D4), `results/e1_n40k/` for the first negative control (D1). Experiment E8 (D5) was added after the
+results and is not pre-registered; it does not change any pre-registered verdict.
 
 ## Correspondence with the chapter
 
@@ -111,4 +113,5 @@ columns for the L4 tests (D4), `results/e1_n40k/` for the first negative control
 | Validation cards | `cards/card_*.tex` | `results/e4/`, `results/e6_case/` |
 | Case-study figures and summary | `figures/fig_case_*.pdf`, `tables/tab_case_summary.tex` | `results/e4/`, `results/e5/`, `results/e6_case/`, `results/x1_wide/` |
 | Robustness (E7) | `tables/tab_e7_robust.tex` | `results/e7_*/` |
+| Attainability (E8) | `tables/tab_e8_attain.tex`, `tables/tab_e8_functionals.tex`, `figures/fig_case_attain.pdf` | `results/e4/`, `results/e5/`, `results/e8/` |
 | Every number in the text | `numbers.tex` (macro `\tavp{key}`) | all of the above |
