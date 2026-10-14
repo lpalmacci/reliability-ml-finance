@@ -9,3 +9,4 @@ runs/
 *.egg-info/
 # Market data (copyrighted; downloaded by scripts/get_french.py)
 data/french/
+third_party_ext/

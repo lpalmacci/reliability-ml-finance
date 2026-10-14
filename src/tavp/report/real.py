@@ -22,7 +22,9 @@ ROWS = [("oracle", "none", "$O$ oracle (negative control)"),
         ("bootstrap", "rich", "B1 stationary bootstrap"), ("garch", "rich", "B2 GJR-GARCH-$t$"),
         ("garch_ms", "rich", "B2, multistart fit")]
 KEYS = [(s, m, f) for s in STRATS for m, f in FUNC_ORDER]
-GEN_LABEL = {"tcvae": "G1 TC-VAE", "bootstrap": "B1 stationary bootstrap", "garch": "B2 GJR-GARCH-$t$"}
+GEN_LABEL = {"tcvae": "G1 TC-VAE", "qgan": "G3 Quant GAN", "bootstrap": "B1 stationary bootstrap",
+             "garch": "B2 GJR-GARCH-$t$"}
+PER_RUN = ("tcvae", "qgan")  # generators with several runs per window, tested run by run
 
 
 def _read(root: Path, exp: str, name: str) -> pd.DataFrame | None:
@@ -286,7 +288,7 @@ def build_real_l4(rroot: Path, out: Path, num: Numbers, cfg: dict) -> None:
     num.add("real.l4.train.first", _date(wins.train_first.min()))
     num.add("real.l4.hash_ok", "yes" if bool(pits.hash_ok.all()) else "no")
     lines, summary = [], {}
-    for gname in ("tcvae", "bootstrap", "garch"):
+    for gname in ("tcvae", "qgan", "bootstrap", "garch"):
         t = tests[tests.generator == gname]
         for seed in sorted(t.seed.unique()):
             ts = t[t.seed == seed]
@@ -294,7 +296,7 @@ def build_real_l4(rroot: Path, out: Path, num: Numbers, cfg: dict) -> None:
             rej = int(pooled.reject_any.sum())
             cov = float(pooled.coverage.mean())
             per = [int(ts[ts.window == w].reject_any.sum()) for w in wins.window]
-            key = f"real.l4.{gname}" + (f".{int(seed)}" if gname == "tcvae" else "")
+            key = f"real.l4.{gname}" + (f".{int(seed)}" if gname in PER_RUN else "")
             num.add(key + ".rejected", rej)
             num.add(key + ".cells", int(len(pooled)))
             num.add(key + ".n", int(pooled.n.iloc[0]))
@@ -308,21 +310,23 @@ def build_real_l4(rroot: Path, out: Path, num: Numbers, cfg: dict) -> None:
             which = ", ".join(f"{a} {b}" for a, b in pooled[pooled.reject_any][["strategy", "metric"]].itertuples(index=False))
             num.add(key + ".which", which.replace("_", r"\_") or "none")
             summary.setdefault(gname, []).append((rej, cov, pooled))
-            lab = GEN_LABEL[gname] + (f", run {int(seed) + 1}" if gname == "tcvae" else "")
+            lab = GEN_LABEL[gname] + (f", run {int(seed) + 1}" if gname in PER_RUN else "")
             lines.append(f"{lab} & {rej}/{len(pooled)} & {100 * cov:.0f}\\% & " + " & ".join(map(str, per)) + r" \\")
-    if "tcvae" in summary:
-        r = [x[0] for x in summary["tcvae"]]
-        c = [x[1] for x in summary["tcvae"]]
-        num.add("real.l4.tcvae.rejected.min", min(r))
-        num.add("real.l4.tcvae.rejected.max", max(r))
-        num.pct("real.l4.tcvae.coverage.min", min(c))
-        num.pct("real.l4.tcvae.coverage.max", max(c))
-        num.add("real.l4.tcvae.runs", len(r))
-        # cells rejected for every run of the TC-VAE
-        sets = [set(map(tuple, x[2][x[2].reject_any][["strategy", "metric"]].to_numpy())) for x in summary["tcvae"]]
+    for gname in PER_RUN:
+        if gname not in summary:
+            continue
+        r = [x[0] for x in summary[gname]]
+        c = [x[1] for x in summary[gname]]
+        num.add(f"real.l4.{gname}.rejected.min", min(r))
+        num.add(f"real.l4.{gname}.rejected.max", max(r))
+        num.pct(f"real.l4.{gname}.coverage.min", min(c))
+        num.pct(f"real.l4.{gname}.coverage.max", max(c))
+        num.add(f"real.l4.{gname}.runs", len(r))
+        # cells rejected for every run
+        sets = [set(map(tuple, x[2][x[2].reject_any][["strategy", "metric"]].to_numpy())) for x in summary[gname]]
         common = sorted(set.intersection(*sets)) if sets else []
-        num.add("real.l4.tcvae.allruns", len(common))
-        num.add("real.l4.tcvae.allruns.which", ", ".join(f"{a} {b}" for a, b in common).replace("_", r"\_") or "none")
+        num.add(f"real.l4.{gname}.allruns", len(common))
+        num.add(f"real.l4.{gname}.allruns.which", ", ".join(f"{a} {b}" for a, b in common).replace("_", r"\_") or "none")
     # direction of the miscalibration: mean PIT by metric and share of PITs in the outer 5% tails
     for gname, z in pits.groupby("generator"):
         for metric, zm in z.groupby("metric"):

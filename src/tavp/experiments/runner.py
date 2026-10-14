@@ -54,6 +54,9 @@ def _generator(cfg_path: str, dgp_key: str, spec_json: str):
     if kind in ("tcvae", "vae_mlp", "vae_mlp_wide"):
         from tavp.generators.tcvae import TCVAEGenerator
         return TCVAEGenerator.load(common.run_dir(cfg, kind, dgp.name, spec["regime"], spec["seed"]))
+    if kind == "qgan":  # G3, E13
+        from tavp.generators.qgan import QuantGANGenerator
+        return QuantGANGenerator.load(common.run_dir(cfg, kind, dgp.name, spec["regime"], spec["seed"]))
     if spec.get("regime") == "rich":  # E8: long history with as many returns as the rich training set
         train = common.long_history(cfg, dgp, spec["seed"])
     else:

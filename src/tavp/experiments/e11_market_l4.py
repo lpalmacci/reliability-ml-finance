@@ -44,8 +44,23 @@ def target_hash(win: dict) -> str:
     return stable_hash({"market": VINTAGE_SHA256, "start": win["start"], "end": win["end"]})
 
 
-def run_dir(cfg: dict, win: dict, seed: int):
-    return common.results_root(cfg) / "runs_market" / "tcvae" / f"w{win['window']}" / f"seed{seed}"
+def run_dir(cfg: dict, win: dict, seed: int, kind: str = "tcvae"):
+    return common.results_root(cfg) / "runs_market" / kind / f"w{win['window']}" / f"seed{seed}"
+
+
+def train_qgan(cfg: dict, win: dict, seed: int) -> str:
+    """G3 (E13, addendum): Quant GAN trained on the first half of the window, on the Apple GPU when available."""
+    from tavp.experiments.e13_qgan import qgan_cfg
+    from tavp.generators.qgan import QuantGANGenerator
+
+    out = run_dir(cfg, win, seed, "qgan")
+    if (out / "meta.json").exists():
+        return str(out)
+    _, r = market_log_returns()
+    train = r[win["start"]: win["start"] + cfg["data"]["train_returns"]]
+    QuantGANGenerator(qgan_cfg(), target_hash(win), name="qgan").fit(
+        train, seed=common.stream_seed(cfg, "train_market", "qgan", win["window"], seed), out_dir=out)
+    return str(out)
 
 
 def train_tcvae(cfg: dict, win: dict, seed: int) -> str:
@@ -80,6 +95,9 @@ def task(cfg: dict, win: dict, kind: str, seed: int) -> list[dict]:
     if kind == "tcvae":
         from tavp.generators.tcvae import TCVAEGenerator
         gen = TCVAEGenerator.load(run_dir(cfg, win, seed))
+    elif kind == "qgan":
+        from tavp.generators.qgan import QuantGANGenerator
+        gen = QuantGANGenerator.load(run_dir(cfg, win, seed, "qgan"))
     elif kind == "bootstrap":
         gen = StationaryBootstrap(train, target_hash(win))
     else:
@@ -121,11 +139,27 @@ def garch_table(cfg: dict) -> pd.DataFrame:
 def _args(p):
     p.add_argument("--max-windows", type=int, default=None, help="smoke runs: only the most recent windows")
     p.add_argument("--tests-only", action="store_true", help="recompute the tests from the stored PITs")
+    p.add_argument("--qgan", action="store_true",
+                   help="E13: add the Quant GAN (three runs per window) to the stored PITs and recompute the tests")
 
 
 def main():
     args = common.parse_args(__doc__, _args)
     cfg = common.load(args.config)
+    if args.qgan:
+        wins = windows(cfg)
+        seeds = min(TCVAE_SEEDS, 3)
+        for w in wins:  # training on the GPU, one window at a time
+            Parallel(n_jobs=3)(delayed(train_qgan)(cfg, w, s) for s in range(seeds))
+        res = Parallel(n_jobs=common.n_jobs(cfg, args.jobs), verbose=5)(
+            delayed(task)(cfg, w, "qgan", s) for w in wins for s in range(seeds))
+        path = common.results_root(cfg) / "e11" / "pits.parquet"
+        old = pd.read_parquet(path)
+        pits = pd.concat([old[old.generator != "qgan"], pd.DataFrame([x for rows in res for x in rows])],
+                         ignore_index=True)
+        common.save_table(pits, "e11", "pits", cfg)
+        common.save_table(tests_table(pits, cfg), "e11", "tests", cfg)
+        return
     if args.tests_only:
         pits = pd.read_parquet(common.results_root(cfg) / "e11" / "pits.parquet")
         common.save_table(tests_table(pits, cfg), "e11", "tests", cfg)

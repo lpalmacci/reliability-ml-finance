@@ -22,10 +22,15 @@ GENERATORS = [("tcvae", "single", "G1 TC-VAE, single history", False),
               ("garch", None, "B2 GJR-GARCH-$t$", False),
               ("vae_mlp_wide", "single", "X1 non-causal VAE, 256 units", True)]
 # Categorical slots 1-5 of the reference palette (validated, light mode); X1 shares G2's hue.
-COLORS = {"tcvae_single": "#2a78d6", "tcvae_rich": "#eb6834", "vae_mlp_single": "#1baf7a",
-          "bootstrap": "#eda100", "garch": "#e87ba4", "vae_mlp_wide_single": "#1baf7a"}
-MARKERS = {"tcvae_single": "o", "tcvae_rich": "s", "vae_mlp_single": "^", "bootstrap": "D", "garch": "v",
-           "vae_mlp_wide_single": "x"}
+# One colour per family of generator in every figure of the chapter, the regime in the marker. Slots 1, 2, 3
+# and 7 of the reference palette pass the colour-vision checks on all pairs (light mode); the ablation is grey.
+FAMILY = {"tcvae": "#2a78d6", "qgan": "#eb6834", "bootstrap": "#1baf7a", "garch": "#4a3aa7", "vae_mlp": "#8a8984",
+          "oracle": "#0b0b0b"}
+COLORS = {"tcvae_single": FAMILY["tcvae"], "tcvae_rich": FAMILY["tcvae"], "qgan_single": FAMILY["qgan"],
+          "qgan_rich": FAMILY["qgan"], "vae_mlp_single": FAMILY["vae_mlp"], "bootstrap": FAMILY["bootstrap"],
+          "garch": FAMILY["garch"], "vae_mlp_wide_single": FAMILY["vae_mlp"]}
+MARKERS = {"tcvae_single": "o", "tcvae_rich": "s", "qgan_single": "o", "qgan_rich": "s", "vae_mlp_single": "^",
+           "bootstrap": "D", "garch": "v", "vae_mlp_wide_single": "x"}
 INK, INK2, GRID = "#0b0b0b", "#52514e", "#e4e3df"
 BLUES = ["#f4f8fd", "#cde2fb", "#9ec5f4", "#6da7ec", "#3987e5", "#256abf", "#184f95", "#0d366b"]
 STAT_ROWS = [("std", "volatility"), ("acf_r1", "ACF($r$), lag 1"), ("vr", "variance ratio, 59 days"),
