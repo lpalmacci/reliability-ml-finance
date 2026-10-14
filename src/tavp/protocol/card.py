@@ -44,8 +44,9 @@ def build_card(l0: pd.DataFrame, l1: pd.DataFrame | None, l2: pd.DataFrame, l3: 
     card["L3_failed"] = [s for s, v in card["L3"].items() if v["pr"] < pr_min]
     card["L4"] = None
     if l4 is not None and len(l4):
+        density = "p_moments_hac" if "p_moments_hac" in l4 else "p_berkowitz"
         card["L4"] = {"rejected": [f"{r.strategy}/{r.metric}" for r in l4.itertuples() if r.reject_any],
-                      "min_p": float(l4[["p_ks", "p_kupiec", "p_berkowitz"]].min().min())}
+                      "tests": int(len(l4)), "min_p": float(l4[["p_ks", "p_kupiec", density]].min().min())}
     l4_ok = card["L4"] is None or not card["L4"]["rejected"]
     card["fit"] = bool(card["L0"]["hash_ok"] and card["L0"]["valid"] and not card["L2_failed"]
                        and not card["L3_failed"] and l4_ok)
@@ -71,20 +72,36 @@ def card_markdown(c: dict) -> str:
     return "\n".join(lines)
 
 
-def card_latex(c: dict, pr_min: float) -> str:
-    """L2 pass-rate matrix with failed cells in bold, followed by L1/L3/L4 lines."""
+STAT_LABEL = {"mean": "mean", "std": "standard deviation", "skew": "skewness", "kurt": "kurtosis",
+              "hill": "Hill index", "acf_r": "ACF($r$)", "acf_abs": "ACF($|r|$)", "leverage": "leverage",
+              "kurt_agg5": "kurtosis (5 days)", "kurt_agg20": "kurtosis (20 days)", "marginal_w1": "marginal $W_1$",
+              "swd_logpath": "sliced $W_2$", "signature_mmd": "signature distance"}
+
+
+def card_latex(c: dict, pr_min: float, width: str = "13.5cm") -> str:
+    """L2 pass-rate matrix with failed cells in bold, framed by the L0 header and the L1/L3/L4 lines."""
     def cell(v):
         return r"\textbf{" + f"{v:.2f}" + "}" if v < pr_min else f"{v:.2f}"
+
+    def line(text):
+        return r"\multicolumn{10}{p{" + width + "}}{" + text + r"} \\"
 
     head = " & ".join(f"{FUNC_LABEL[f]}" for _, f in FUNC_ORDER)
     groups = r" & \multicolumn{4}{c}{Sharpe} & \multicolumn{2}{c}{MaxDD} & \multicolumn{3}{c}{Return} \\"
     rows = [f"{s} & " + " & ".join(cell(c["L2"][(s, m, f)]) for m, f in FUNC_ORDER) + r" \\" for s in STRATS]
-    l1 = ", ".join(s.replace("_", r"\_") for s, _, _ in c["L1_flagged"]) or "none"
-    l3 = "; ".join(f"{s} {v['pr']:.2f}" for s, v in c["L3"].items())
-    return "\n".join([r"\begin{tabular}{l" + "r" * len(FUNC_ORDER) + "}", r"\toprule", groups,
+    l0 = (f"L0: process hashes {'consistent' if c['L0']['hash_ok'] else 'inconsistent'}; scenarios "
+          f"{'valid' if c['L0']['valid'] else 'invalid'}; {100 * c['L0']['resolvable']:.0f}\\% of comparisons resolvable; "
+          f"{c['runs']} training runs, {c['contexts']} contexts.")
+    l1 = ", ".join(STAT_LABEL.get(s, s.replace("_", r"\_")) for s, _, _ in c["L1_flagged"]) or "none"
+    l3 = "; ".join(f"{s} {v['pr']:.2f} (mean regret {v['regret']:.3f})" for s, v in c["L3"].items())
+    l4 = "not applied" if c["L4"] is None else (
+        f"{len(c['L4']['rejected'])} of {c['L4']['tests']} cells rejected"
+        + (" (" + ", ".join(c["L4"]["rejected"]) + ")" if c["L4"]["rejected"] else ""))
+    return "\n".join([r"\begin{tabular}{l" + "r" * len(FUNC_ORDER) + "}", r"\toprule", line(l0), r"\midrule", groups,
                       r"\cmidrule(lr){2-5}\cmidrule(lr){6-7}\cmidrule(lr){8-10}", "L2 pass rate & " + head + r" \\",
                       r"\midrule", *rows, r"\midrule",
-                      r"\multicolumn{10}{l}{L1 flagged: " + l1 + r"} \\",
-                      r"\multicolumn{10}{l}{L3 pass rate: " + l3 + r"} \\",
-                      r"\multicolumn{10}{l}{Verdict: " + ("fit" if c["fit"] else "not fit") + r"} \\",
+                      line("L1 flagged (power at least 0.5): " + l1 + "."),
+                      line("L3 pass rate: " + l3 + "."),
+                      line("L4: " + l4 + "."),
+                      line(r"\textbf{Verdict: " + ("fit" if c["fit"] else "not fit") + " for the declared use.}"),
                       r"\bottomrule", r"\end{tabular}"])

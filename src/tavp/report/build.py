@@ -15,6 +15,8 @@ import pandas as pd
 
 from tavp.experiments import common
 from tavp.report import summaries as S
+from tavp.report.case import build_case
+from tavp.report.robust import build_robust
 from tavp.report.numbers import Numbers
 from tavp.utils import REPO_ROOT
 
@@ -366,10 +368,16 @@ Process & Generator & applied & pre-reg. & KS & Kupiec & moments & Berkowitz & c
 
 # ----------------------------------------------------------------------------- main
 def main():
-    args = common.parse_args(__doc__, lambda p: p.add_argument("--export", default=None))
+    def extra(p):
+        p.add_argument("--export", default=None, help="copy the assets to this directory (the chapter's assets/)")
+        p.add_argument("--root", default=None, help="results directory to read (default: from the configuration)")
+        p.add_argument("--out", default=None, help="output directory (default: thesis_assets/)")
+
+    args = common.parse_args(__doc__, extra)
     cfg = common.load(args.config)
-    root = common.results_root(cfg)
+    root = Path(args.root) if args.root else common.results_root(cfg)
     out = REPO_ROOT / "thesis_assets" if not cfg.get("runtime", {}).get("results_suffix") else root / "thesis_assets"
+    out = Path(args.out) if args.out else out
     pr_min = cfg["protocol"]["L2"]["pr_min"]
     num = Numbers()
     sc = root / "train" / "scaling_decision.json"
@@ -395,6 +403,8 @@ def main():
     build_e2(root, out, num, pr_min)
     build_e6(root, out, num, "meta")
     build_e6(root, out, num, "case")
+    build_case(root, out, num, cfg, pr_min)
+    build_robust(root, out, num, pr_min)
     num.write(out / "numbers.tex", out / "numbers.json")
     if args.export:
         dst = Path(args.export)

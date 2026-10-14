@@ -1,42 +1,58 @@
-# Reproduce the results of the chapter. `make quick` is a smoke run (about 20 minutes);
-# `make all` is the full pre-registered run (about 4-5 hours on an 8-core laptop CPU).
+# Reproduce the results of the chapter (see REPRODUCE.md). `make quick` is a smoke run;
+# `make all` is the full study (about 14 hours on a 12-core laptop CPU).
 UV ?= uv
 export OMP_NUM_THREADS=1
 export VECLIB_MAXIMUM_THREADS=1
 export OPENBLAS_NUM_THREADS=1
+export MKL_NUM_THREADS=1
 PY = $(UV) run python -m
 CFG ?= configs/full.yaml
+XCFG ?= configs/exploratory.yaml
+J ?=
+JOBS = $(if $(J),--jobs $(J),)
 
-.PHONY: test quick all train meta case thesis verify clean
+.PHONY: test quick all train meta case exploratory thesis verify verify-frozen freeze clean
 
 test:
-	$(UV) run pytest
+	$(UV) run pytest -q
 
 train:
-	$(PY) tavp.experiments.train --config $(CFG)
+	$(PY) tavp.experiments.train --config $(CFG) $(JOBS)
 
 meta:
-	$(PY) tavp.experiments.e1_null --config $(CFG)
-	$(PY) tavp.experiments.e2_defects --config $(CFG)
-	$(PY) tavp.experiments.e6_calibration --config $(CFG) --part meta
-	$(PY) tavp.experiments.l4_size --config $(CFG)
+	$(PY) tavp.experiments.e1_null --config $(CFG) $(JOBS)
+	$(PY) tavp.experiments.e2_defects --config $(CFG) $(JOBS)
+	$(PY) tavp.experiments.e6_calibration --config $(CFG) --part meta $(JOBS)
+	$(PY) tavp.experiments.l4_size --config $(CFG) $(JOBS)
 
 case:
-	$(PY) tavp.experiments.e4_case --config $(CFG)
-	$(PY) tavp.experiments.e5_compare --config $(CFG)
-	$(PY) tavp.experiments.e6_calibration --config $(CFG) --part case
-	$(PY) tavp.experiments.e7_robust --config $(CFG)
+	$(PY) tavp.experiments.e4_case --config $(CFG) $(JOBS)
+	$(PY) tavp.experiments.e4_facts --config $(CFG) $(JOBS)
+	$(PY) tavp.experiments.e5_compare --config $(CFG) $(JOBS)
+	$(PY) tavp.experiments.e6_calibration --config $(CFG) --part case $(JOBS)
+	$(PY) tavp.experiments.e7_robust --config $(CFG) $(JOBS)
+
+exploratory:
+	$(PY) tavp.experiments.train --config $(XCFG) $(JOBS)
+	$(PY) tavp.experiments.x1_wide --config $(XCFG) $(JOBS)
+	$(PY) tavp.experiments.e4_facts --config $(XCFG) $(JOBS)
 
 thesis:
-	$(PY) tavp.report.build --config $(CFG)
+	$(PY) tavp.report.build --config $(CFG) $(JOBS)
 
-all: test train meta case thesis
+all: test train meta case exploratory thesis
 
 quick:
-	$(MAKE) all CFG=configs/quick.yaml
+	$(MAKE) test train meta case thesis CFG=configs/quick.yaml J=$(J)
 
 verify:
 	$(UV) run python scripts/verify.py
 
+verify-frozen:
+	$(UV) run python scripts/verify.py --frozen
+
+freeze:
+	$(UV) run python scripts/freeze.py
+
 clean:
-	rm -rf results/runs results/e* thesis_assets/tables/* thesis_assets/figures/* thesis_assets/cards/*
+	rm -rf results/runs results/e* results/x1_wide results/quick thesis_assets/tables/* thesis_assets/figures/* thesis_assets/cards/*

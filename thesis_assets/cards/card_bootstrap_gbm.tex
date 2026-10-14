@@ -1,0 +1,19 @@
+\begin{tabular}{lrrrrrrrrr}
+\toprule
+\multicolumn{10}{p{13.5cm}}{L0: process hashes consistent; scenarios valid; 100\% of comparisons resolvable; 5 training runs, 50 contexts.} \\
+\midrule
+ & \multicolumn{4}{c}{Sharpe} & \multicolumn{2}{c}{MaxDD} & \multicolumn{3}{c}{Return} \\
+\cmidrule(lr){2-5}\cmidrule(lr){6-7}\cmidrule(lr){8-10}
+L2 pass rate & mean & $q_{.05}$ & $q_{.50}$ & $q_{.95}$ & mean & $q_{.95}$ & mean & VaR & ES \\
+\midrule
+BH & \textbf{0.20} & \textbf{0.39} & \textbf{0.16} & \textbf{0.20} & 1.00 & 1.00 & \textbf{0.21} & \textbf{0.60} & \textbf{0.60} \\
+TF & \textbf{0.36} & 0.96 & \textbf{0.37} & \textbf{0.40} & 1.00 & 1.00 & \textbf{0.71} & 0.98 & 0.99 \\
+VT & \textbf{0.20} & \textbf{0.40} & \textbf{0.18} & \textbf{0.20} & 1.00 & 1.00 & \textbf{0.41} & \textbf{0.80} & \textbf{0.79} \\
+TVF & \textbf{0.35} & 0.93 & \textbf{0.40} & \textbf{0.41} & 1.00 & 1.00 & \textbf{0.69} & 0.99 & 0.99 \\
+\midrule
+\multicolumn{10}{p{13.5cm}}{L1 flagged (power at least 0.5): Hill index, kurtosis, marginal $W_1$, mean, signature distance, skewness, standard deviation, sliced $W_2$.} \\
+\multicolumn{10}{p{13.5cm}}{L3 pass rate: TF 0.78 (mean regret 0.027); TVF 0.78 (mean regret 0.023); VT 1.00 (mean regret 0.000).} \\
+\multicolumn{10}{p{13.5cm}}{L4: 0 of 12 cells rejected.} \\
+\multicolumn{10}{p{13.5cm}}{\textbf{Verdict: not fit for the declared use.}} \\
+\bottomrule
+\end{tabular}

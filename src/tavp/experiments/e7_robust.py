@@ -22,11 +22,12 @@ N_HISTORIES = 3
 
 
 def settings(cfg: dict) -> list[tuple[str, dict]]:
+    G = cfg["generators"]
     out = []
     for d in cfg["dgps"]:
-        for s in range(N_HISTORIES):
-            out += [(d, {"kind": "tcvae", "regime": "single", "seed": s}), (d, {"kind": "bootstrap", "seed": s}),
-                    (d, {"kind": "garch", "seed": s})]
+        out += [(d, {"kind": "tcvae", "regime": "single", "seed": s}) for s in range(min(N_HISTORIES, G["tcvae"]["seeds"]))]
+        for kind in ("bootstrap", "garch"):
+            out += [(d, {"kind": kind, "seed": s}) for s in range(min(N_HISTORIES, G[kind]["seeds"]))]
     return out
 
 

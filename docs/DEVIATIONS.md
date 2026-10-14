@@ -1,7 +1,7 @@
 # Deviations log
 
 Every change to `configs/preregistration.yaml` made after the `prereg` tag is recorded here,
-with date and reason. Results are always reported under the pre-registered settings first.
+with date and reason. Results under the pre-registered settings are kept and reported alongside the corrected ones.
 
 ## Refinements of the development plan made before pre-registration
 
