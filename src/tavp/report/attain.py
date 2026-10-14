@@ -13,7 +13,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from tavp.protocol.card import FUNC_ORDER, STRATS, build_card
+from tavp.protocol.card import FUNC_ORDER, STRATS, build_card, card_latex
 from tavp.report.case import BLUES, DGP_LABEL, DGP_ORDER, INK, INK2
 from tavp.report.numbers import Numbers
 
@@ -81,7 +81,7 @@ def attain_figure(cards: dict, path: Path, pr_min: float) -> None:
     keys = [(s, m, f) for s in STRATS for m, f in FUNC_ORDER]
     rows = [f"{s}  {mlab[m]} {flab[f]}" for s, m, f in keys]
     cols = [(r, kind, short) for r in REGIMES for kind, _, short in KINDS]
-    fig, axes = plt.subplots(1, 4, figsize=(7.2, 6.6), sharey=True)
+    fig, axes = plt.subplots(1, 4, figsize=(6.3, 8.6), sharey=True)
     im = None
     for ax, d in zip(axes, DGP_ORDER):
         M = np.full((len(keys), len(cols)), np.nan)
@@ -95,24 +95,24 @@ def attain_figure(cards: dict, path: Path, pr_min: float) -> None:
                 att[:, j] = [o["L2"][k] >= pr_min for k in keys]
         im = ax.imshow(M, cmap=cmap, vmin=0, vmax=1, aspect="auto", interpolation="nearest")
         yy, xx = np.where(M >= pr_min)
-        ax.scatter(xx, yy, s=6, color="white", linewidths=0, zorder=3)
+        ax.scatter(xx, yy, s=8, color="white", linewidths=0, zorder=3)
         yy, xx = np.where(~att)
-        ax.scatter(xx, yy, s=9, marker="x", color=INK2, linewidths=0.6, zorder=3)
+        ax.scatter(xx, yy, s=12, marker="x", color=INK2, linewidths=0.7, zorder=3)
         ax.axvline(len(KINDS) - 0.5, color="white", linewidth=3)
         for y in (9, 18, 27):
             ax.axhline(y - 0.5, color="white", linewidth=1.5)
         ax.set_xticks(range(len(cols)))
         ax.set_xticklabels([f"{short.replace('$', '').replace(chr(92) + 'hat{O}', 'Ô')} {'10y' if r == 'single' else 'long'}"
-                            for r, _, short in cols], rotation=90, fontsize=6, color=INK)
-        ax.set_title(DGP_LABEL[d].replace("$", ""), fontsize=7, color=INK)
+                            for r, _, short in cols], rotation=90, fontsize=7, color=INK)
+        ax.set_title(DGP_LABEL[d].replace("$", ""), fontsize=8, color=INK)
         ax.tick_params(length=0)
         for sp in ax.spines.values():
             sp.set_visible(False)
     axes[0].set_yticks(range(len(rows)))
-    axes[0].set_yticklabels(rows, fontsize=5.5, color=INK)
-    cb = fig.colorbar(im, ax=axes, fraction=0.025, pad=0.02)
-    cb.set_label("L2 pass rate (white dot: cell passes; x: not attainable)", fontsize=6.5, color=INK)
-    cb.ax.tick_params(labelsize=6, colors=INK2, length=0)
+    axes[0].set_yticklabels(rows, fontsize=7, color=INK)
+    cb = fig.colorbar(im, ax=axes, orientation="horizontal", fraction=0.025, pad=0.09, aspect=40)
+    cb.set_label("L2 pass rate (white dot: cell passes; x: not attainable)", fontsize=7.5, color=INK)
+    cb.ax.tick_params(labelsize=7, colors=INK2, length=0)
     cb.outline.set_visible(False)
     path.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(path, bbox_inches="tight")
@@ -224,6 +224,16 @@ Functional & """ + " & ".join(reg_label[r] for r in REGIMES) + r""" \\
 \end{tabular}
 """)
     attain_figure(cards, out / "figures" / "fig_case_attain.pdf", pr_min)
+    # validation cards of the generators trained on the long histories, with the unattainable cells marked
+    (out / "cards").mkdir(parents=True, exist_ok=True)
+    for (d, r, kind), c in cards.items():
+        if r != "rich" or kind not in ("garch", "bootstrap"):
+            continue
+        o = cards[(d, r, "oracle_drift")]
+        A = {k for k in keys if o["L2"][k] >= pr_min}
+        rules = {st for st, v in o["L3"].items() if v["pr"] >= pr_min}
+        (out / "cards" / f"card_{kind}_long_{d}.tex").write_text(card_latex(c, pr_min, attainable=A,
+                                                                           attainable_rules=rules) + "\n")
     # drift errors and fitted parameters
     gens = _read(root, "e8", "generators")
     if gens is not None:

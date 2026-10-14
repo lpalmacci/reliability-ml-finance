@@ -138,14 +138,14 @@ def power_figure(curves: pd.DataFrame, path: Path, pr_min: float) -> None:
     import matplotlib.pyplot as plt
 
     defects = [d for d in DEFECT_LABEL if d in set(curves.defect)]
-    fig, axes = plt.subplots(len(defects), 4, figsize=(7.2, 1.35 * len(defects) + 0.6), sharex=True, sharey=True)
+    fig, axes = plt.subplots(len(defects), 4, figsize=(6.3, 1.35 * len(defects) + 0.6), sharex=True, sharey=True)
     for i, defect in enumerate(defects):
         for j, d in enumerate(DGP_ORDER):
             ax = axes[i, j]
             ax.set_facecolor("white")
             for s in ax.spines.values():
                 s.set_visible(False)
-            ax.tick_params(colors=INK2, labelsize=6, length=0)
+            ax.tick_params(colors=INK2, labelsize=6.5, length=0)
             if i == 0:
                 ax.set_title(DGP_LABEL[d].replace("$", "").replace("-t", "-t"), fontsize=7, color=INK)
             if j == 0:

@@ -87,7 +87,7 @@ def tolcrit_figure(cells: pd.DataFrame, attain: dict, path: Path) -> None:
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
-    fig, axes = plt.subplots(1, 4, figsize=(7.2, 4.2), sharey=True, sharex=True)
+    fig, axes = plt.subplots(1, 4, figsize=(6.3, 4.4), sharey=True, sharex=True)
     rows = [r for r in ROWS if ((cells.kind == r[0]) & (cells.regime == r[1])).any()]
     rng = np.random.default_rng(0)  # vertical jitter only, for legibility
     for ax, d in zip(axes, DGP_ORDER):

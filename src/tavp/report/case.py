@@ -94,26 +94,26 @@ def cells_figure(l2: pd.DataFrame, path: Path, pr_min: float) -> None:
     flab = {"mean": "mean", "q05": "q.05", "q50": "q.50", "q95": "q.95", "var95": "VaR", "es95": "ES"}
     mlab = {"sharpe": "Sharpe", "maxdd": "MaxDD", "ret": "return"}
     rows = [f"{s}  {mlab[m]} {flab[f]}" for s in STRATS for m, f in FUNC_ORDER]
-    fig, axes = plt.subplots(1, 4, figsize=(7.2, 6.4), sharey=True)
+    fig, axes = plt.subplots(1, 4, figsize=(6.3, 8.6), sharey=True)
     im = None
     for ax, d in zip(axes, DGP_ORDER):
         M = cell_matrix(l2, d)
         im = ax.imshow(M.to_numpy(), cmap=cmap, vmin=0, vmax=1, aspect="auto", interpolation="nearest")
         yy, xx = np.where(M.to_numpy() >= pr_min)
-        ax.scatter(xx, yy, s=6, color="white", linewidths=0)
+        ax.scatter(xx, yy, s=8, color="white", linewidths=0)
         ax.set_xticks(range(M.shape[1]))
-        ax.set_xticklabels([short[c] for c in M.columns], rotation=90, fontsize=6, color=INK)
-        ax.set_title(DGP_LABEL[d].replace("$", ""), fontsize=7, color=INK)
+        ax.set_xticklabels([short[c] for c in M.columns], rotation=90, fontsize=7, color=INK)
+        ax.set_title(DGP_LABEL[d].replace("$", ""), fontsize=8, color=INK)
         for y in (9, 18, 27):
             ax.axhline(y - 0.5, color="white", linewidth=1.5)
         ax.tick_params(length=0)
         for sp in ax.spines.values():
             sp.set_visible(False)
     axes[0].set_yticks(range(len(rows)))
-    axes[0].set_yticklabels(rows, fontsize=5.5, color=INK)
-    cb = fig.colorbar(im, ax=axes, fraction=0.025, pad=0.02)
-    cb.set_label("L2 pass rate (white dot: cell passes)", fontsize=6.5, color=INK)
-    cb.ax.tick_params(labelsize=6, colors=INK2, length=0)
+    axes[0].set_yticklabels(rows, fontsize=7, color=INK)
+    cb = fig.colorbar(im, ax=axes, orientation="horizontal", fraction=0.025, pad=0.09, aspect=40)
+    cb.set_label("L2 pass rate (white dot: cell passes)", fontsize=7.5, color=INK)
+    cb.ax.tick_params(labelsize=7, colors=INK2, length=0)
     cb.outline.set_visible(False)
     path.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(path, bbox_inches="tight")
@@ -131,7 +131,7 @@ def facts_figure(facts: pd.DataFrame, path: Path) -> None:
     order = ["tcvae_single", "tcvae_rich", "vae_mlp_single", "bootstrap", "garch"]
     names = {"tcvae_single": "G1 single", "tcvae_rich": "G1 rich", "vae_mlp_single": "G2", "bootstrap": "B1",
              "garch": "B2"}
-    fig, axes = plt.subplots(len(STAT_ROWS), 4, figsize=(7.2, 9.2), sharey=True)
+    fig, axes = plt.subplots(len(STAT_ROWS), 4, figsize=(6.3, 9.2), sharey=True)
     for i, (stat, slab) in enumerate(STAT_ROWS):
         for j, d in enumerate(DGP_ORDER):
             ax = axes[i, j]
@@ -149,15 +149,15 @@ def facts_figure(facts: pd.DataFrame, path: Path) -> None:
             if stat == "kurt":
                 ax.set_xscale("log")
             ax.set_yticks(range(len(order)))
-            ax.set_yticklabels([names[g] for g in order], fontsize=6, color=INK)
+            ax.set_yticklabels([names[g] for g in order], fontsize=6.5, color=INK)
             ax.set_ylim(len(order) - 0.5, -0.5)
-            ax.tick_params(axis="x", labelsize=5.5, colors=INK2, length=0)
+            ax.tick_params(axis="x", labelsize=6.5, colors=INK2, length=0)
             ax.tick_params(axis="y", length=0)
             ax.grid(True, axis="x", color=GRID, linewidth=0.5)
             for sp in ax.spines.values():
                 sp.set_visible(False)
             if i == 0:
-                ax.set_title(DGP_LABEL[d].replace("$", ""), fontsize=7, color=INK)
+                ax.set_title(DGP_LABEL[d].replace("$", ""), fontsize=8, color=INK)
             if j == 0:
                 ax.annotate(slab, xy=(0, 1.02), xycoords="axes fraction", fontsize=6.5, color=INK, ha="left",
                             va="bottom")

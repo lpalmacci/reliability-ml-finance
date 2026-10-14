@@ -78,17 +78,24 @@ STAT_LABEL = {"mean": "mean", "std": "standard deviation", "skew": "skewness", "
               "swd_logpath": "sliced $W_2$", "signature_mmd": "signature distance"}
 
 
-def card_latex(c: dict, pr_min: float, width: str = "13.5cm") -> str:
-    """L2 pass-rate matrix with failed cells in bold, framed by the L0 header and the L1/L3/L4 lines."""
-    def cell(v):
-        return r"\textbf{" + f"{v:.2f}" + "}" if v < pr_min else f"{v:.2f}"
+def card_latex(c: dict, pr_min: float, width: str = "13.5cm", attainable: set | None = None,
+               attainable_rules: set | None = None) -> str:
+    """L2 pass-rate matrix with failed cells in bold, framed by the L0 header and the L1/L3/L4 lines.
+
+    With `attainable` (E8), cells outside the attainable set are marked with a dagger and the card
+    also reports the verdict on the attainable cells and rules.
+    """
+    def cell(v, key=None):
+        txt = r"\textbf{" + f"{v:.2f}" + "}" if v < pr_min else f"{v:.2f}"
+        return txt + r"$^{\dagger}$" if attainable is not None and key not in attainable else txt
 
     def line(text):
         return r"\multicolumn{10}{p{" + width + "}}{" + text + r"} \\"
 
     head = " & ".join(f"{FUNC_LABEL[f]}" for _, f in FUNC_ORDER)
     groups = r" & \multicolumn{4}{c}{Sharpe} & \multicolumn{2}{c}{MaxDD} & \multicolumn{3}{c}{Return} \\"
-    rows = [f"{s} & " + " & ".join(cell(c["L2"][(s, m, f)]) for m, f in FUNC_ORDER) + r" \\" for s in STRATS]
+    rows = [f"{s} & " + " & ".join(cell(c["L2"][(s, m, f)], (s, m, f)) for m, f in FUNC_ORDER) + r" \\"
+            for s in STRATS]
     l0 = (f"L0: process hashes {'consistent' if c['L0']['hash_ok'] else 'inconsistent'}; scenarios "
           f"{'valid' if c['L0']['valid'] else 'invalid'}; {100 * c['L0']['resolvable']:.0f}\\% of comparisons resolvable; "
           f"{c['runs']} training runs, {c['contexts']} contexts.")
@@ -105,4 +112,15 @@ def card_latex(c: dict, pr_min: float, width: str = "13.5cm") -> str:
                       line("L3 pass rate: " + l3 + "."),
                       line("L4: " + l4 + "."),
                       line(r"\textbf{Verdict: " + ("fit" if c["fit"] else "not fit") + " for the declared use.}"),
+                      *([] if attainable is None else [line(_attainable_verdict(c, pr_min, attainable,
+                                                                                attainable_rules or set()))]),
                       r"\bottomrule", r"\end{tabular}"])
+
+
+def _attainable_verdict(c: dict, pr_min: float, attainable: set, attainable_rules: set) -> str:
+    passed = sum(c["L2"][k] >= pr_min for k in attainable)
+    l3_fail = [s for s in c["L3_failed"] if s in attainable_rules]
+    fit = c["L0"]["hash_ok"] and c["L0"]["valid"] and passed == len(attainable) and not l3_fail
+    return (r"$^{\dagger}$Not attainable with this amount of data. Attainable cells passed: "
+            f"{passed} of {len(attainable)}; attainable rules of L3 failed: {', '.join(l3_fail) or 'none'}. "
+            r"\textbf{Verdict on the attainable cells: " + ("fit" if fit else "not fit") + ".}")
