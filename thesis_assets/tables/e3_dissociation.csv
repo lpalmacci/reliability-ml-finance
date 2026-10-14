@@ -1,0 +1,289 @@
+dgp,generator,kind,defect,delta,strategy,l2_fail,l1_power,l1_flag,category,regret,same_choice,l3_fail
+gbm,oracle_P1_d0.25,oracle,P1,0.25,BH,False,0.02,False,both pass,,,
+gbm,oracle_P1_d0.25,oracle,P1,0.25,TF,False,0.02,False,both pass,-0.0008907625779120701,0.8,False
+gbm,oracle_P1_d0.25,oracle,P1,0.25,TVF,False,0.02,False,both pass,0.0002719326142247359,0.8,False
+gbm,oracle_P1_d0.25,oracle,P1,0.25,VT,False,0.02,False,both pass,0.0,1.0,False
+gbm,oracle_P1_d0.5,oracle,P1,0.5,BH,False,0.0,False,both pass,,,
+gbm,oracle_P1_d0.5,oracle,P1,0.5,TF,False,0.0,False,both pass,-0.0008907625779120701,0.8,False
+gbm,oracle_P1_d0.5,oracle,P1,0.5,TVF,False,0.0,False,both pass,0.001573218481219126,0.7,False
+gbm,oracle_P1_d0.5,oracle,P1,0.5,VT,False,0.0,False,both pass,0.0,1.0,False
+gbm,oracle_P1_d0.75,oracle,P1,0.75,BH,False,0.02,False,both pass,,,
+gbm,oracle_P1_d0.75,oracle,P1,0.75,TF,False,0.02,False,both pass,0.0,1.0,False
+gbm,oracle_P1_d0.75,oracle,P1,0.75,TVF,False,0.02,False,both pass,0.0011707593031953863,0.9,False
+gbm,oracle_P1_d0.75,oracle,P1,0.75,VT,False,0.02,False,both pass,0.0,1.0,False
+gbm,oracle_P1_d1,oracle,P1,1.0,BH,False,0.0,False,both pass,,,
+gbm,oracle_P1_d1,oracle,P1,1.0,TF,False,0.0,False,both pass,0.0017066980405889974,0.9,False
+gbm,oracle_P1_d1,oracle,P1,1.0,TVF,False,0.0,False,both pass,0.0010708810802414121,0.7,False
+gbm,oracle_P1_d1,oracle,P1,1.0,VT,False,0.0,False,both pass,0.0,1.0,False
+gbm,oracle_P5_d0.25,oracle,P5,0.25,BH,True,1.0,True,both flag,,,
+gbm,oracle_P5_d0.25,oracle,P5,0.25,TF,True,1.0,True,both flag,-0.0008907625779120701,0.8,False
+gbm,oracle_P5_d0.25,oracle,P5,0.25,TVF,True,1.0,True,both flag,0.0002719326142247359,0.8,False
+gbm,oracle_P5_d0.25,oracle,P5,0.25,VT,True,1.0,True,both flag,0.0,1.0,False
+gbm,oracle_P5_d0.5,oracle,P5,0.5,BH,True,1.0,True,both flag,,,
+gbm,oracle_P5_d0.5,oracle,P5,0.5,TF,True,1.0,True,both flag,-0.0008907625779120701,0.8,False
+gbm,oracle_P5_d0.5,oracle,P5,0.5,TVF,True,1.0,True,both flag,0.003235968890848244,0.8,False
+gbm,oracle_P5_d0.5,oracle,P5,0.5,VT,True,1.0,True,both flag,0.0,1.0,False
+gbm,oracle_P5_d0.75,oracle,P5,0.75,BH,True,1.0,True,both flag,,,
+gbm,oracle_P5_d0.75,oracle,P5,0.75,TF,True,1.0,True,both flag,0.0011161173539132358,0.7,False
+gbm,oracle_P5_d0.75,oracle,P5,0.75,TVF,True,1.0,True,both flag,0.0039941951105501835,0.7,False
+gbm,oracle_P5_d0.75,oracle,P5,0.75,VT,True,1.0,True,both flag,0.0,1.0,False
+gbm,oracle_P5_d1,oracle,P5,1.0,BH,True,1.0,True,both flag,,,
+gbm,oracle_P5_d1,oracle,P5,1.0,TF,True,1.0,True,both flag,0.0020812193006406014,0.7,False
+gbm,oracle_P5_d1,oracle,P5,1.0,TVF,True,1.0,True,both flag,0.01953648458532801,0.6,True
+gbm,oracle_P5_d1,oracle,P5,1.0,VT,True,1.0,True,both flag,0.0,1.0,False
+gbm,oracle_P6_d0.25,oracle,P6,0.25,BH,True,0.1,False,L2 only (hidden defect),,,
+gbm,oracle_P6_d0.25,oracle,P6,0.25,TF,True,0.1,False,L2 only (hidden defect),0.0015119971096840643,0.8,False
+gbm,oracle_P6_d0.25,oracle,P6,0.25,TVF,True,0.1,False,L2 only (hidden defect),0.0011707593031953863,0.9,False
+gbm,oracle_P6_d0.25,oracle,P6,0.25,VT,True,0.1,False,L2 only (hidden defect),0.0,1.0,False
+gbm,oracle_P6_d0.5,oracle,P6,0.5,BH,True,0.6,True,both flag,,,
+gbm,oracle_P6_d0.5,oracle,P6,0.5,TF,True,0.6,True,both flag,0.0033700414896041747,0.8,False
+gbm,oracle_P6_d0.5,oracle,P6,0.5,TVF,True,0.6,True,both flag,0.0011707593031953863,0.9,False
+gbm,oracle_P6_d0.5,oracle,P6,0.5,VT,True,0.6,True,both flag,0.0,1.0,False
+gbm,oracle_P6_d0.75,oracle,P6,0.75,BH,True,0.94,True,both flag,,,
+gbm,oracle_P6_d0.75,oracle,P6,0.75,TF,True,0.94,True,both flag,0.0033700414896041747,0.8,False
+gbm,oracle_P6_d0.75,oracle,P6,0.75,TVF,True,0.94,True,both flag,0.0011707593031953863,0.9,False
+gbm,oracle_P6_d0.75,oracle,P6,0.75,VT,True,0.94,True,both flag,0.0,1.0,False
+gbm,oracle_P6_d1,oracle,P6,1.0,BH,True,1.0,True,both flag,,,
+gbm,oracle_P6_d1,oracle,P6,1.0,TF,True,1.0,True,both flag,0.0033700414896041747,0.8,False
+gbm,oracle_P6_d1,oracle,P6,1.0,TVF,True,1.0,True,both flag,0.002878560205559051,0.8,False
+gbm,oracle_P6_d1,oracle,P6,1.0,VT,True,1.0,True,both flag,0.0,1.0,False
+gjr_garch_t,oracle_P1_d0.25,oracle,P1,0.25,BH,False,0.0,False,both pass,,,
+gjr_garch_t,oracle_P1_d0.25,oracle,P1,0.25,TF,False,0.0,False,both pass,-0.0013676888658140322,0.9,False
+gjr_garch_t,oracle_P1_d0.25,oracle,P1,0.25,TVF,True,0.0,False,L2 only (hidden defect),-0.0006991051690696901,0.8,False
+gjr_garch_t,oracle_P1_d0.25,oracle,P1,0.25,VT,True,0.0,False,L2 only (hidden defect),0.0,1.0,False
+gjr_garch_t,oracle_P1_d0.5,oracle,P1,0.5,BH,False,0.0,False,both pass,,,
+gjr_garch_t,oracle_P1_d0.5,oracle,P1,0.5,TF,True,0.0,False,L2 only (hidden defect),0.0,1.0,False
+gjr_garch_t,oracle_P1_d0.5,oracle,P1,0.5,TVF,True,0.0,False,L2 only (hidden defect),0.0009316829605643749,0.7,False
+gjr_garch_t,oracle_P1_d0.5,oracle,P1,0.5,VT,True,0.0,False,L2 only (hidden defect),0.0,1.0,False
+gjr_garch_t,oracle_P1_d0.75,oracle,P1,0.75,BH,False,0.0,False,both pass,,,
+gjr_garch_t,oracle_P1_d0.75,oracle,P1,0.75,TF,True,0.0,False,L2 only (hidden defect),0.0,1.0,False
+gjr_garch_t,oracle_P1_d0.75,oracle,P1,0.75,TVF,True,0.0,False,L2 only (hidden defect),0.0031216045507508,0.5,False
+gjr_garch_t,oracle_P1_d0.75,oracle,P1,0.75,VT,True,0.0,False,L2 only (hidden defect),0.005563748789052624,0.7,False
+gjr_garch_t,oracle_P1_d1,oracle,P1,1.0,BH,False,0.0,False,both pass,,,
+gjr_garch_t,oracle_P1_d1,oracle,P1,1.0,TF,True,0.0,False,L2 only (hidden defect),0.0,1.0,False
+gjr_garch_t,oracle_P1_d1,oracle,P1,1.0,TVF,True,0.0,False,L2 only (hidden defect),0.006457223643224,0.4,False
+gjr_garch_t,oracle_P1_d1,oracle,P1,1.0,VT,True,0.0,False,L2 only (hidden defect),0.027744809231514574,0.2,True
+gjr_garch_t,oracle_P2_d0.25,oracle,P2,0.25,BH,False,1.0,True,L1 only (irrelevant defect),,,
+gjr_garch_t,oracle_P2_d0.25,oracle,P2,0.25,TF,False,1.0,True,L1 only (irrelevant defect),-0.0013676888658140322,0.9,False
+gjr_garch_t,oracle_P2_d0.25,oracle,P2,0.25,TVF,True,1.0,True,both flag,-0.0008473696961429838,0.9,False
+gjr_garch_t,oracle_P2_d0.25,oracle,P2,0.25,VT,False,1.0,True,L1 only (irrelevant defect),0.0,1.0,False
+gjr_garch_t,oracle_P2_d0.5,oracle,P2,0.5,BH,True,1.0,True,both flag,,,
+gjr_garch_t,oracle_P2_d0.5,oracle,P2,0.5,TF,True,1.0,True,both flag,-0.0013676888658140322,0.9,False
+gjr_garch_t,oracle_P2_d0.5,oracle,P2,0.5,TVF,True,1.0,True,both flag,-0.0008473696961429838,0.9,False
+gjr_garch_t,oracle_P2_d0.5,oracle,P2,0.5,VT,True,1.0,True,both flag,0.0,1.0,False
+gjr_garch_t,oracle_P2_d0.75,oracle,P2,0.75,BH,True,1.0,True,both flag,,,
+gjr_garch_t,oracle_P2_d0.75,oracle,P2,0.75,TF,True,1.0,True,both flag,-0.0013676888658140322,0.9,False
+gjr_garch_t,oracle_P2_d0.75,oracle,P2,0.75,TVF,True,1.0,True,both flag,0.0007114325726396357,0.9,False
+gjr_garch_t,oracle_P2_d0.75,oracle,P2,0.75,VT,True,1.0,True,both flag,0.0,1.0,False
+gjr_garch_t,oracle_P2_d1,oracle,P2,1.0,BH,True,1.0,True,both flag,,,
+gjr_garch_t,oracle_P2_d1,oracle,P2,1.0,TF,True,1.0,True,both flag,-0.0013676888658140322,0.9,False
+gjr_garch_t,oracle_P2_d1,oracle,P2,1.0,TVF,True,1.0,True,both flag,0.00016588325951063452,0.9,False
+gjr_garch_t,oracle_P2_d1,oracle,P2,1.0,VT,True,1.0,True,both flag,0.0,1.0,False
+gjr_garch_t,oracle_P3_d0.25,oracle,P3,0.25,BH,True,0.02,False,L2 only (hidden defect),,,
+gjr_garch_t,oracle_P3_d0.25,oracle,P3,0.25,TF,True,0.02,False,L2 only (hidden defect),0.0,1.0,False
+gjr_garch_t,oracle_P3_d0.25,oracle,P3,0.25,TVF,True,0.02,False,L2 only (hidden defect),-0.0008473696961429838,0.9,False
+gjr_garch_t,oracle_P3_d0.25,oracle,P3,0.25,VT,True,0.02,False,L2 only (hidden defect),0.0,1.0,False
+gjr_garch_t,oracle_P3_d0.5,oracle,P3,0.5,BH,True,0.54,True,both flag,,,
+gjr_garch_t,oracle_P3_d0.5,oracle,P3,0.5,TF,True,0.54,True,both flag,0.0,1.0,False
+gjr_garch_t,oracle_P3_d0.5,oracle,P3,0.5,TVF,True,0.54,True,both flag,-0.0008473696961429838,0.9,False
+gjr_garch_t,oracle_P3_d0.5,oracle,P3,0.5,VT,True,0.54,True,both flag,0.0031883313665380915,0.8,False
+gjr_garch_t,oracle_P3_d0.75,oracle,P3,0.75,BH,True,0.9,True,both flag,,,
+gjr_garch_t,oracle_P3_d0.75,oracle,P3,0.75,TF,True,0.9,True,both flag,0.0,1.0,False
+gjr_garch_t,oracle_P3_d0.75,oracle,P3,0.75,TVF,True,0.9,True,both flag,0.0007114325726396357,0.9,False
+gjr_garch_t,oracle_P3_d0.75,oracle,P3,0.75,VT,True,0.9,True,both flag,0.0031883313665380915,0.8,False
+gjr_garch_t,oracle_P3_d1,oracle,P3,1.0,BH,True,0.96,True,both flag,,,
+gjr_garch_t,oracle_P3_d1,oracle,P3,1.0,TF,True,0.96,True,both flag,0.008176484206231668,0.9,False
+gjr_garch_t,oracle_P3_d1,oracle,P3,1.0,TVF,True,0.96,True,both flag,0.0014772322736933759,0.7,False
+gjr_garch_t,oracle_P3_d1,oracle,P3,1.0,VT,True,0.96,True,both flag,0.014218559097853894,0.6,False
+gjr_garch_t,oracle_P4_d0.25,oracle,P4,0.25,BH,True,1.0,True,both flag,,,
+gjr_garch_t,oracle_P4_d0.25,oracle,P4,0.25,TF,True,1.0,True,both flag,-0.0013676888658140322,0.9,False
+gjr_garch_t,oracle_P4_d0.25,oracle,P4,0.25,TVF,True,1.0,True,both flag,-0.0002475182113770511,0.8,False
+gjr_garch_t,oracle_P4_d0.25,oracle,P4,0.25,VT,True,1.0,True,both flag,0.0013191004755890583,0.9,False
+gjr_garch_t,oracle_P4_d0.5,oracle,P4,0.5,BH,True,1.0,True,both flag,,,
+gjr_garch_t,oracle_P4_d0.5,oracle,P4,0.5,TF,True,1.0,True,both flag,-0.0013676888658140322,0.9,False
+gjr_garch_t,oracle_P4_d0.5,oracle,P4,0.5,TVF,True,1.0,True,both flag,0.0018993068456960853,0.7,False
+gjr_garch_t,oracle_P4_d0.5,oracle,P4,0.5,VT,True,1.0,True,both flag,0.0031883313665380915,0.8,False
+gjr_garch_t,oracle_P4_d0.75,oracle,P4,0.75,BH,True,1.0,True,both flag,,,
+gjr_garch_t,oracle_P4_d0.75,oracle,P4,0.75,TF,True,1.0,True,both flag,-0.0013676888658140322,0.9,False
+gjr_garch_t,oracle_P4_d0.75,oracle,P4,0.75,TVF,True,1.0,True,both flag,-0.0002475182113770511,0.8,False
+gjr_garch_t,oracle_P4_d0.75,oracle,P4,0.75,VT,True,1.0,True,both flag,0.0031883313665380915,0.8,False
+gjr_garch_t,oracle_P4_d1,oracle,P4,1.0,BH,True,1.0,True,both flag,,,
+gjr_garch_t,oracle_P4_d1,oracle,P4,1.0,TF,True,1.0,True,both flag,-0.0013676888658140322,0.9,False
+gjr_garch_t,oracle_P4_d1,oracle,P4,1.0,TVF,True,1.0,True,both flag,-0.0002475182113770511,0.8,False
+gjr_garch_t,oracle_P4_d1,oracle,P4,1.0,VT,True,1.0,True,both flag,0.0031883313665380915,0.8,False
+gjr_garch_t,oracle_P5_d0.25,oracle,P5,0.25,BH,True,1.0,True,both flag,,,
+gjr_garch_t,oracle_P5_d0.25,oracle,P5,0.25,TF,True,1.0,True,both flag,-0.0013676888658140322,0.9,False
+gjr_garch_t,oracle_P5_d0.25,oracle,P5,0.25,TVF,True,1.0,True,both flag,0.00016588325951063452,0.9,False
+gjr_garch_t,oracle_P5_d0.25,oracle,P5,0.25,VT,True,1.0,True,both flag,0.0,1.0,False
+gjr_garch_t,oracle_P5_d0.5,oracle,P5,0.5,BH,True,1.0,True,both flag,,,
+gjr_garch_t,oracle_P5_d0.5,oracle,P5,0.5,TF,True,1.0,True,both flag,-0.0013676888658140322,0.9,False
+gjr_garch_t,oracle_P5_d0.5,oracle,P5,0.5,TVF,True,1.0,True,both flag,-0.0008473696961429838,0.9,False
+gjr_garch_t,oracle_P5_d0.5,oracle,P5,0.5,VT,True,1.0,True,both flag,0.0,1.0,False
+gjr_garch_t,oracle_P5_d0.75,oracle,P5,0.75,BH,True,1.0,True,both flag,,,
+gjr_garch_t,oracle_P5_d0.75,oracle,P5,0.75,TF,True,1.0,True,both flag,-0.0013676888658140322,0.9,False
+gjr_garch_t,oracle_P5_d0.75,oracle,P5,0.75,TVF,True,1.0,True,both flag,-0.0002475182113770511,0.8,False
+gjr_garch_t,oracle_P5_d0.75,oracle,P5,0.75,VT,True,1.0,True,both flag,0.0013191004755890583,0.9,False
+gjr_garch_t,oracle_P5_d1,oracle,P5,1.0,BH,True,1.0,True,both flag,,,
+gjr_garch_t,oracle_P5_d1,oracle,P5,1.0,TF,True,1.0,True,both flag,-0.0013676888658140322,0.9,False
+gjr_garch_t,oracle_P5_d1,oracle,P5,1.0,TVF,True,1.0,True,both flag,-0.0002475182113770511,0.8,False
+gjr_garch_t,oracle_P5_d1,oracle,P5,1.0,VT,True,1.0,True,both flag,0.0031883313665380915,0.8,False
+gjr_garch_t,oracle_P6_d0.25,oracle,P6,0.25,BH,True,0.12,False,L2 only (hidden defect),,,
+gjr_garch_t,oracle_P6_d0.25,oracle,P6,0.25,TF,True,0.12,False,L2 only (hidden defect),-0.0013676888658140322,0.9,False
+gjr_garch_t,oracle_P6_d0.25,oracle,P6,0.25,TVF,True,0.12,False,L2 only (hidden defect),-0.0008473696961429838,0.9,False
+gjr_garch_t,oracle_P6_d0.25,oracle,P6,0.25,VT,True,0.12,False,L2 only (hidden defect),0.0,1.0,False
+gjr_garch_t,oracle_P6_d0.5,oracle,P6,0.5,BH,True,0.64,True,both flag,,,
+gjr_garch_t,oracle_P6_d0.5,oracle,P6,0.5,TF,True,0.64,True,both flag,-0.0013676888658140322,0.9,False
+gjr_garch_t,oracle_P6_d0.5,oracle,P6,0.5,TVF,True,0.64,True,both flag,-0.0002475182113770511,0.8,False
+gjr_garch_t,oracle_P6_d0.5,oracle,P6,0.5,VT,True,0.64,True,both flag,0.0,1.0,False
+gjr_garch_t,oracle_P6_d0.75,oracle,P6,0.75,BH,True,0.98,True,both flag,,,
+gjr_garch_t,oracle_P6_d0.75,oracle,P6,0.75,TF,True,0.98,True,both flag,-0.0013676888658140322,0.9,False
+gjr_garch_t,oracle_P6_d0.75,oracle,P6,0.75,TVF,True,0.98,True,both flag,-0.0002475182113770511,0.8,False
+gjr_garch_t,oracle_P6_d0.75,oracle,P6,0.75,VT,True,0.98,True,both flag,0.0,1.0,False
+gjr_garch_t,oracle_P6_d1,oracle,P6,1.0,BH,True,1.0,True,both flag,,,
+gjr_garch_t,oracle_P6_d1,oracle,P6,1.0,TF,True,1.0,True,both flag,-0.0013676888658140322,0.9,False
+gjr_garch_t,oracle_P6_d1,oracle,P6,1.0,TVF,True,1.0,True,both flag,-0.0002475182113770511,0.8,False
+gjr_garch_t,oracle_P6_d1,oracle,P6,1.0,VT,True,1.0,True,both flag,0.0,1.0,False
+heston,oracle_P1_d0.25,oracle,P1,0.25,BH,False,1.0,True,L1 only (irrelevant defect),,,
+heston,oracle_P1_d0.25,oracle,P1,0.25,TF,True,1.0,True,both flag,0.0,1.0,False
+heston,oracle_P1_d0.25,oracle,P1,0.25,TVF,True,1.0,True,both flag,0.0028494336069214707,0.6,False
+heston,oracle_P1_d0.25,oracle,P1,0.25,VT,True,1.0,True,both flag,0.0,1.0,False
+heston,oracle_P1_d0.5,oracle,P1,0.5,BH,False,1.0,True,L1 only (irrelevant defect),,,
+heston,oracle_P1_d0.5,oracle,P1,0.5,TF,True,1.0,True,both flag,0.0,1.0,False
+heston,oracle_P1_d0.5,oracle,P1,0.5,TVF,True,1.0,True,both flag,0.0060391097192901404,0.6,False
+heston,oracle_P1_d0.5,oracle,P1,0.5,VT,True,1.0,True,both flag,0.001941970667531406,0.8,False
+heston,oracle_P1_d0.75,oracle,P1,0.75,BH,False,1.0,True,L1 only (irrelevant defect),,,
+heston,oracle_P1_d0.75,oracle,P1,0.75,TF,True,1.0,True,both flag,0.0058415071396670255,0.8,False
+heston,oracle_P1_d0.75,oracle,P1,0.75,TVF,True,1.0,True,both flag,0.011397768175697865,0.3,False
+heston,oracle_P1_d0.75,oracle,P1,0.75,VT,True,1.0,True,both flag,0.001941970667531406,0.8,False
+heston,oracle_P1_d1,oracle,P1,1.0,BH,False,1.0,True,L1 only (irrelevant defect),,,
+heston,oracle_P1_d1,oracle,P1,1.0,TF,True,1.0,True,both flag,0.0029766872886434017,0.9,False
+heston,oracle_P1_d1,oracle,P1,1.0,TVF,True,1.0,True,both flag,0.012501043003657583,0.3,False
+heston,oracle_P1_d1,oracle,P1,1.0,VT,True,1.0,True,both flag,0.008217191402436656,0.6,False
+heston,oracle_P3_d0.25,oracle,P3,0.25,BH,True,1.0,True,both flag,,,
+heston,oracle_P3_d0.25,oracle,P3,0.25,TF,True,1.0,True,both flag,0.0,1.0,False
+heston,oracle_P3_d0.25,oracle,P3,0.25,TVF,True,1.0,True,both flag,0.000737602950246181,0.8,False
+heston,oracle_P3_d0.25,oracle,P3,0.25,VT,True,1.0,True,both flag,0.0003682048221866917,0.9,False
+heston,oracle_P3_d0.5,oracle,P3,0.5,BH,True,1.0,True,both flag,,,
+heston,oracle_P3_d0.5,oracle,P3,0.5,TF,True,1.0,True,both flag,0.0,1.0,False
+heston,oracle_P3_d0.5,oracle,P3,0.5,TVF,True,1.0,True,both flag,0.002589559186681103,0.6,False
+heston,oracle_P3_d0.5,oracle,P3,0.5,VT,True,1.0,True,both flag,0.001941970667531406,0.8,False
+heston,oracle_P3_d0.75,oracle,P3,0.75,BH,True,1.0,True,both flag,,,
+heston,oracle_P3_d0.75,oracle,P3,0.75,TF,True,1.0,True,both flag,0.0,1.0,False
+heston,oracle_P3_d0.75,oracle,P3,0.75,TVF,True,1.0,True,both flag,0.001996841548266483,0.6,False
+heston,oracle_P3_d0.75,oracle,P3,0.75,VT,True,1.0,True,both flag,0.006874405067887147,0.6,False
+heston,oracle_P3_d1,oracle,P3,1.0,BH,True,1.0,True,both flag,,,
+heston,oracle_P3_d1,oracle,P3,1.0,TF,True,1.0,True,both flag,0.00896296468075681,0.7,False
+heston,oracle_P3_d1,oracle,P3,1.0,TVF,True,1.0,True,both flag,0.012181710029257012,0.4,True
+heston,oracle_P3_d1,oracle,P3,1.0,VT,True,1.0,True,both flag,0.01420258095054525,0.5,False
+heston,oracle_P4_d0.25,oracle,P4,0.25,BH,True,1.0,True,both flag,,,
+heston,oracle_P4_d0.25,oracle,P4,0.25,TF,False,1.0,True,L1 only (irrelevant defect),0.0,1.0,False
+heston,oracle_P4_d0.25,oracle,P4,0.25,TVF,True,1.0,True,both flag,0.0004755174751420543,0.8,False
+heston,oracle_P4_d0.25,oracle,P4,0.25,VT,False,1.0,True,L1 only (irrelevant defect),0.00014425455250689588,0.8,False
+heston,oracle_P4_d0.5,oracle,P4,0.5,BH,False,1.0,True,L1 only (irrelevant defect),,,
+heston,oracle_P4_d0.5,oracle,P4,0.5,TF,True,1.0,True,both flag,0.0,1.0,False
+heston,oracle_P4_d0.5,oracle,P4,0.5,TVF,True,1.0,True,both flag,0.0034920715315843592,0.9,False
+heston,oracle_P4_d0.5,oracle,P4,0.5,VT,True,1.0,True,both flag,0.00014425455250689588,0.8,False
+heston,oracle_P4_d0.75,oracle,P4,0.75,BH,False,1.0,True,L1 only (irrelevant defect),,,
+heston,oracle_P4_d0.75,oracle,P4,0.75,TF,True,1.0,True,both flag,0.0,1.0,False
+heston,oracle_P4_d0.75,oracle,P4,0.75,TVF,True,1.0,True,both flag,0.0034920715315843592,0.9,False
+heston,oracle_P4_d0.75,oracle,P4,0.75,VT,True,1.0,True,both flag,0.00014425455250689588,0.8,False
+heston,oracle_P4_d1,oracle,P4,1.0,BH,True,1.0,True,both flag,,,
+heston,oracle_P4_d1,oracle,P4,1.0,TF,True,1.0,True,both flag,0.0,1.0,False
+heston,oracle_P4_d1,oracle,P4,1.0,TVF,True,1.0,True,both flag,0.0034920715315843592,0.9,False
+heston,oracle_P4_d1,oracle,P4,1.0,VT,True,1.0,True,both flag,7.088801510858316e-05,0.9,False
+heston,oracle_P5_d0.25,oracle,P5,0.25,BH,True,1.0,True,both flag,,,
+heston,oracle_P5_d0.25,oracle,P5,0.25,TF,True,1.0,True,both flag,0.0,1.0,False
+heston,oracle_P5_d0.25,oracle,P5,0.25,TVF,True,1.0,True,both flag,3.492333246272963e-05,0.9,False
+heston,oracle_P5_d0.25,oracle,P5,0.25,VT,True,1.0,True,both flag,0.0,1.0,False
+heston,oracle_P5_d0.5,oracle,P5,0.5,BH,True,1.0,True,both flag,,,
+heston,oracle_P5_d0.5,oracle,P5,0.5,TF,True,1.0,True,both flag,0.0,1.0,False
+heston,oracle_P5_d0.5,oracle,P5,0.5,TVF,True,1.0,True,both flag,0.0035269948640470885,0.8,False
+heston,oracle_P5_d0.5,oracle,P5,0.5,VT,True,1.0,True,both flag,0.0003682048221866917,0.9,False
+heston,oracle_P5_d0.75,oracle,P5,0.75,BH,True,1.0,True,both flag,,,
+heston,oracle_P5_d0.75,oracle,P5,0.75,TF,True,1.0,True,both flag,0.0,1.0,False
+heston,oracle_P5_d0.75,oracle,P5,0.75,TVF,True,1.0,True,both flag,0.0035269948640470885,0.8,False
+heston,oracle_P5_d0.75,oracle,P5,0.75,VT,True,1.0,True,both flag,0.001941970667531406,0.8,False
+heston,oracle_P5_d1,oracle,P5,1.0,BH,True,1.0,True,both flag,,,
+heston,oracle_P5_d1,oracle,P5,1.0,TF,True,1.0,True,both flag,0.0,1.0,False
+heston,oracle_P5_d1,oracle,P5,1.0,TVF,True,1.0,True,both flag,0.0035269948640470885,0.8,False
+heston,oracle_P5_d1,oracle,P5,1.0,VT,True,1.0,True,both flag,0.001941970667531406,0.8,False
+heston,oracle_P6_d0.25,oracle,P6,0.25,BH,True,0.1,False,L2 only (hidden defect),,,
+heston,oracle_P6_d0.25,oracle,P6,0.25,TF,True,0.1,False,L2 only (hidden defect),0.0,1.0,False
+heston,oracle_P6_d0.25,oracle,P6,0.25,TVF,True,0.1,False,L2 only (hidden defect),0.0006633146813161668,0.8,False
+heston,oracle_P6_d0.25,oracle,P6,0.25,VT,True,0.1,False,L2 only (hidden defect),7.33665373983127e-05,0.9,False
+heston,oracle_P6_d0.5,oracle,P6,0.5,BH,True,0.48,False,L2 only (hidden defect),,,
+heston,oracle_P6_d0.5,oracle,P6,0.5,TF,True,0.48,False,L2 only (hidden defect),0.0,1.0,False
+heston,oracle_P6_d0.5,oracle,P6,0.5,TVF,True,0.48,False,L2 only (hidden defect),0.0006633146813161668,0.8,False
+heston,oracle_P6_d0.5,oracle,P6,0.5,VT,True,0.48,False,L2 only (hidden defect),0.00012999820766172165,0.7,False
+heston,oracle_P6_d0.75,oracle,P6,0.75,BH,True,0.94,True,both flag,,,
+heston,oracle_P6_d0.75,oracle,P6,0.75,TF,True,0.94,True,both flag,0.0,1.0,False
+heston,oracle_P6_d0.75,oracle,P6,0.75,TVF,True,0.94,True,both flag,0.0006633146813161668,0.8,False
+heston,oracle_P6_d0.75,oracle,P6,0.75,VT,True,0.94,True,both flag,0.00012999820766172165,0.7,False
+heston,oracle_P6_d1,oracle,P6,1.0,BH,True,1.0,True,both flag,,,
+heston,oracle_P6_d1,oracle,P6,1.0,TF,True,1.0,True,both flag,0.0,1.0,False
+heston,oracle_P6_d1,oracle,P6,1.0,TVF,True,1.0,True,both flag,0.0006633146813161668,0.8,False
+heston,oracle_P6_d1,oracle,P6,1.0,VT,True,1.0,True,both flag,0.00012999820766172165,0.7,False
+regime,oracle_P1_d0.25,oracle,P1,0.25,BH,False,1.0,True,L1 only (irrelevant defect),,,
+regime,oracle_P1_d0.25,oracle,P1,0.25,TF,False,1.0,True,L1 only (irrelevant defect),0.0,1.0,False
+regime,oracle_P1_d0.25,oracle,P1,0.25,TVF,False,1.0,True,L1 only (irrelevant defect),0.0006780591828728381,0.9,False
+regime,oracle_P1_d0.25,oracle,P1,0.25,VT,True,1.0,True,both flag,0.00632934157302385,0.1,False
+regime,oracle_P1_d0.5,oracle,P1,0.5,BH,False,1.0,True,L1 only (irrelevant defect),,,
+regime,oracle_P1_d0.5,oracle,P1,0.5,TF,False,1.0,True,L1 only (irrelevant defect),0.00015626365564909745,0.8,False
+regime,oracle_P1_d0.5,oracle,P1,0.5,TVF,True,1.0,True,both flag,0.005218201536300024,0.7,False
+regime,oracle_P1_d0.5,oracle,P1,0.5,VT,True,1.0,True,both flag,0.024809663261356096,0.0,False
+regime,oracle_P1_d0.75,oracle,P1,0.75,BH,False,1.0,True,L1 only (irrelevant defect),,,
+regime,oracle_P1_d0.75,oracle,P1,0.75,TF,False,1.0,True,L1 only (irrelevant defect),0.00015626365564909745,0.8,False
+regime,oracle_P1_d0.75,oracle,P1,0.75,TVF,True,1.0,True,both flag,0.013243972566708681,0.4,True
+regime,oracle_P1_d0.75,oracle,P1,0.75,VT,True,1.0,True,both flag,0.025259323868947737,0.0,False
+regime,oracle_P1_d1,oracle,P1,1.0,BH,False,1.0,True,L1 only (irrelevant defect),,,
+regime,oracle_P1_d1,oracle,P1,1.0,TF,False,1.0,True,L1 only (irrelevant defect),0.00015626365564909745,0.8,False
+regime,oracle_P1_d1,oracle,P1,1.0,TVF,True,1.0,True,both flag,0.012713907811486087,0.5,False
+regime,oracle_P1_d1,oracle,P1,1.0,VT,True,1.0,True,both flag,0.025259323868947737,0.0,False
+regime,oracle_P4_d0.25,oracle,P4,0.25,BH,True,1.0,True,both flag,,,
+regime,oracle_P4_d0.25,oracle,P4,0.25,TF,True,1.0,True,both flag,0.0,1.0,False
+regime,oracle_P4_d0.25,oracle,P4,0.25,TVF,True,1.0,True,both flag,-0.000284652609099812,0.8,False
+regime,oracle_P4_d0.25,oracle,P4,0.25,VT,True,1.0,True,both flag,0.0,1.0,False
+regime,oracle_P4_d0.5,oracle,P4,0.5,BH,True,1.0,True,both flag,,,
+regime,oracle_P4_d0.5,oracle,P4,0.5,TF,True,1.0,True,both flag,0.0001491219189448906,0.9,False
+regime,oracle_P4_d0.5,oracle,P4,0.5,TVF,True,1.0,True,both flag,0.0005020682090236296,0.7,False
+regime,oracle_P4_d0.5,oracle,P4,0.5,VT,True,1.0,True,both flag,0.0,1.0,False
+regime,oracle_P4_d0.75,oracle,P4,0.75,BH,True,1.0,True,both flag,,,
+regime,oracle_P4_d0.75,oracle,P4,0.75,TF,True,1.0,True,both flag,0.00015626365564909745,0.8,False
+regime,oracle_P4_d0.75,oracle,P4,0.75,TVF,True,1.0,True,both flag,0.0005020682090236296,0.7,False
+regime,oracle_P4_d0.75,oracle,P4,0.75,VT,True,1.0,True,both flag,0.0,1.0,False
+regime,oracle_P4_d1,oracle,P4,1.0,BH,True,1.0,True,both flag,,,
+regime,oracle_P4_d1,oracle,P4,1.0,TF,True,1.0,True,both flag,0.006939579262690831,0.6,False
+regime,oracle_P4_d1,oracle,P4,1.0,TVF,True,1.0,True,both flag,0.011902793182458089,0.3,False
+regime,oracle_P4_d1,oracle,P4,1.0,VT,True,1.0,True,both flag,0.02695483597234117,0.0,False
+regime,oracle_P5_d0.25,oracle,P5,0.25,BH,True,1.0,True,both flag,,,
+regime,oracle_P5_d0.25,oracle,P5,0.25,TF,True,1.0,True,both flag,0.00036693207646221605,0.8,False
+regime,oracle_P5_d0.25,oracle,P5,0.25,TVF,True,1.0,True,both flag,0.0016443023348034808,0.6,False
+regime,oracle_P5_d0.25,oracle,P5,0.25,VT,False,1.0,True,L1 only (irrelevant defect),0.0,1.0,False
+regime,oracle_P5_d0.5,oracle,P5,0.5,BH,True,1.0,True,both flag,,,
+regime,oracle_P5_d0.5,oracle,P5,0.5,TF,True,1.0,True,both flag,0.0005231957321113135,0.6,False
+regime,oracle_P5_d0.5,oracle,P5,0.5,TVF,True,1.0,True,both flag,0.0017757484746532093,0.6,False
+regime,oracle_P5_d0.5,oracle,P5,0.5,VT,True,1.0,True,both flag,0.0019055796241653892,0.5,False
+regime,oracle_P5_d0.75,oracle,P5,0.75,BH,True,1.0,True,both flag,,,
+regime,oracle_P5_d0.75,oracle,P5,0.75,TF,True,1.0,True,both flag,0.0008148884974329909,0.7,False
+regime,oracle_P5_d0.75,oracle,P5,0.75,TVF,True,1.0,True,both flag,0.002413315912157335,0.5,False
+regime,oracle_P5_d0.75,oracle,P5,0.75,VT,True,1.0,True,both flag,0.0019055796241653892,0.5,False
+regime,oracle_P5_d1,oracle,P5,1.0,BH,True,1.0,True,both flag,,,
+regime,oracle_P5_d1,oracle,P5,1.0,TF,True,1.0,True,both flag,0.0008148884974329909,0.7,False
+regime,oracle_P5_d1,oracle,P5,1.0,TVF,True,1.0,True,both flag,0.0023187496033994564,0.7,False
+regime,oracle_P5_d1,oracle,P5,1.0,VT,True,1.0,True,both flag,0.009803731931635069,0.0,False
+regime,oracle_P6_d0.25,oracle,P6,0.25,BH,True,0.36,False,L2 only (hidden defect),,,
+regime,oracle_P6_d0.25,oracle,P6,0.25,TF,True,0.36,False,L2 only (hidden defect),0.0001491219189448906,0.9,False
+regime,oracle_P6_d0.25,oracle,P6,0.25,TVF,True,0.36,False,L2 only (hidden defect),-0.0003067329757022488,0.9,False
+regime,oracle_P6_d0.25,oracle,P6,0.25,VT,True,0.36,False,L2 only (hidden defect),0.0,1.0,False
+regime,oracle_P6_d0.5,oracle,P6,0.5,BH,True,0.66,True,both flag,,,
+regime,oracle_P6_d0.5,oracle,P6,0.5,TF,True,0.66,True,both flag,0.0001491219189448906,0.9,False
+regime,oracle_P6_d0.5,oracle,P6,0.5,TVF,True,0.66,True,both flag,-0.0003067329757022488,0.9,False
+regime,oracle_P6_d0.5,oracle,P6,0.5,VT,True,0.66,True,both flag,0.0,1.0,False
+regime,oracle_P6_d0.75,oracle,P6,0.75,BH,True,0.96,True,both flag,,,
+regime,oracle_P6_d0.75,oracle,P6,0.75,TF,True,0.96,True,both flag,0.0029093937143380953,0.8,False
+regime,oracle_P6_d0.75,oracle,P6,0.75,TVF,True,0.96,True,both flag,0.00415533089251679,0.9,False
+regime,oracle_P6_d0.75,oracle,P6,0.75,VT,True,0.96,True,both flag,0.0,1.0,False
+regime,oracle_P6_d1,oracle,P6,1.0,BH,True,1.0,True,both flag,,,
+regime,oracle_P6_d1,oracle,P6,1.0,TF,True,1.0,True,both flag,0.0029093937143380953,0.8,False
+regime,oracle_P6_d1,oracle,P6,1.0,TVF,True,1.0,True,both flag,0.00415533089251679,0.9,False
+regime,oracle_P6_d1,oracle,P6,1.0,VT,True,1.0,True,both flag,0.0,1.0,False

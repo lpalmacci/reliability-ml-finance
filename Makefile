@@ -19,6 +19,7 @@ meta:
 	$(PY) tavp.experiments.e1_null --config $(CFG)
 	$(PY) tavp.experiments.e2_defects --config $(CFG)
 	$(PY) tavp.experiments.e6_calibration --config $(CFG) --part meta
+	$(PY) tavp.experiments.l4_size --config $(CFG)
 
 case:
 	$(PY) tavp.experiments.e4_case --config $(CFG)

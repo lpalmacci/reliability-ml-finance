@@ -72,8 +72,12 @@ def verdicts(l1: pd.DataFrame | None, l2: pd.DataFrame, l3: pd.DataFrame | None,
     return v
 
 
-def dissociation(l1: pd.DataFrame, l2: pd.DataFrame, pr_min: float, l1_threshold: float = 0.5) -> pd.DataFrame:
-    """E3: classify each (setting, strategy) by the L1 flag and the L2 verdict of that strategy."""
+def dissociation(l1: pd.DataFrame, l2: pd.DataFrame, pr_min: float, l1_threshold: float = 0.5,
+                 l3: pd.DataFrame | None = None) -> pd.DataFrame:
+    """E3: classify each (setting, strategy) by the L1 flag and the L2 verdict of that strategy.
+
+    With `l3`, the L3 verdict of the strategy is added (missing for rules without parameters).
+    """
     keys = [k for k in KEYS if k in l2.columns]
     cells = l2_cells(l2, pr_min)
     strat = cells.groupby(keys + ["strategy"], dropna=False).agg(l2_fail=("pass", lambda x: bool((~x).any()))).reset_index()
@@ -84,6 +88,10 @@ def dissociation(l1: pd.DataFrame, l2: pd.DataFrame, pr_min: float, l1_threshold
     out["category"] = np.select(
         [out.l1_flag & out.l2_fail, out.l1_flag & ~out.l2_fail, ~out.l1_flag & out.l2_fail],
         ["both flag", "L1 only (irrelevant defect)", "L2 only (hidden defect)"], "both pass")
+    if l3 is not None and len(l3):
+        s3 = l3_strategies(l3, pr_min)[keys + ["strategy", "pass", "regret", "same_choice"]]
+        s3 = s3.assign(l3_fail=~s3["pass"]).drop(columns="pass")
+        out = out.merge(s3, on=keys + ["strategy"], how="left")
     return out
 
 

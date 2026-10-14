@@ -4,10 +4,21 @@ extends: preregistration.yaml
 runtime:
   jobs: 5
   torch_threads: 2
-# D1 (2026-10-13): pre-registered L0.4 contingency. At N = 40,000 the negative control showed
-# that several L2 cells were not resolvable (half-width > eta / 2); N is raised to the
-# pre-registered maximum of 100,000 for L2 and for the meta-validation. L3 keeps N = 40,000.
 protocol:
+  # D1 (2026-10-13): pre-registered L0.4 contingency. At N = 40,000 the negative control showed
+  # that several L2 cells were not resolvable (half-width > eta / 2); N is raised to the
+  # pre-registered maximum of 100,000 for L2 and for the meta-validation. L3 keeps N = 40,000.
   L2: {N: 100000}
+  # D3 (2026-10-14): the L1 null of B = 100 pairs cannot reach the Holm threshold of the first
+  # step: the smallest empirical p-value is 1/(B+1) = 0.0099 > 0.05/13 = 0.0038, so L1 could
+  # never flag. B is raised so that (B+1) * 0.05/13 >= 10 null exceedances. The first 100
+  # pairs are the pre-registered null; results under it are reported as well.
+  L1: {b_null: 3000, b_null_prereg: 100}
+  # D4 (2026-10-14): in mode S the PITs of consecutive origins of one history are dependent
+  # even under the true law (volatility persistence). The joint Berkowitz test, which also
+  # tests their independence, rejected the oracle in the negative control of L4 (E6), and its
+  # size under the serial correlation observed there (about 0.3) is close to 1. It is replaced
+  # by the raw-moment test with a long-run covariance (Knuppel, 2015). All variants are reported.
+  L4: {density_test: moments_hac}
 meta_validation:
-  N: 100000
+  N: 100000   # D1

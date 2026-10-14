@@ -58,9 +58,17 @@ def make_generator(cfg: dict, dgp_key: str, spec: dict):
     return _generator(cfg["_config_path"], dgp_key, json.dumps(spec, sort_keys=True))
 
 
-def load_l1_null(cfg: dict) -> dict:
-    df = pd.read_parquet(common.results_root(cfg) / "e1" / "l1_null.parquet")
-    return {d: {c: g[c].to_numpy() for c in g.columns if c not in ("dgp", "b")} for d, g in df.groupby("dgp")}
+def science_key(cfg: dict) -> dict:
+    """Scientific settings that determine the stored result of a task.
+
+    Excluded: the size of the L1 null (tasks store the discrepancies, and the final p-values
+    are recomputed against the null by tavp.experiments.l1_null) and the settings of L4,
+    which tasks do not use.
+    """
+    science = {k: v for k, v in cfg.items() if k != "runtime" and not k.startswith("_")}
+    protocol = {k: v for k, v in science["protocol"].items() if k != "L4"}
+    protocol["L1"] = {k: v for k, v in protocol["L1"].items() if k not in ("b_null", "b_null_prereg")}
+    return {**science, "protocol": protocol}
 
 
 def l1_null_task(cfg: dict, dgp_key: str, b: int) -> dict:
@@ -132,8 +140,7 @@ def cached_task(cfg: dict, experiment: str, dgp_key: str, spec: dict, k: int, nu
     Results are stored per task under results/<experiment>/tasks/, so an interrupted
     experiment resumes where it stopped and produces exactly the same output.
     """
-    science = {k_: v for k_, v in cfg.items() if k_ != "runtime" and not k_.startswith("_")}
-    key = stable_hash({"cfg": science, "experiment": experiment, "dgp": dgp_key, "spec": spec, "k": k,
+    key = stable_hash({"cfg": science_key(cfg), "experiment": experiment, "dgp": dgp_key, "spec": spec, "k": k,
                        "parts": list(parts)})
     path = common.results_root(cfg) / experiment / "tasks" / dgp_key / f"{label(spec)}__k{k}__{key}.pkl"
     if path.exists():
@@ -150,7 +157,10 @@ def cached_task(cfg: dict, experiment: str, dgp_key: str, spec: dict, k: int, nu
 
 def run(cfg: dict, experiment: str, settings: list[tuple[str, dict]], jobs: int,
         parts: tuple[str, ...] = ("L1", "L2", "L3")) -> dict:
-    null = load_l1_null(cfg) if "L1" in parts else None
+    from tavp.experiments import l1_null
+
+    null_df = l1_null.load(cfg) if "L1" in parts else None
+    null = l1_null.as_dict(null_df) if null_df is not None else None
     K = max(cfg["protocol"]["L2"]["K"], cfg["protocol"]["L3"]["K"] if "L3" in parts else 0)
     tasks = [(d, s, k) for d, s in settings for k in range(K)]
     results = Parallel(n_jobs=jobs, verbose=5, max_nbytes=None)(
@@ -160,5 +170,7 @@ def run(cfg: dict, experiment: str, settings: list[tuple[str, dict]], jobs: int,
         rows = [r for res in results for r in res[level]]
         if rows:
             tables[level] = pd.DataFrame(rows)
+            if level == "l1":
+                tables[level] = l1_null.pvalues(tables[level], null_df, cfg)
             common.save_table(tables[level], experiment, level, cfg)
     return tables

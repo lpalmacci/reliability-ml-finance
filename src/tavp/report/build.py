@@ -72,8 +72,17 @@ def build_e1(root: Path, out: Path, num: Numbers, pr_min: float) -> None:
     num.pct("e1.l1.raw.mean", st.flag_raw.mean(), 1)
     num.pct("e1.l1.raw.max", st.flag_raw.max())
     num.add("e1.l1.raw.over9", int((st.flag_raw > 0.09).sum()))
+    from scipy import stats as sps
+    n_cmp = int(l1.groupby(["dgp", "statistic"]).size().iloc[0])
+    p_over = float(sps.binom.sf(np.floor(0.09 * n_cmp), n_cmp, 0.05))
+    num.add("e1.l1.raw.over9.expected", float(len(st) * p_over), "{:.1f}")
+    num.add("e1.l1.comparisons", n_cmp)
     num.add("e1.l1.cells", int(len(st)))
     num.pct("e1.l1.family.max", r1[r1.statistic == "any"].flag_holm.max())
+    if "flag_holm_prereg" in l1:
+        fam0 = l1.groupby(["dgp", "k"]).flag_holm_prereg.any().groupby("dgp").mean()
+        num.pct("e1.l1.family.prereg.max", fam0.max())
+        num.add("e1.l1.minp.prereg", f"{l1.p_prereg.min():.4f}")
     num.add("e1.l2.cells.pass", f"{int(cells['pass'].sum())} of {len(cells)}")
     num.add("e1.l2.minpr", float(cells.pr.min()))
     num.pct("e1.l2.resolvable", cells.resolvable.mean())
@@ -108,9 +117,10 @@ def detection_curves(e1: dict, e2: dict, pr_min: float) -> pd.DataFrame:
                                     & (df.delta == delta)]
                 a1, a2, a3 = sel(l1), sel(l2), sel(l3)
                 p1 = a1.groupby("k").flag_holm.any().mean()
+                p1_0 = a1.groupby("k").flag_holm_prereg.any().mean() if "flag_holm_prereg" in a1 else np.nan
                 c = a2.groupby(["strategy", "metric", "functional"]).equivalent.mean()
                 p3 = a3.groupby("strategy")["pass"].mean()
-                out.append({"defect": defect, "dgp": d, "delta": delta, "L1": p1, "L2": 1 - c.min(),
+                out.append({"defect": defect, "dgp": d, "delta": delta, "L1": p1, "L1_prereg": p1_0, "L2": 1 - c.min(),
                             "L3": 1 - p3.min(), "l2_failed": int((c < pr_min).sum()), "l2_cells": len(c),
                             "l2_failed_strategies": ",".join(sorted({k[0] for k, v in c.items() if v < pr_min})),
                             "l3_failed": ",".join(sorted(p3[p3 < pr_min].index))})
@@ -124,7 +134,6 @@ def power_figure(curves: pd.DataFrame, path: Path, pr_min: float) -> None:
 
     defects = [d for d in DEFECT_LABEL if d in set(curves.defect)]
     fig, axes = plt.subplots(len(defects), 4, figsize=(7.2, 1.35 * len(defects) + 0.6), sharex=True, sharey=True)
-    first = True
     for i, defect in enumerate(defects):
         for j, d in enumerate(DGP_ORDER):
             ax = axes[i, j]
@@ -147,11 +156,6 @@ def power_figure(curves: pd.DataFrame, path: Path, pr_min: float) -> None:
             for lev, mk in (("L1", "o"), ("L2", "s"), ("L3", "^")):
                 ax.plot(c.delta, c[lev], color=COLORS[lev], linewidth=1.4, marker=mk, markersize=3.2,
                         markeredgecolor="white", markeredgewidth=0.6, label=lev, clip_on=False)
-            if first:
-                for lev in ("L1", "L2", "L3"):
-                    ax.annotate(lev, (1.0, float(c[lev].iloc[-1])), xytext=(4, 0), textcoords="offset points",
-                                fontsize=6, color=INK, va="center")
-                first = False
             ax.set_ylim(-0.03, 1.03)
             ax.set_xticks([0, 0.5, 1])
             ax.set_yticks([0, 0.5, 1])
@@ -180,39 +184,123 @@ def build_e2(root: Path, out: Path, num: Numbers, pr_min: float) -> None:
     curves = detection_curves(e1, e2, pr_min)
     curves.to_csv(out / "tables" / "e2_detection_curves.csv", index=False)
     power_figure(curves, out / "figures" / "fig_power.pdf", pr_min)
-    # detection matrix at delta = 1 with the most flagged L1 statistics
+    # detection matrix: smallest severity at which each level detects the defect
     r1 = S.l1_rates(e2["l1"])
+    l1_power_min = 0.8
+
+    def first(c, col, thr):
+        hit = c[(c.delta > 0) & (c[col] > thr)].delta
+        return f"{hit.min():g}" if len(hit) else "--"
+
     lines = []
     for defect in DEFECT_LABEL:
         for d in DGP_ORDER:
-            c = curves[(curves.defect == defect) & (curves.dgp == d) & (curves.delta == 1.0)]
+            c = curves[(curves.defect == defect) & (curves.dgp == d)]
             if c.empty:
                 continue
-            c = c.iloc[0]
+            c1 = c[c.delta == 1.0].iloc[0]
             st = r1[(r1.defect == defect) & (r1.dgp == d) & (r1.delta == 1.0) & (r1.statistic != "any")]
             top = st[st.flag_holm >= 0.5].sort_values("flag_holm", ascending=False).statistic.tolist()
-            top_s = ", ".join(STAT_LABEL[s] for s in top[:3]) + (" \\dots" if len(top) > 3 else "") or "none"
-            l2s = f"{c.l2_failed}/{c.l2_cells}" + (f" ({c.l2_failed_strategies.replace(',', ', ')})" if c.l2_failed else "")
-            lines.append(f"{DEFECT_LABEL[defect]} & {DGP_LABEL[d]} & {c.L1:.2f} & {top_s} & {l2s} & "
-                         f"{c.l3_failed.replace(',', ', ') or 'none'} \\\\")
+            top_s = ", ".join(STAT_LABEL[x] for x in top[:3]) + (" \\dots" if len(top) > 3 else "") or "none"
+            l2s = f"{c1.l2_failed}/{c1.l2_cells}" + (f" ({c1.l2_failed_strategies.replace(',', ', ')})" if c1.l2_failed else "")
+            d1, d2, d3 = first(c, "L1", l1_power_min - 1e-12), first(c, "L2", 1 - pr_min), first(c, "L3", 1 - pr_min)
+            lines.append(f"{DEFECT_LABEL[defect]} & {DGP_LABEL[d]} & {d1} & {top_s} & {d2} & {l2s} & {d3} \\\\")
             key = f"e2.{defect}.{d}"
-            num.add(key + ".l1", float(c.L1))
-            num.add(key + ".l2failed", int(c.l2_failed))
-    _write(out / "tables" / "tab_e2_detection.tex", r"""\begin{tabular}{llrp{4.2cm}p{3.2cm}p{1.6cm}}
+            num.add(key + ".l1", float(c1.L1))
+            num.add(key + ".l2failed", int(c1.l2_failed))
+            num.add(key + ".first.l1", d1.replace("--", "none"))
+            num.add(key + ".first.l2", d2.replace("--", "none"))
+            num.add(key + ".first.l3", d3.replace("--", "none"))
+            for r in c[c.delta > 0].itertuples():
+                num.add(f"{key}.{r.delta:g}.l1", float(r.L1))
+                num.add(f"{key}.{r.delta:g}.l2", float(r.L2))
+    _write(out / "tables" / "tab_e2_detection.tex", r"""\begin{tabular}{llrp{3.6cm}rp{3.0cm}r}
 \toprule
-Defect & Process & L1 power & L1 statistics flagged & L2 failed cells & L3 failed \\
+& & \multicolumn{2}{c}{L1} & \multicolumn{2}{c}{L2} & L3 \\
+\cmidrule(lr){3-4}\cmidrule(lr){5-6}\cmidrule(lr){7-7}
+Defect & Process & $\delta^{*}$ & statistics flagged at $\delta=1$ & $\delta^{*}$ & failed cells at $\delta=1$ & $\delta^{*}$ \\
 \midrule
 """ + "\n".join(lines) + "\n" + r"""\bottomrule
 \end{tabular}
 """)
+    num.add("e2.l1.powermin", l1_power_min)
+    if "L1_prereg" in curves:
+        num.add("e2.l1.prereg.max", float(curves[curves.delta > 0].L1_prereg.max()))
+    # power of single L1 statistics and non-equivalence rates of single L2 cells
+    for r in r1[r1.statistic != "any"].itertuples():
+        num.add(f"e2.stat.{r.defect}.{r.dgp}.{r.delta:g}.{r.statistic}", float(r.flag_holm))
+    cells = S.l2_cells(e2["l2"], pr_min)
+    for r in cells.itertuples():
+        num.add(f"e2.cell.{r.defect}.{r.dgp}.{r.delta:g}.{r.strategy}.{r.metric}.{r.functional}", float(1 - r.pr))
+    st1 = r1[r1.statistic != "any"]
+    num.add("e2.stat.P1.max.marginal_w1", float(st1[(st1.defect == "P1") & (st1.statistic == "marginal_w1")].flag_holm.max()))
+    num.add("e2.stat.P6.0.25.mean.max", float(st1[(st1.defect == "P6") & (st1.delta == 0.25) & (st1.statistic == "mean")].flag_holm.max()))
+    c25 = curves[(curves.delta == 0.25)]
+    num.add("e2.P5.0.25.l1.min", float(c25[c25.defect == "P5"].L1.min()))
+    bh6 = cells[(cells.defect == "P6") & (cells.delta == 0.25) & (cells.strategy == "BH") & (cells.metric == "sharpe")
+                & (cells.functional == "mean")]
+    num.add("e2.cell.P6.0.25.BH.sharpe.mean.min", float((1 - bh6.pr).min()))
+    # P5 at delta = 1: shift of the risk functionals of VT relative to those of BH
+    risk = [("maxdd", "mean"), ("maxdd", "q95"), ("ret", "var95"), ("ret", "es95")]
+    x = e2["l2"][(e2["l2"].defect == "P5") & (e2["l2"].delta == 1.0) & e2["l2"].strategy.isin(["BH", "VT"])]
+    x = x[[(m, f) in risk for m, f in zip(x.metric, x.functional)]]
+    x = x.groupby(["dgp", "metric", "functional", "strategy"])["diff"].mean().abs().unstack("strategy")
+    ratio = x.VT / x.BH
+    num.add("e2.P5.vtbh.median", float(ratio.median()))
+    num.add("e2.P5.vtbh.min", float(ratio.min()))
+    num.add("e2.P5.vtbh.max", float(ratio.max()))
+    s3 = S.l3_strategies(e2["l3"], pr_min)
+    num.add("e2.l3.failed", int((~s3["pass"]).sum()))
+    num.add("e2.l3.total", int(len(s3)))
+    num.add("e2.l3.regret.max", float(s3.regret.max()), "{:.3f}")
+    num.add("e2.l3.samechoice.min", float(s3.same_choice.min()))
+    num.add("e2.l3.tau.min", float(s3.kendall_tau.min()))
     # E3: dissociation per (defect, process, severity > 0, strategy)
-    dis = S.dissociation(e2["l1"], e2["l2"], pr_min)
+    dis = S.dissociation(e2["l1"], e2["l2"], pr_min, l3=e2["l3"])
     dis.to_csv(out / "tables" / "e3_dissociation.csv", index=False)
     counts = dis.category.value_counts()
     for cat, key in [("both pass", "bothpass"), ("both flag", "bothflag"), ("L1 only (irrelevant defect)", "l1only"),
                      ("L2 only (hidden defect)", "l2only")]:
         num.add(f"e3.{key}", int(counts.get(cat, 0)))
     num.add("e3.total", int(len(dis)))
+    for cat, key in [("both pass", "bothpass"), ("L1 only (irrelevant defect)", "l1only"),
+                     ("L2 only (hidden defect)", "l2only")]:
+        for defect, n in dis[dis.category == cat].defect.value_counts().items():
+            num.add(f"e3.{key}.{defect}", int(n))
+    l1o = dis[(dis.category == "L1 only (irrelevant defect)") & (dis.defect == "P1")]
+    num.add("e3.l1only.P1.bh", int((l1o.strategy == "BH").sum()))
+    num.add("e3.bothpass.P1.gbm", int(((dis.category == "both pass") & (dis.defect == "P1") & (dis.dgp == "gbm")).sum()))
+    d3 = dis.dropna(subset=["l3_fail"])
+    num.add("e3.l3.total", int(len(d3)))
+    num.add("e3.l2fail", int(d3.l2_fail.sum()))
+    num.add("e3.l2fail.l3pass", int((d3.l2_fail & ~d3.l3_fail.astype(bool)).sum()))
+    num.add("e3.l2pass.l3fail", int((~d3.l2_fail & d3.l3_fail.astype(bool)).sum()))
+    num.add("e3.bothfail.l23", int((d3.l2_fail & d3.l3_fail.astype(bool)).sum()))
+    _write(out / "tables" / "tab_e3_dissociation.tex", dissociation_table(dis))
+
+
+def dissociation_table(dis: pd.DataFrame) -> str:
+    """Counts of (defect, process, severity, rule) by the L1 flag and the L2 verdict, per defect."""
+    cats = ["both pass", "L1 only (irrelevant defect)", "L2 only (hidden defect)", "both flag"]
+    lines = []
+    for defect in DEFECT_LABEL:
+        g = dis[dis.defect == defect]
+        if g.empty:
+            continue
+        n = g.category.value_counts()
+        lines.append(f"{DEFECT_LABEL[defect]} & " + " & ".join(str(int(n.get(c, 0))) for c in cats) + f" & {len(g)} \\\\")
+    n = dis.category.value_counts()
+    lines.append(r"\midrule")
+    lines.append("All & " + " & ".join(str(int(n.get(c, 0))) for c in cats) + f" & {len(dis)} \\\\")
+    return r"""\begin{tabular}{lrrrrr}
+\toprule
+& \multicolumn{2}{c}{L2 passes} & \multicolumn{2}{c}{L2 fails} & \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+Defect & L1 silent & L1 flags & L1 silent & L1 flags & total \\
+\midrule
+""" + "\n".join(lines) + "\n" + r"""\bottomrule
+\end{tabular}
+"""
 
 
 # ----------------------------------------------------------------------------- E6
@@ -220,25 +308,60 @@ def build_e6(root: Path, out: Path, num: Numbers, part: str) -> None:
     t = _read(root, f"e6_{part}", "tests")
     if t is None:
         return
-    g = t.groupby(["dgp", "generator"]).agg(rejected=("reject_any", "sum"), tests=("reject_any", "size"),
-                                             min_p_ks=("p_ks", "min"), min_p_kupiec=("p_kupiec", "min"),
+    joint = "reject_any_berkowitz_joint" if "reject_any_berkowitz_joint" in t else "reject_any"
+    g = t.groupby(["dgp", "generator"]).agg(rejected=("reject_any", "sum"), rejected_prereg=(joint, "sum"),
+                                             tests=("reject_any", "size"), min_p_ks=("p_ks", "min"),
+                                             min_p_kupiec=("p_kupiec", "min"), min_p_hac=("p_moments_hac", "min"),
                                              min_p_berk=("p_berkowitz", "min"),
-                                             min_p_berk_marg=("p_berkowitz_marginal", "min"),
                                              coverage=("coverage", "mean")).reset_index()
     g.to_csv(out / "tables" / f"e6_{part}_summary.csv", index=False)
-    lines = [f"{DGP_LABEL[r.dgp]} & {r.generator.replace('_', ' ')} & {r.rejected}/{r.tests} & {r.min_p_ks:.3f} & "
-             f"{r.min_p_kupiec:.3f} & {r.min_p_berk:.3f} & {r.min_p_berk_marg:.3f} & {r.coverage:.2f} \\\\"
-             for r in g.sort_values(["dgp", "generator"], key=lambda s: s.map(
-                 {k: i for i, k in enumerate(DGP_ORDER)}) if s.name == "dgp" else s).itertuples()]
-    _write(out / "tables" / f"tab_e6_{part}.tex", r"""\begin{tabular}{llrrrrrr}
+    order = {k: i for i, k in enumerate(DGP_ORDER)}
+    g = g.sort_values(["dgp", "generator"], key=lambda x: x.map(order) if x.name == "dgp" else x)
+    lines = [f"{DGP_LABEL[r.dgp]} & {r.generator.replace('_', ' ')} & {r.rejected}/{r.tests} & "
+             f"{r.rejected_prereg}/{r.tests} & {r.min_p_ks:.3f} & {r.min_p_kupiec:.3f} & {r.min_p_hac:.4f} & "
+             f"{r.min_p_berk:.1e} & {r.coverage:.2f} \\\\" for r in g.itertuples()]
+    _write(out / "tables" / f"tab_e6_{part}.tex", r"""\begin{tabular}{llrrrrrrr}
 \toprule
-Process & Generator & rejected & min $p$ KS & min $p$ Kupiec & min $p$ Berkowitz & min $p$ marginal & coverage \\
+& & \multicolumn{2}{c}{cells rejected} & \multicolumn{4}{c}{smallest $p$-value} & \\
+\cmidrule(lr){3-4}\cmidrule(lr){5-8}
+Process & Generator & applied & pre-reg. & KS & Kupiec & moments & Berkowitz & coverage \\
 \midrule
 """ + "\n".join(lines) + "\n" + r"""\bottomrule
 \end{tabular}
 """)
     for r in g.itertuples():
-        num.add(f"e6{part}.{r.dgp}.{r.generator}.rejected", int(r.rejected))
+        key = f"e6{part}.{r.dgp}.{r.generator}"
+        num.add(key + ".rejected", int(r.rejected))
+        num.add(key + ".rejected.prereg", int(r.rejected_prereg))
+        num.add(key + ".tests", int(r.tests))
+    if part == "meta":
+        o = g[g.generator == "oracle"]
+        num.add("e6meta.oracle.rejected", int(o.rejected.sum()))
+        num.add("e6meta.oracle.rejected.prereg", int(o.rejected_prereg.sum()))
+        num.add("e6meta.oracle.tests", int(o.tests.sum()))
+        num.add("e6meta.oracle.processes.rejected", int((o.rejected > 0).sum()))
+        num.add("e6meta.oracle.processes.rejected.prereg", int((o.rejected_prereg > 0).sum()))
+        pits = _read(root, "e6_meta", "pits")
+        if pits is not None:
+            from scipy import stats as sps
+            ar = []
+            for (d, st_, m), x in pits[pits.generator == "oracle"].groupby(["dgp", "strategy", "metric"]):
+                rho = [np.corrcoef(z[:-1], z[1:])[0, 1] for z in
+                       (sps.norm.ppf(np.clip(h.sort_values("origin").pit.to_numpy(), 1e-6, 1 - 1e-6))
+                        for _, h in x.groupby("history"))]
+                ar.append((d, st_, m, float(np.mean(rho))))
+            ar = pd.DataFrame(ar, columns=["dgp", "strategy", "metric", "ar1"])
+            ar.to_csv(out / "tables" / "e6_meta_ar1.csv", index=False)
+            top = ar.loc[ar.ar1.idxmax()]
+            num.add("e6meta.ar1.max", float(top.ar1))
+            num.add("e6meta.ar1.max.where", f"{top.strategy} {top.metric}, {DGP_LABEL[top.dgp]}")
+        size = _read(root, "e6_size", "size")
+        if size is not None:
+            for r in size.itertuples():
+                num.pct(f"e6size.h{r.histories}.phi{r.phi:g}.{r.test}", r.rejection, 1)
+        for gen in g.generator.unique():
+            x = g[g.generator == gen]
+            num.add(f"e6meta.{gen}.share", float(x.rejected.sum() / x.tests.sum()))
 
 
 # ----------------------------------------------------------------------------- main
@@ -258,14 +381,17 @@ def main():
     num.add("cfg.N.l2", int(cfg["protocol"]["L2"]["N"]))
     num.add("cfg.N.l3", int(cfg["protocol"]["L3"]["N"]))
     num.add("cfg.K", int(cfg["protocol"]["L2"]["K"]))
+    num.add("cfg.l4.histories", int(cfg["meta_validation"]["l4_histories"]))
     build_e1(root, out, num, pr_min)
-    b500 = _read(root, "e7_l1null", "l1_b500")
-    if b500 is not None:
-        rates = b500.groupby(["dgp", "statistic"]).flag_raw_b500.mean()
-        num.pct("e7.l1b500.raw.mean", rates.mean(), 1)
-        num.pct("e7.l1b500.raw.max", rates.max())
-        num.add("e7.l1b500.raw.over9", int((rates > 0.09).sum()))
-        num.pct("e7.l1b500.family", b500.groupby(["dgp", "k"]).flag_holm_b500.any().groupby("dgp").mean().max())
+    ind = _read(root, "e7_l1null", "l1_indep")
+    if ind is not None:
+        rates = ind.groupby(["dgp", "statistic"]).flag_raw_indep.mean()
+        num.pct("e7.l1indep.raw.mean", rates.mean(), 1)
+        num.pct("e7.l1indep.raw.max", rates.max())
+        num.add("e7.l1indep.raw.over9", int((rates > 0.09).sum()))
+        num.pct("e7.l1indep.family", ind.groupby(["dgp", "k"]).flag_holm_indep.any().groupby("dgp").mean().max())
+    num.add("cfg.B", int(cfg["protocol"]["L1"]["b_null"]))
+    num.add("cfg.B.prereg", int(cfg["protocol"]["L1"].get("b_null_prereg", cfg["protocol"]["L1"]["b_null"])))
     build_e2(root, out, num, pr_min)
     build_e6(root, out, num, "meta")
     build_e6(root, out, num, "case")

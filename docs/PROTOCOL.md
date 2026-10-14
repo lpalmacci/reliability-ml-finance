@@ -49,7 +49,9 @@ marginals, sliced 2-Wasserstein distance between log-price paths, and the distan
 expected signatures (level 3) of time-augmented log-price paths. The discrepancy of each
 statistic is tested against its null law, estimated from `B` pairs of independent oracle
 samples, with empirical p-values `(1 + #{null >= observed}) / (1 + B)` and the Holm
-correction. L1 does not enter the verdict: it explains failures of L2-L3 or identifies
+correction. Since an empirical p-value cannot be smaller than `1 / (B + 1)`, `B` must make
+the first Holm threshold attainable: with `m` statistics, `(B + 1) * 0.05 / m >= 10`
+(deviation D3). L1 does not enter the verdict: it explains failures of L2-L3 or identifies
 defects that are irrelevant for the use.
 
 **L2: evaluation fidelity.** For each of `K` contexts, every rule is calibrated on the
@@ -72,9 +74,13 @@ under generator and oracle is reported.
 **L4: calibration without an oracle.** At non-overlapping origins of a history, the rule
 is calibrated on the preceding `T0` returns, the generator produces the induced law of each
 metric, and the realised metric of the next `T` returns is mapped to its probability
-integral transform (PIT). Uniformity is tested with Kolmogorov-Smirnov, Berkowitz (2001)
-and Kupiec (1995) tests with the Holm correction. In mode S the test concerns marginal
-calibration. In the chapter, L4 is validated on long oracle paths treated as observed
+integral transform (PIT). Uniformity is tested with the Kolmogorov-Smirnov test, the
+Kupiec (1995) coverage test and a test that `z = Phi^{-1}(u)` has mean 0 and variance 1,
+with the Holm correction. In mode S the test concerns marginal calibration, and the PITs of
+consecutive origins can be dependent even under the true law; the test on `z` is therefore
+the raw-moment test of Knuppel (2015) with a Bartlett long-run covariance, not the
+Berkowitz (2001) likelihood-ratio test, which also tests independence (deviation D4; both
+are reported). In the chapter, L4 is validated on long oracle paths treated as observed
 histories (pseudo-real mode).
 
 ## Verdict and validation card
@@ -89,5 +95,5 @@ including the properties flagged by L1.
 See `configs/preregistration.yaml` and `docs/DEVIATIONS.md`. In short: daily data, context
 of 500 returns, scenarios of 59 returns, four rules (buy-and-hold, trend-following,
 volatility targeting, trend with volatility filter), objective
-`J = Sharpe - 0.01 turnover - MaxDD`, `N1 = 5,000`, `B = 100`, `N = 100,000` for L2 (after
-deviation D1), `K = 50`, `N = 40,000` and `K3 = 10` for L3.
+`J = Sharpe - 0.01 turnover - MaxDD`, `N1 = 5,000`, `B = 3,000` (after deviation D3),
+`N = 100,000` for L2 (after deviation D1), `K = 50`, `N = 40,000` and `K3 = 10` for L3.

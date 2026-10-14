@@ -3,7 +3,8 @@
 Re-runs level L2 for the TC-VAE (single-history regime) and the two classical benchmarks
 (first three histories each) under four variants: transaction cost of 10 basis points, two
 alternative calibration objectives, and N = 10,000 scenarios. It also recomputes the L1 flags
-of the negative control against an independent null of B = 500 pairs. The robustness to the
+of the negative control against an independent null of the same size B, to check that sharing
+one null sample across the comparisons does not distort the false-alarm rates. The robustness to the
 tolerances (x0.5, x2) is computed from stored results by tavp.report.
 """
 
@@ -38,8 +39,9 @@ def variants(cfg: dict) -> dict[str, dict]:
             "n_alt": {"protocol": {"L2": {"N": rob["N_alt"]}}}}
 
 
-def l1_null_sensitivity(cfg: dict, jobs: int, B: int = 500) -> pd.DataFrame:
+def l1_null_sensitivity(cfg: dict, jobs: int) -> pd.DataFrame:
     """Recompute the L1 flags of the negative control against an independent null of B pairs."""
+    B = cfg["protocol"]["L1"]["b_null"]
     rows = Parallel(n_jobs=jobs)(delayed(runner.l1_null_task)(cfg, d, 100_000 + b) for d in cfg["dgps"] for b in range(B))
     null = pd.DataFrame(rows)
     l1 = pd.read_parquet(common.results_root(cfg) / "e1" / "l1.parquet")
@@ -49,10 +51,10 @@ def l1_null_sensitivity(cfg: dict, jobs: int, B: int = 500) -> pd.DataFrame:
         nd = null[null.dgp == d]
         p = np.array([empirical_pvalue(r.D, nd[r.statistic].to_numpy()) for r in g.itertuples()])
         rej = holm(p, level)
-        out += [{"dgp": d, "k": k, "statistic": s, "p_b500": pk, "flag_raw_b500": pk < level, "flag_holm_b500": rk}
+        out += [{"dgp": d, "k": k, "statistic": s, "p_indep": pk, "flag_raw_indep": pk < level, "flag_holm_indep": rk}
                 for s, pk, rk in zip(g.statistic, p, rej)]
     df = pd.DataFrame(out)
-    common.save_table(df, "e7_l1null", "l1_b500", cfg)
+    common.save_table(df, "e7_l1null", "l1_indep", cfg)
     return df
 
 

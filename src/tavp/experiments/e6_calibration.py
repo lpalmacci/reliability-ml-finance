@@ -58,14 +58,22 @@ def jobs_case(cfg: dict) -> list[tuple[str, dict, int]]:
     return out
 
 
+def _args(p):
+    p.add_argument("--part", choices=["meta", "case"], required=True)
+    p.add_argument("--tests-only", action="store_true", help="recompute the tests from the stored PITs")
+
+
 def main():
-    args = common.parse_args(__doc__, lambda p: p.add_argument("--part", choices=["meta", "case"], required=True))
+    args = common.parse_args(__doc__, _args)
     cfg = common.load(args.config)
-    todo = jobs_meta(cfg) if args.part == "meta" else jobs_case(cfg)
-    res = Parallel(n_jobs=common.n_jobs(cfg, args.jobs), verbose=5)(delayed(task)(cfg, *j) for j in todo)
-    pits = pd.DataFrame([r for rows in res for r in rows])
     name = f"e6_{args.part}"
-    common.save_table(pits, name, "pits", cfg)
+    if args.tests_only:
+        pits = pd.read_parquet(common.results_root(cfg) / name / "pits.parquet")
+    else:
+        todo = jobs_meta(cfg) if args.part == "meta" else jobs_case(cfg)
+        res = Parallel(n_jobs=common.n_jobs(cfg, args.jobs), verbose=5)(delayed(task)(cfg, *j) for j in todo)
+        pits = pd.DataFrame([r for rows in res for r in rows])
+        common.save_table(pits, name, "pits", cfg)
     tests = []
     for (d, g), grp in pits.groupby(["dgp", "generator"]):
         tests += [{"dgp": d, "generator": g, **r} for r in calibration_tests(grp, cfg)]

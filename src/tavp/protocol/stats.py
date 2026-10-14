@@ -77,3 +77,32 @@ def berkowitz(u_sequences: list[np.ndarray]) -> tuple[float, float]:
         lr2 += -2.0 * (np.sum(stats.norm.logpdf(z)) - np.sum(stats.norm.logpdf(z, mu, np.sqrt(s2m))))
         df2 += 2
     return float(stats.chi2.sf(lr3, df3)), float(stats.chi2.sf(lr2, df2))
+
+
+def moment_test_hac(u_sequences: list[np.ndarray], lags: int | None = None) -> float:
+    """Raw-moment calibration test robust to serial dependence (Knuppel, 2015).
+
+    Under calibration z = Phi^{-1}(u) has E[z] = 0 and E[z^2] = 1. The Wald statistic of the two
+    moment conditions uses a Bartlett (Newey-West) long-run covariance computed within each
+    sequence (lags floor(4 (T/100)^(2/9)) by default) and summed over independent sequences;
+    it is chi-squared with 2 degrees of freedom under the null.
+    """
+    S = np.zeros((2, 2))
+    total = np.zeros(2)
+    n = 0
+    for u in u_sequences:
+        z = stats.norm.ppf(np.clip(u, 1e-6, 1 - 1e-6))
+        m = np.column_stack([z, z**2 - 1.0])
+        T = len(z)
+        L = lags if lags is not None else int(np.floor(4 * (T / 100) ** (2 / 9)))
+        G = m.T @ m
+        for lag in range(1, min(L, T - 1) + 1):
+            g = m[lag:].T @ m[:-lag]
+            G += (1 - lag / (L + 1)) * (g + g.T)
+        S += G
+        total += m.sum(axis=0)
+        n += T
+    mbar, S = total / n, S / n
+    W = n * mbar @ np.linalg.solve(S, mbar)
+    return float(stats.chi2.sf(W, 2))
+

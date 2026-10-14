@@ -11,7 +11,7 @@ from __future__ import annotations
 import numpy as np
 
 from tavp.experiments.common import to_logp
-from tavp.protocol.stats import berkowitz, holm, ks_uniform, kupiec_pof, randomized_pit
+from tavp.protocol.stats import berkowitz, holm, ks_uniform, kupiec_pof, moment_test_hac, randomized_pit
 from tavp.protocol.task_levels import METRICS, calibrate_all
 from tavp.tasks.backtest import Objective, assemble, evaluate
 
@@ -43,8 +43,20 @@ def pits_on_history(generator, history: np.ndarray, start: int, strategies, cfg:
     return rows
 
 
+DENSITY_TESTS = {"berkowitz_joint": "p_berkowitz", "berkowitz_marginal": "p_berkowitz_marginal",
+                 "moments_hac": "p_moments_hac"}
+
+
 def calibration_tests(df, cfg: dict) -> list[dict]:
-    """Tests per (strategy, metric) on PITs pooled over histories; Holm over the whole family."""
+    """Tests per (strategy, metric) on PITs pooled over histories; Holm over the whole family.
+
+    The family is KS, Kupiec and one density test chosen by `protocol.L4.density_test`:
+    "berkowitz_joint" (pre-registered: mean, variance and AR(1) dependence of the normal
+    scores), "berkowitz_marginal" (mean and variance) or "moments_hac" (raw moments with a
+    long-run covariance). In mode S the PITs of consecutive origins are dependent even under
+    the true law, and only the last test keeps its size (deviation D4 of docs/DEVIATIONS.md).
+    The decisions of every variant are reported, with the suffix of the variant.
+    """
     L4 = cfg["protocol"]["L4"]
     rows = []
     for (s, m), g in df.groupby(["strategy", "metric"]):
@@ -53,11 +65,17 @@ def calibration_tests(df, cfg: dict) -> list[dict]:
         p_b3, p_b2 = berkowitz(seqs)
         rows.append({"strategy": s, "metric": m, "n": len(u), "p_ks": ks_uniform(u),
                      "p_kupiec": kupiec_pof(u, tuple(L4["interval"])), "p_berkowitz": p_b3,
-                     "p_berkowitz_marginal": p_b2,
+                     "p_berkowitz_marginal": p_b2, "p_moments_hac": moment_test_hac(seqs),
                      "coverage": float(np.mean((u >= L4["interval"][0]) & (u <= L4["interval"][1])))})
-    pv = np.array([[r["p_ks"], r["p_kupiec"], r["p_berkowitz"]] for r in rows])
-    rej = holm(pv.ravel(), L4["level"]).reshape(pv.shape)
-    for r, rr in zip(rows, rej):
-        r["reject_ks"], r["reject_kupiec"], r["reject_berkowitz"] = map(bool, rr)
-        r["reject_any"] = bool(rr.any())
+    for variant, col in DENSITY_TESTS.items():
+        pv = np.array([[r["p_ks"], r["p_kupiec"], r[col]] for r in rows])
+        rej = holm(pv.ravel(), L4["level"]).reshape(pv.shape)
+        for r, rr in zip(rows, rej):
+            r[f"reject_ks_{variant}"], r[f"reject_kupiec_{variant}"], r[f"reject_density_{variant}"] = map(bool, rr)
+            r[f"reject_any_{variant}"] = bool(rr.any())
+    applied = L4.get("density_test", "berkowitz_joint")
+    for r in rows:
+        r["density_test"] = applied
+        for k in ("reject_ks", "reject_kupiec", "reject_density", "reject_any"):
+            r[k] = r[f"{k}_{applied}"]
     return rows
