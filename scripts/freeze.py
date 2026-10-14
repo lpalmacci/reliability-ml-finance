@@ -18,8 +18,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 RESULTS, FROZEN = ROOT / "results", ROOT / "results" / "frozen"
 EXPERIMENTS = ["e1", "e1_n40k", "e2", "e4", "e5", "e6_meta", "e6_case", "e6_size", "e7_l1null", "e7_cost", "e7_obj_low",
-               "e7_obj_high", "e7_n_alt", "e8", "e9", "x1_wide", "train",
-               "real/e1", "real/e4", "real/e5", "real/e8", "real/e10", "real/e11", "real/train"]
+               "e7_obj_high", "e7_n_alt", "e8", "e9", "e10ms", "x1_wide", "train",
+               "real/e1", "real/e4", "real/e5", "real/e8", "real/e10", "real/e10ms", "real/e11", "real/train"]
 
 
 def sha256(path: Path) -> str:

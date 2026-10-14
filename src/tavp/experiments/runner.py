@@ -25,14 +25,22 @@ from tavp.tasks.strategies import build_strategies
 from tavp.utils import rng, stable_hash
 
 
+# the multistart refit of B2 (deviation D8) shares the random streams of B2, so that the two differ
+# only by the fit
+STREAM_KIND = {"garch_ms": "garch"}
+
+
+def _name(kind: str, spec: dict) -> str:
+    return "_".join([kind] + [str(spec[k]) for k in ("defect", "regime", "seed") if spec.get(k) is not None])
+
+
 def gen_id(spec: dict) -> str:
     """Stream identifier of a generator; excludes the severity so that severities share draws."""
-    parts = [spec["kind"]] + [str(spec[k]) for k in ("defect", "regime", "seed") if spec.get(k) is not None]
-    return "_".join(parts)
+    return _name(STREAM_KIND.get(spec["kind"], spec["kind"]), spec)
 
 
 def label(spec: dict) -> str:
-    return gen_id(spec) + (f"_d{spec['delta']:g}" if spec.get("delta") is not None else "")
+    return _name(spec["kind"], spec) + (f"_d{spec['delta']:g}" if spec.get("delta") is not None else "")
 
 
 @lru_cache(maxsize=64)
@@ -54,8 +62,8 @@ def _generator(cfg_path: str, dgp_key: str, spec_json: str):
         return EstimatedDriftOracle(dgp, train)
     if kind == "bootstrap":
         return StationaryBootstrap(train, dgp.hash())
-    if kind == "garch":
-        return GarchBaseline(train, dgp.hash(), burn=cfg["generators"]["garch"]["burn"])
+    if kind in ("garch", "garch_ms"):
+        return GarchBaseline(train, dgp.hash(), burn=cfg["generators"]["garch"]["burn"], multistart=kind == "garch_ms")
     raise ValueError(kind)
 
 

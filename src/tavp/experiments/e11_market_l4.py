@@ -5,8 +5,9 @@ aligned to the end of the sample, so that each held-out decade is used once. In 
 TC-VAE (three runs), the stationary bootstrap and the GJR-GARCH-t model are trained on the first 10
 years, and level L4 is applied at the 42 non-overlapping origins of the last 10 years: the rules are
 calibrated on the 500 preceding days of market data, the generator gives the induced law of each
-metric, and the PIT of the realised metric is recorded. The PITs are pooled over windows (and runs)
-and tested as in E6.
+metric, and the PIT of the realised metric is recorded. The PITs are pooled over windows and tested
+as in E6, for each generator and each run of the TC-VAE separately: the three runs of a window share
+the realised metrics, so their PITs are not independent and are not pooled.
 """
 
 from __future__ import annotations
@@ -91,13 +92,45 @@ def task(cfg: dict, win: dict, kind: str, seed: int) -> list[dict]:
     return [{**meta, **x} for x in rows]
 
 
+def tests_table(pits: pd.DataFrame, cfg: dict) -> pd.DataFrame:
+    """Calibration tests by generator and run, pooled over windows (window -1) and per window."""
+    tests = []
+    for (g, s), grp in pits.groupby(["generator", "seed"]):
+        tests += [{"generator": g, "seed": int(s), "window": -1, **x} for x in calibration_tests(grp, cfg)]
+        for w, gw in grp.groupby("window"):  # per held-out decade, for the description only
+            tests += [{"generator": g, "seed": int(s), "window": int(w), **x} for x in calibration_tests(gw, cfg)]
+    return pd.DataFrame(tests)
+
+
+def garch_table(cfg: dict) -> pd.DataFrame:
+    """Drift and volatility of benchmark B2 in each window, against the sample of its training and held-out halves."""
+    import numpy as np
+
+    _, r = market_log_returns()
+    L, rows = cfg["data"]["train_returns"], []
+    for w in windows(cfg):
+        tr, te = r[w["start"]: w["start"] + L], r[w["start"] + L: w["end"]]
+        g = GarchBaseline(tr, target_hash(w), burn=cfg["generators"]["garch"]["burn"])
+        rows.append({"window": w["window"], "test_first": w["test_first"], "drift_garch": g.sim.drift_per_step() * 252,
+                     "mean_train": float(tr.mean()) * 252, "mean_test": float(te.mean()) * 252,
+                     "vol_garch": float(np.sqrt(g.sim.unconditional_variance * 252)),
+                     "vol_train": float(tr.std()) * np.sqrt(252), "vol_test": float(te.std()) * np.sqrt(252)})
+    return pd.DataFrame(rows)
+
+
 def _args(p):
     p.add_argument("--max-windows", type=int, default=None, help="smoke runs: only the most recent windows")
+    p.add_argument("--tests-only", action="store_true", help="recompute the tests from the stored PITs")
 
 
 def main():
     args = common.parse_args(__doc__, _args)
     cfg = common.load(args.config)
+    if args.tests_only:
+        pits = pd.read_parquet(common.results_root(cfg) / "e11" / "pits.parquet")
+        common.save_table(tests_table(pits, cfg), "e11", "tests", cfg)
+        common.save_table(garch_table(cfg), "e11", "garch", cfg)
+        return
     jobs = common.n_jobs(cfg, args.jobs)
     wins = windows(cfg, args.max_windows)
     seeds = min(TCVAE_SEEDS, cfg["generators"]["tcvae"]["seeds"])
@@ -107,12 +140,8 @@ def main():
     pits = pd.DataFrame([x for rows in res for x in rows])
     common.save_table(pits, "e11", "pits", cfg)
     common.save_table(pd.DataFrame(wins), "e11", "windows", cfg)
-    tests = []
-    for g, grp in pits.groupby("generator"):
-        tests += [{"generator": g, "window": -1, **x} for x in calibration_tests(grp, cfg)]  # -1: pooled
-        for w, gw in grp.groupby("window"):  # per held-out decade, for the description only
-            tests += [{"generator": g, "window": int(w), **x} for x in calibration_tests(gw, cfg)]
-    common.save_table(pd.DataFrame(tests), "e11", "tests", cfg)
+    common.save_table(tests_table(pits, cfg), "e11", "tests", cfg)
+    common.save_table(garch_table(cfg), "e11", "garch", cfg)
 
 
 if __name__ == "__main__":

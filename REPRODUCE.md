@@ -79,6 +79,11 @@ and produces the same output.
 | E8 attainability and rich-regime benchmarks (not pre-registered, D5) | `python -m tavp.experiments.e8_attain` | `results/e8/` | 2 h (6) |
 | E9 planted mean reversion P7 (not pre-registered, D6; needs the facts of E4) | `python -m tavp.experiments.e9_mr` | `results/e9/` | 1 h (7) |
 | X1 exploratory wide ablation | `make exploratory` | `results/x1_wide/` | 1.5 h (2) |
+| Market data, download and checksum (D8) | `python scripts/get_french.py` | `data/french/` (not redistributed) | 1 min |
+| E10 pseudo-real oracles, calibration (D8) | `python -m tavp.experiments.e10_calibrate` | `configs/real.yaml`, `results/real/e10/` | 1 min |
+| E10 protocol on the pseudo-real oracles (D8) | `train`, `e1_null`, `e4_case`, `e5_compare`, `e8_attain` with `--config configs/real.yaml` | `results/real/` | 2.5 h (6) |
+| E10 multistart refit of B2, sensitivity (D8) | `python -m tavp.experiments.e10_multistart --config configs/real.yaml --protocol`, then `--config configs/full.yaml` | `results/real/e10ms/`, `results/e10ms/` | 20 min (5) |
+| E11 level L4 on the market (D8) | `python -m tavp.experiments.e11_market_l4 --config configs/real.yaml` | `results/real/e11/` | 1.5 h (6) |
 | Tables, figures, numbers | `make thesis` | `thesis_assets/` | 1 min |
 
 Every command takes `--config` (default `configs/full.yaml`) and `--jobs`.
@@ -106,8 +111,9 @@ The scientific settings were committed under the git tag `prereg` before any exp
 (`git show prereg:configs/preregistration.yaml`). Every later change is recorded, with date
 and reason, in `docs/DEVIATIONS.md`, and results under the pre-registered settings are kept
 alongside: `p_prereg` and `flag_*_prereg` columns for the L1 null (D3), `reject_*_berkowitz_joint`
-columns for the L4 tests (D4), `results/e1_n40k/` for the first negative control (D1). Experiments E8 (D5) and E9 (D6) and the critical
-tolerances (D7) were added after the results and are not pre-registered; they do not change any pre-registered verdict.
+columns for the L4 tests (D4), `results/e1_n40k/` for the first negative control (D1). Experiments E8 (D5) and E9 (D6), the critical
+tolerances (D7) and the market-data analysis (D8: E10, its multistart sensitivity, E11) were added after the results and
+are not pre-registered; they do not change any pre-registered verdict. `make real` runs the market-data analysis.
 
 ## Correspondence with the chapter
 
@@ -124,4 +130,5 @@ tolerances (D7) were added after the results and are not pre-registered; they do
 | Attainability (E8) | `tables/tab_e8_attain.tex`, `tables/tab_e8_functionals.tex`, `figures/fig_case_attain.pdf` | `results/e4/`, `results/e5/`, `results/e8/` |
 | Planted mean reversion (E9) | `tables/tab_e9_detection.tex`, `tables/tab_e9_match.tex` | `results/e4/`, `results/e8/`, `results/e9/` |
 | Critical tolerances (D7) | `tables/tab_tolcrit.tex`, `tables/tab_tolfunc.tex`, `figures/fig_tolcrit.pdf` | `results/e1/`, `results/e4/`, `results/e5/`, `results/e8/` |
+| Market data (D8) | `tables/tab_real_params.tex`, `tables/tab_real_protocol.tex`, `tables/tab_real_l4.tex` | `results/real/`, `results/e10ms/` |
 | Every number in the text | `numbers.tex` (macro `\tavp{key}`) | all of the above |

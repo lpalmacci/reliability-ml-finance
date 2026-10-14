@@ -110,19 +110,48 @@ class StationaryBootstrap(Generator):
         return {**super().describe(), "block_mean": self.block_mean}
 
 
+# starting values (alpha, gamma, beta) of the multistart fit; every one has persistence below 1
+GARCH_STARTS = [(a, g, b) for a in (0.02, 0.05) for g in (0.04, 0.08) for b in (0.84, 0.90)]
+GARCH_GAIN_TOL = 1e-3
+
+
+def fit_gjr_garch_t(x: np.ndarray, multistart: bool = False):
+    """ML fit of a GJR-GARCH(1,1)-t with constant mean (arch package) on x (returns in percent).
+
+    The pre-registered benchmark B2 uses the default start of the arch package. With multistart the
+    fit is repeated from the starts GARCH_STARTS (mean, degrees of freedom and unconditional variance
+    taken from the default fit) and the fit with the largest likelihood is kept: the optimiser can
+    stop at a local optimum and report success (deviation D8). A start replaces the default fit only
+    if it improves the log-likelihood by more than GARCH_GAIN_TOL, so that a fit already at the
+    optimum is left unchanged.
+    """
+    from arch import arch_model
+
+    model = arch_model(x, mean="Constant", vol="GARCH", p=1, o=1, q=1, dist="t")
+    res = model.fit(disp="off")
+    if multistart:
+        names = list(res.params.index)
+        for a, g, b in GARCH_STARTS:
+            st = res.params.copy()
+            st["alpha[1]"], st["gamma[1]"], st["beta[1]"] = a, g, b
+            st["omega"] = float(np.var(x)) * (1.0 - a - 0.5 * g - b)
+            r = model.fit(disp="off", starting_values=st[names].to_numpy())
+            if np.isfinite(r.loglikelihood) and r.loglikelihood > res.loglikelihood + GARCH_GAIN_TOL:
+                res = r
+    return res
+
+
 class GarchBaseline(Generator):
     """B2: GJR-GARCH(1,1)-t estimated by maximum likelihood (arch package) on one history."""
 
     name = "garch"
 
-    def __init__(self, history: np.ndarray, target_hash: str, burn: int = 500):
-        from arch import arch_model
-
+    def __init__(self, history: np.ndarray, target_hash: str, burn: int = 500, multistart: bool = False):
         self.target_hash = target_hash
-        res = arch_model(100.0 * np.asarray(history), mean="Constant", vol="GARCH", p=1, o=1, q=1,
-                         dist="t").fit(disp="off")
+        res = fit_gjr_garch_t(100.0 * np.asarray(history), multistart)
         p = res.params
         self.fit_params = {k: float(v) for k, v in p.items()}
+        self.loglik = float(res.loglikelihood)
         alpha, gamma, beta = p["alpha[1]"], p["gamma[1]"], p["beta[1]"]
         pers = alpha + 0.5 * gamma + beta
         if pers >= 0.999:  # keep the fitted dynamics but enforce stationarity; recorded in describe()

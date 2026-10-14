@@ -19,7 +19,8 @@ ROWS = [("oracle", "none", "$O$ oracle (negative control)"),
         ("tcvae", "single", "G1 TC-VAE"), ("bootstrap", "single", "B1 stationary bootstrap"),
         ("garch", "single", "B2 GJR-GARCH-$t$"),
         ("oracle_drift", "rich", "$\\hat{O}$ oracle, estimated drift"), ("tcvae", "rich", "G1 TC-VAE"),
-        ("bootstrap", "rich", "B1 stationary bootstrap"), ("garch", "rich", "B2 GJR-GARCH-$t$")]
+        ("bootstrap", "rich", "B1 stationary bootstrap"), ("garch", "rich", "B2 GJR-GARCH-$t$"),
+        ("garch_ms", "rich", "B2, multistart fit")]
 KEYS = [(s, m, f) for s in STRATS for m, f in FUNC_ORDER]
 GEN_LABEL = {"tcvae": "G1 TC-VAE", "bootstrap": "B1 stationary bootstrap", "garch": "B2 GJR-GARCH-$t$"}
 
@@ -36,15 +37,25 @@ def _levels(root: Path) -> dict[str, pd.DataFrame]:
         e1 = _read(root, "e1", level)
         if e1 is not None:
             parts.append(e1[e1.kind == "oracle"].assign(regime="none"))
-        for exp in ("e4", "e5", "e8"):
+        for exp in ("e4", "e5", "e8", "e10ms"):
             t = _read(root, exp, level)
             if t is not None:
-                parts.append(t[t.kind.isin(["oracle_drift", "tcvae", "bootstrap", "garch"])])
+                parts.append(t[t.kind.isin(["oracle_drift", "tcvae", "bootstrap", "garch", "garch_ms"])])
         if parts:
             df = pd.concat(parts, ignore_index=True)
             df["regime"] = df.regime.fillna("single")
             out[level] = df
     return out
+
+
+def _choices(num: Numbers, key: str, z: pd.DataFrame) -> None:
+    """Most frequent parameters chosen with the generator (lambda_g) and with the oracle (lambda_o)."""
+    import ast
+
+    for col in ("lambda_g", "lambda_o"):
+        mode = z[col].astype(str).value_counts().index[0]
+        for name, v in ast.literal_eval(mode).items():
+            num.add(f"{key}.{col}.{name}", v, "{:g}")
 
 
 def _date(x: int) -> str:
@@ -98,7 +109,76 @@ Parameter & Main study (D3, D4) & Market, 1926--2026 \\
 \end{tabular}
 """)
     build_real_protocol(rroot, out, num, cfg, pr_min)
+    # the same calibrated rule on process D4 of the main study, for comparison with the regime oracle
+    for exp in ("e4", "e5", "e8"):
+        l3 = _read(root, exp, "l3")
+        if l3 is None:
+            continue
+        l3 = l3.assign(regime=l3.regime.fillna("single"))
+        for (kind, regime, strat), z in l3[l3.dgp == "regime"].groupby(["kind", "regime", "strategy"]):
+            key = f"real.d4.l3.{kind}.{regime}.{strat}"
+            num.add(key + ".regret", float(z.regret.mean()), "{:.3f}")
+            num.add(key + ".pr", float(z["pass"].mean()))
+            _choices(num, key, z)
+    num.add("real.d4.dur1", 1 / (1 - d4["p11"]), "{:.0f}")
+    num.add("real.d4.dur2", 1 / (1 - d4["p22"]), "{:.0f}")
+    build_real_multistart(root, rroot, num, cfg, pr_min)
     build_real_l4(rroot, out, num, cfg)
+
+
+def build_real_multistart(root: Path, rroot: Path, num: Numbers, cfg: dict, pr_min: float) -> None:
+    """Fits of B2 at a local optimum (gain of the multistart fit) and the positive control by run."""
+    from tavp.generators.base import GARCH_GAIN_TOL
+
+    for tag, r in (("main", root), ("real", rroot)):
+        f = _read(r, "e10ms", "fits")
+        if f is None:
+            continue
+        moved = f[f.gain > GARCH_GAIN_TOL]
+        num.add(f"real.ms.{tag}.fits", int(len(f)))
+        num.add(f"real.ms.{tag}.moved", int(len(moved)))
+        num.add(f"real.ms.{tag}.moved.gbm", int((moved.dgp == "gbm").sum()))
+        num.add(f"real.ms.{tag}.moved.other", int((moved.dgp != "gbm").sum()))
+        if not moved.empty:
+            def vol(x, sfx=""):
+                pers = x["alpha[1]" + sfx] + x["gamma[1]" + sfx] / 2 + x["beta[1]" + sfx]
+                return np.sqrt(x["omega" + sfx] / (1 - pers) * 252) / 100
+            num.add(f"real.ms.{tag}.moved.gain.max", float(moved.gain.max()), "{:.1f}")
+            num.add(f"real.ms.{tag}.moved.dvol.max", float((vol(moved) - vol(moved, "_ms")).abs().max()), "{:.4f}")
+            num.add(f"real.ms.{tag}.moved.dmu.max", float((moved.mu - moved.mu_ms).abs().max() / 100 * 252), "{:.4f}")
+        num.add(f"real.ms.{tag}.gain.max", float(f.gain.max()), "{:.0f}" if f.gain.max() >= 10 else "{:.3f}")
+        for _, x in moved.iterrows():
+            key = f"real.ms.{tag}.{x.dgp}.{x.regime}.{int(x.seed)}"
+            num.add(key + ".gain", float(x.gain), "{:.0f}")
+            for p, q in (("alpha[1]", "alpha"), ("gamma[1]", "gamma"), ("beta[1]", "beta")):
+                num.add(f"{key}.{q}", float(x[p]), "{:.3f}")
+                num.add(f"{key}.{q}.ms", float(x[p + "_ms"]), "{:.3f}")
+    # pass rate of the attainable cells by run of B2 on the long histories of the GJR-GARCH-t oracle
+    lv = _levels(rroot)
+    l2 = lv.get("l2")
+    if l2 is None or "garch_ms" not in set(l2.kind):
+        return
+    K = ["strategy", "metric", "functional"]
+    o = l2[(l2.dgp == "gjr_real") & (l2.kind == "oracle_drift") & (l2.regime == "rich")]
+    A = set(o.groupby(K).equivalent.mean().loc[lambda z: z >= pr_min].index)
+    for kind in ("garch", "garch_ms"):
+        x = l2[(l2.dgp == "gjr_real") & (l2.kind == kind) & (l2.regime == "rich")]
+        by = x.groupby(["seed"] + K).equivalent.mean().reset_index()
+        by = by[[tuple(t) in A for t in by[K].itertuples(index=False)]]
+        for seed, g in by.groupby("seed"):
+            num.add(f"real.ms.run.{kind}.{int(seed)}.passA", int((g.equivalent >= pr_min).sum()))
+    # attainable cells still failed by the multistart fit
+    x = l2[(l2.dgp == "gjr_real") & (l2.kind == "garch_ms") & (l2.regime == "rich")]
+    g = x.groupby(K).agg(pr=("equivalent", "mean"), hw=("half_width", "mean"), eta=("eta", "first"))
+    runs = x.groupby(["seed"] + K).equivalent.mean().unstack("seed")
+    missed = [k for k in A if g.loc[k, "pr"] < pr_min]
+    num.add("real.ms.missed.n", len(missed))
+    for i, k in enumerate(missed):
+        key = f"real.ms.missed.{i}"
+        num.add(key + ".pr", float(g.loc[k, "pr"]))
+        num.add(key + ".hw", float(g.loc[k, "hw"]), "{:.4f}")
+        num.add(key + ".halfeta", float(g.loc[k, "eta"]) / 2, "{:.3f}")
+        num.add(key + ".runs", int((runs.loc[k] >= pr_min).sum()))
 
 
 def build_real_protocol(rroot: Path, out: Path, num: Numbers, cfg: dict, pr_min: float) -> None:
@@ -162,6 +242,29 @@ Training data & Generator & """ + head + r""" \\
 """ + "\n".join(lines) + "\n" + r"""\bottomrule
 \end{tabular}
 """)
+    # negative control: cells failed by the oracle, with their resolvability at the maximum N
+    K = ["strategy", "metric", "functional"]
+    for d, _ in DGPS:
+        x = lv["l2"][(lv["l2"].dgp == d) & (lv["l2"].kind == "oracle")]
+        g = x.groupby(K).agg(pr=("equivalent", "mean"), res=("resolvable", "mean"), hw=("half_width", "mean"),
+                             eta=("eta", "first"))
+        bad = g[g.pr < pr_min]
+        num.add(f"real.oracle.{d}.failed", ", ".join(f"{a} {b} {c}" for a, b, c in bad.index).replace("_", r"\_") or "none")
+        for (a, b, c), v in bad.iterrows():
+            key = f"real.oracle.{d}.{a}.{b}.{c}"
+            num.add(key + ".pr", float(v.pr))
+            num.pct(key + ".res", float(v.res))
+            num.add(key + ".hw", float(v.hw), "{:.4f}")
+            num.add(key + ".halfeta", float(v.eta) / 2, "{:.3f}")
+    # level L3: mean regret, pass rate and choice of each calibrated rule
+    if "l3" in lv:
+        l3 = lv["l3"]
+        for (d, kind, regime, strat), z in l3.groupby(["dgp", "kind", "regime", "strategy"]):
+            key = f"real.l3.{kind}.{regime}.{d}.{strat}"
+            num.add(key + ".regret", float(z.regret.mean()), "{:.3f}")
+            num.add(key + ".pr", float(z["pass"].mean()))
+            num.pct(key + ".same", float(z.same_choice.mean()))
+            _choices(num, key, z)
     for d, _ in DGPS:
         o = cards.get((d, "oracle_drift", "single"))
         if o is not None:
@@ -173,7 +276,7 @@ Training data & Generator & """ + head + r""" \\
 
 def build_real_l4(rroot: Path, out: Path, num: Numbers, cfg: dict) -> None:
     tests, wins = _read(rroot, "e11", "tests"), _read(rroot, "e11", "windows")
-    if tests is None or wins is None:
+    if tests is None or wins is None or "seed" not in tests.columns:
         return
     wins = wins.sort_values("start")
     pits = _read(rroot, "e11", "pits")
@@ -182,33 +285,68 @@ def build_real_l4(rroot: Path, out: Path, num: Numbers, cfg: dict) -> None:
     num.add("real.l4.test.last", _date(wins.test_last.max()))
     num.add("real.l4.train.first", _date(wins.train_first.min()))
     num.add("real.l4.hash_ok", "yes" if bool(pits.hash_ok.all()) else "no")
-    lines = []
+    lines, summary = [], {}
     for gname in ("tcvae", "bootstrap", "garch"):
         t = tests[tests.generator == gname]
-        if t.empty:
-            continue
-        pooled = t[t.window == -1]
-        n = int(pooled.n.iloc[0])
-        rej = int(pooled.reject_any.sum())
-        cov = float(pooled.coverage.mean())
-        per = [int(t[t.window == w].reject_any.sum()) for w in wins.window]
-        num.add(f"real.l4.{gname}.rejected", rej)
-        num.add(f"real.l4.{gname}.cells", int(len(pooled)))
-        num.add(f"real.l4.{gname}.n", n)
-        num.pct(f"real.l4.{gname}.coverage", cov)
-        num.pct(f"real.l4.{gname}.coverage.min", float(pooled.coverage.min()))
-        num.pct(f"real.l4.{gname}.coverage.max", float(pooled.coverage.max()))
-        num.add(f"real.l4.{gname}.decades.rejected", int(sum(p > 0 for p in per)))
-        num.add(f"real.l4.{gname}.ks", int(pooled.reject_ks.sum()))
-        num.add(f"real.l4.{gname}.kupiec", int(pooled.reject_kupiec.sum()))
-        num.add(f"real.l4.{gname}.density", int(pooled.reject_density.sum()))
-        rejected_cells = ", ".join(f"{a}/{b}" for a, b in pooled[pooled.reject_any][["strategy", "metric"]].itertuples(index=False))
-        num.add(f"real.l4.{gname}.which", rejected_cells.replace("_", r"\_") or "none")
-        lines.append(f"{GEN_LABEL[gname]} & {rej}/{len(pooled)} & {100 * cov:.0f}\\% & " + " & ".join(map(str, per)) + r" \\")
+        for seed in sorted(t.seed.unique()):
+            ts = t[t.seed == seed]
+            pooled = ts[ts.window == -1]
+            rej = int(pooled.reject_any.sum())
+            cov = float(pooled.coverage.mean())
+            per = [int(ts[ts.window == w].reject_any.sum()) for w in wins.window]
+            key = f"real.l4.{gname}" + (f".{int(seed)}" if gname == "tcvae" else "")
+            num.add(key + ".rejected", rej)
+            num.add(key + ".cells", int(len(pooled)))
+            num.add(key + ".n", int(pooled.n.iloc[0]))
+            num.pct(key + ".coverage", cov)
+            num.pct(key + ".coverage.min", float(pooled.coverage.min()))
+            num.pct(key + ".coverage.max", float(pooled.coverage.max()))
+            num.add(key + ".decades.rejected", int(sum(x > 0 for x in per)))
+            num.add(key + ".ks", int(pooled.reject_ks.sum()))
+            num.add(key + ".kupiec", int(pooled.reject_kupiec.sum()))
+            num.add(key + ".density", int(pooled.reject_density.sum()))
+            which = ", ".join(f"{a} {b}" for a, b in pooled[pooled.reject_any][["strategy", "metric"]].itertuples(index=False))
+            num.add(key + ".which", which.replace("_", r"\_") or "none")
+            summary.setdefault(gname, []).append((rej, cov, pooled))
+            lab = GEN_LABEL[gname] + (f", run {int(seed) + 1}" if gname == "tcvae" else "")
+            lines.append(f"{lab} & {rej}/{len(pooled)} & {100 * cov:.0f}\\% & " + " & ".join(map(str, per)) + r" \\")
+    if "tcvae" in summary:
+        r = [x[0] for x in summary["tcvae"]]
+        c = [x[1] for x in summary["tcvae"]]
+        num.add("real.l4.tcvae.rejected.min", min(r))
+        num.add("real.l4.tcvae.rejected.max", max(r))
+        num.pct("real.l4.tcvae.coverage.min", min(c))
+        num.pct("real.l4.tcvae.coverage.max", max(c))
+        num.add("real.l4.tcvae.runs", len(r))
+        # cells rejected for every run of the TC-VAE
+        sets = [set(map(tuple, x[2][x[2].reject_any][["strategy", "metric"]].to_numpy())) for x in summary["tcvae"]]
+        common = sorted(set.intersection(*sets)) if sets else []
+        num.add("real.l4.tcvae.allruns", len(common))
+        num.add("real.l4.tcvae.allruns.which", ", ".join(f"{a} {b}" for a, b in common).replace("_", r"\_") or "none")
+    # direction of the miscalibration: mean PIT by metric and share of PITs in the outer 5% tails
+    for gname, z in pits.groupby("generator"):
+        for metric, zm in z.groupby("metric"):
+            key = f"real.l4.{gname}.pit.{metric}"
+            num.add(key + ".mean", float(zm.pit.mean()))
+            num.pct(key + ".lo", float((zm.pit < 0.05).mean()))
+            num.pct(key + ".hi", float((zm.pit > 0.95).mean()))
+    g = _read(rroot, "e11", "garch")
+    if g is not None:
+        for col in ("drift_garch", "mean_train", "mean_test", "vol_garch", "vol_train", "vol_test"):
+            num.add(f"real.l4.garchfit.{col}", float(g[col].mean()), "{:.3f}")
+        num.add("real.l4.garchfit.above", int((g.drift_garch > g.mean_train).sum()))
+        for _, x in g.iterrows():
+            for col in ("drift_garch", "mean_train", "mean_test", "vol_train", "vol_test"):
+                num.add(f"real.l4.win.{int(x.test_first) // 10000}.{col}", float(x[col]), "{:.3f}")
+    # held-out periods in which some generator is rejected
+    bad = [w for w in wins.window if tests[(tests.window == w)].reject_any.any()]
+    num.add("real.l4.periods.rejected", len(bad))
+    num.add("real.l4.periods.rejected.which", ", ".join(
+        f"{str(a)[:4]}--{str(b)[:4]}" for w, a, b in zip(wins.window, wins.test_first, wins.test_last) if w in bad))
     head = " & ".join(f"{str(a)[:4]}--{str(b)[2:4]}" for a, b in zip(wins.test_first, wins.test_last))
     (out / "tables" / "tab_real_l4.tex").write_text(r"""\begin{tabular}{lrr""" + "r" * len(wins) + r"""}
 \toprule
-& \multicolumn{2}{c}{Pooled over decades} & \multicolumn{""" + str(len(wins)) + r"""}{c}{Cells rejected in each held-out period} \\
+& \multicolumn{2}{c}{Pooled over periods} & \multicolumn{""" + str(len(wins)) + r"""}{c}{Rejected in each held-out period} \\
 \cmidrule(lr){2-3}\cmidrule(lr){4-""" + str(3 + len(wins)) + r"""}
 Generator & rejected & coverage & """ + head + r""" \\
 \midrule

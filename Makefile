@@ -49,6 +49,8 @@ real:
 	$(PY) tavp.experiments.e4_case --config $(RCFG) $(JOBS)
 	$(PY) tavp.experiments.e5_compare --config $(RCFG) $(JOBS)
 	$(PY) tavp.experiments.e8_attain --config $(RCFG) $(JOBS)
+	$(PY) tavp.experiments.e10_multistart --config $(RCFG) --protocol $(JOBS)
+	$(PY) tavp.experiments.e10_multistart --config $(CFG) $(JOBS)
 	$(PY) tavp.experiments.e11_market_l4 --config $(RCFG) $(JOBS)
 
 thesis:

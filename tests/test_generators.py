@@ -33,6 +33,18 @@ def test_garch_baseline_recovers_parameters_roughly():
     assert g.sample_returns(10, 59, rng(4, "s")).shape == (10, 59)
 
 
+def test_garch_multistart_never_lowers_the_likelihood():
+    from tavp.experiments.runner import gen_id, label
+    from tavp.generators.base import fit_gjr_garch_t
+
+    h = 100.0 * GJRGarchT.from_annual().history(3000, rng(7, "g"))
+    one, many = fit_gjr_garch_t(h), fit_gjr_garch_t(h, multistart=True)
+    assert many.loglikelihood >= one.loglikelihood
+    assert np.allclose(GarchBaseline(h / 100.0, "x").fit_params["beta[1]"], one.params["beta[1]"])  # B2 unchanged
+    spec = {"kind": "garch_ms", "regime": "rich", "seed": 2}
+    assert gen_id(spec) == gen_id({**spec, "kind": "garch"}) and label(spec) != label({**spec, "kind": "garch"})
+
+
 def test_estimated_drift_oracle_shifts_only_the_drift():
     d = GBM(mu=0.07, sigma=0.18)
     h = d.history(2520, rng(5, "h"))

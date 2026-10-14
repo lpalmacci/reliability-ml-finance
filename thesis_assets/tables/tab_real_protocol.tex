@@ -1,0 +1,20 @@
+\begin{tabular}{llrrrlrrrl}
+\toprule
+Training data & Generator & \multicolumn{4}{c}{GJR-GARCH-$t$} & \multicolumn{4}{c}{Regimes} \\
+\cmidrule(lr){3-6}\cmidrule(lr){7-10}
+& & all & attain. & $\kappa^\ast_{\mathcal{A}}$ & L3 failed & all & attain. & $\kappa^\ast_{\mathcal{A}}$ & L3 failed \\
+\midrule
+Known law & $O$ oracle (negative control) & 35 & 35/36 & 1.07 & -- & 36 & \textbf{36/36} & 0.92 & -- \\
+\addlinespace
+10 years & $\hat{O}$ oracle, estimated drift & 11 & \textbf{11/11} & 0.99 & -- & 12 & \textbf{12/12} & 0.49 & -- \\
+ & G1 TC-VAE & 0 & 0/11 & 5.15 & -- & 2 & 2/12 & 6.78 & TF, TVF, VT \\
+ & B1 stationary bootstrap & 3 & 3/11 & 5.09 & TF, TVF & 6 & 6/12 & 2.75 & TVF \\
+ & B2 GJR-GARCH-$t$ & 2 & 2/11 & 3.91 & -- & 3 & 3/12 & 3.13 & TVF, VT \\
+\addlinespace
+151{,}040 returns & $\hat{O}$ oracle, estimated drift & 25 & \textbf{25/25} & 0.98 & -- & 29 & \textbf{29/29} & 0.98 & -- \\
+ & G1 TC-VAE & 4 & 4/25 & 7.81 & -- & 3 & 3/29 & 6.08 & TVF, VT \\
+ & B1 stationary bootstrap & 21 & 19/25 & 1.99 & -- & 20 & 20/29 & 2.65 & -- \\
+ & B2 GJR-GARCH-$t$ & 20 & 20/25 & 2.19 & -- & 6 & 6/29 & 6.52 & TVF, VT \\
+ & B2, multistart fit & 26 & 24/25 & 1.22 & -- & 6 & 6/29 & 6.52 & TVF, VT \\
+\bottomrule
+\end{tabular}

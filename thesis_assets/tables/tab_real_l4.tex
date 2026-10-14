@@ -1,0 +1,13 @@
+\begin{tabular}{lrrrrrrrrrrr}
+\toprule
+& \multicolumn{2}{c}{Pooled over periods} & \multicolumn{9}{c}{Rejected in each held-out period} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-12}
+Generator & rejected & coverage & 1938--47 & 1947--56 & 1956--66 & 1966--76 & 1976--86 & 1986--96 & 1996--06 & 2006--16 & 2016--26 \\
+\midrule
+G1 TC-VAE, run 1 & 7/12 & 84\% & 4 & 0 & 0 & 6 & 0 & 0 & 4 & 0 & 0 \\
+G1 TC-VAE, run 2 & 7/12 & 84\% & 3 & 0 & 0 & 6 & 0 & 1 & 4 & 0 & 0 \\
+G1 TC-VAE, run 3 & 6/12 & 85\% & 3 & 0 & 0 & 4 & 0 & 0 & 4 & 0 & 0 \\
+B1 stationary bootstrap & 2/12 & 89\% & 3 & 0 & 0 & 3 & 0 & 0 & 0 & 0 & 0 \\
+B2 GJR-GARCH-$t$ & 11/12 & 84\% & 2 & 0 & 6 & 10 & 0 & 0 & 6 & 0 & 0 \\
+\bottomrule
+\end{tabular}
