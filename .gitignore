@@ -7,3 +7,5 @@ results/*
 !results/frozen/
 runs/
 *.egg-info/
+# Market data (copyrighted; downloaded by scripts/get_french.py)
+data/french/
