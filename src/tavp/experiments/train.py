@@ -48,6 +48,11 @@ def decide_scaling(cfg, epochs: int | None) -> dict:
     if path.exists():
         return json.loads(path.read_text())
     rule = cfg["generators"]["scaling_rule"]
+    if rule.get("inherit"):  # D8: the market-data study uses the decision of the main study
+        decision = json.loads((REPO_ROOT / rule["inherit"]).read_text())
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps({**decision, "inherited_from": rule["inherit"]}, indent=2))
+        return decision
     dgp_key = rule["decide_on"]
     run = train_one(cfg, "tcvae", dgp_key, rule["regime"], 0, 1.0, epochs)
     dgp = common.dgps(cfg)[dgp_key]

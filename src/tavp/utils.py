@@ -67,10 +67,18 @@ def deep_update(base: dict, override: dict) -> dict:
 
 
 def load_config(path: str | Path) -> dict:
-    """Load an experiment configuration; a file may `extends:` another one."""
+    """Load an experiment configuration; a file may `extends:` another one.
+
+    Top-level keys listed under `replace:` replace those of the parent instead of being merged
+    (used by configs/real.yaml to substitute the processes).
+    """
     path = Path(path)
     cfg = load_yaml(path)
     parent = cfg.pop("extends", None)
+    replace = cfg.pop("replace", [])
     if parent is not None:
-        cfg = deep_update(load_config(path.parent / parent), cfg)
+        merged = deep_update(load_config(path.parent / parent), cfg)
+        for k in replace:
+            merged[k] = cfg[k]
+        cfg = merged
     return cfg

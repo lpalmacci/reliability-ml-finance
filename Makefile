@@ -11,7 +11,7 @@ XCFG ?= configs/exploratory.yaml
 J ?=
 JOBS = $(if $(J),--jobs $(J),)
 
-.PHONY: test quick all train meta case exploratory thesis verify verify-frozen freeze clean
+.PHONY: test quick all train meta case exploratory real thesis verify verify-frozen freeze clean
 
 test:
 	$(UV) run pytest -q
@@ -39,10 +39,21 @@ exploratory:
 	$(PY) tavp.experiments.x1_wide --config $(XCFG) $(JOBS)
 	$(PY) tavp.experiments.e4_facts --config $(XCFG) $(JOBS)
 
+# Market-data analysis (D8, not pre-registered): data download, pseudo-real oracles (E10), L4 on the market (E11)
+RCFG = configs/real.yaml
+real:
+	$(UV) run python scripts/get_french.py
+	$(PY) tavp.experiments.e10_calibrate --config $(CFG)
+	$(PY) tavp.experiments.train --config $(RCFG) $(JOBS)
+	$(PY) tavp.experiments.e1_null --config $(RCFG) $(JOBS)
+	$(PY) tavp.experiments.e4_case --config $(RCFG) $(JOBS)
+	$(PY) tavp.experiments.e5_compare --config $(RCFG) $(JOBS)
+	$(PY) tavp.experiments.e8_attain --config $(RCFG) $(JOBS)
+
 thesis:
 	$(PY) tavp.report.build --config $(CFG) $(JOBS)
 
-all: test train meta case exploratory thesis
+all: test train meta case exploratory real thesis
 
 quick:
 	$(MAKE) test train meta case thesis CFG=configs/quick.yaml J=$(J)
