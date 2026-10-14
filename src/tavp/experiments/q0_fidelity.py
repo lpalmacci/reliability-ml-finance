@@ -39,6 +39,9 @@ PAPER = {  # Table 2 of the paper
 }
 METRICS = list(PAPER["TCN"])
 SEEDS = (0, 1, 2)
+# Q0 was run with the starting values of the settings that the paper does not report; configs/generators/qgan.yaml
+# now holds the values frozen after the tuning round Q0b (tavp.experiments.q0_tune)
+START = {"lr_g": 1e-4, "r1_gamma": 1.0, "steps": 6000}
 M, LENGTH = 500, 4000
 
 
@@ -65,7 +68,7 @@ def main():
     cfg = common.load(args.config)
     d, r = market_log_returns()
     h = r[(d >= PERIOD[0]) & (d <= PERIOD[1])]
-    qcfg = load_yaml(REPO_ROOT / "configs" / "generators" / "qgan.yaml")
+    qcfg = {**load_yaml(REPO_ROOT / "configs" / "generators" / "qgan.yaml"), **START}
     root = common.results_root(cfg) / "q0"
     rows = []
     for s in SEEDS:

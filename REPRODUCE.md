@@ -7,11 +7,11 @@ are three levels of verification, from the quickest to the most complete.
 | Level | What it checks | Command | Time |
 |---|---|---|---|
 | 1 | The numbers of the chapter follow from the frozen result tables | `make verify-frozen` | about 1 minute |
-| 2 | The whole pipeline runs end to end (small sizes) | `make quick J=3` | about 25 minutes |
-| 3 | The full study, re-run from scratch | `make all`, then `make verify` | about 17 hours |
+| 2 | The pipeline of the simulated studies runs end to end (small sizes; no market data, no Quant GAN) | `make quick J=3` | about 25 minutes |
+| 3 | The full study, re-run from scratch | `make all`, then `make verify` | about 25 hours (the Quant GAN uses the Apple GPU if present) |
 
 Times are for the machine used for the thesis: Apple M2 Pro (12 cores, 16 GB), macOS,
-Python 3.12.11, CPU only.
+Python 3.12.11; CPU only, except the Quant GAN, which uses the GPU (MPS).
 
 ## 0. Environment
 
@@ -85,6 +85,11 @@ and produces the same output.
 | E10 protocol on the pseudo-real oracles (D8) | `train`, `e1_null`, `e4_case`, `e5_compare`, `e8_attain` with `--config configs/real.yaml` | `results/real/` | 2.5 h (6) |
 | E10 multistart refit of B2, sensitivity (D8) | `python -m tavp.experiments.e10_multistart --config configs/real.yaml --protocol`, then `--config configs/full.yaml` | `results/real/e10ms/`, `results/e10ms/` | 20 min (5) |
 | E11 level L4 on the market (D8) | `python -m tavp.experiments.e11_market_l4 --config configs/real.yaml` | `results/real/e11/` | 1.5 h (6) |
+| Q0 fidelity check of the Quant GAN on the experiment of its paper (addendum) | `python -m tavp.experiments.q0_fidelity` | `results/q0/` | 35 min (GPU) |
+| Q0b single bounded tuning round and confirmation (addendum) | `python -m tavp.experiments.q0_tune` | `results/q0/tune*`, `results/q0/confirm*` | 70 min (GPU) |
+| E13 Quant GAN: training, stylized facts, levels L0-L3, L4 on held-out histories (addendum, D10) | `python -m tavp.experiments.e13_qgan --stage train`, then `--stage facts`, `--stage protocol`, `--stage l4` | `results/runs/qgan/`, `results/e13/` | 5 h (GPU, 4 models at a time) |
+| E13 Quant GAN on the market (addendum, D10; after E11) | `python -m tavp.experiments.e11_market_l4 --config configs/real.yaml --qgan` | `results/real/runs_market/qgan/`, `results/real/e11/` | 2 h (GPU) |
+| Descriptive curves for the figures | `python -m tavp.experiments.e4_curves` | `results/e4_curves/` | 2 min |
 | Tables, figures, numbers | `make thesis` | `thesis_assets/` | 1 min |
 
 Every command takes `--config` (default `configs/full.yaml`) and `--jobs`.
@@ -97,7 +102,9 @@ platform and library versions the study is reproduced exactly. On a different pl
 neural training and floating-point reductions can differ in the last digits; such
 differences propagate to the trained generators, so that some numbers of the case study may
 differ slightly, while the meta-validation (E1, E2, E6 meta), which uses only the oracles,
-is unaffected by training.
+is unaffected by training. The Quant GAN trains and samples on the Apple GPU (MPS) when it is available:
+on the same machine it is deterministic, and its outputs differ from those on the CPU by floating-point rounding
+(at most about 1e-7 relative).
 
 This was checked on 2026-10-14 with a clean-room run on the thesis machine: a fresh clone of
 the repository, a new environment from `uv.lock`, then `make test`, `make verify-frozen`
@@ -132,5 +139,7 @@ are not pre-registered; they do not change any pre-registered verdict. `make rea
 | Planted mean reversion (E9) | `tables/tab_e9_detection.tex`, `tables/tab_e9_match.tex` | `results/e4/`, `results/e8/`, `results/e9/` |
 | Critical tolerances (D7) | `tables/tab_tolcrit.tex`, `tables/tab_tolfunc.tex`, `figures/fig_tolcrit.pdf` | `results/e1/`, `results/e4/`, `results/e5/`, `results/e8/` |
 | Fine grid of severities (E12) | `figures/fig_power_fine.pdf`, `tables/tab_e12_thresholds.tex`, `tables/tab_e12_effective.tex` | `results/e1/`, `results/e2/`, `results/e12/` |
+| Descriptive figures | `figures/fig_induced.pdf`, `figures/fig_curves.pdf`, `figures/fig_quantiles.pdf`, `figures/fig_paths.pdf`, `figures/fig_pit_market.pdf` | `results/e4_curves/`, `results/real/e11/` |
+| Quant GAN (Q0, Q0b, E13) | numbers `q0.*`, `e13.*` and the tables of Section 6.2 | `results/q0/`, `results/e13/`, `results/real/e11/` |
 | Market data (D8) | `tables/tab_real_params.tex`, `tables/tab_real_protocol.tex`, `tables/tab_real_l4.tex` | `results/real/`, `results/e10ms/` |
 | Every number in the text | `numbers.tex` (macro `\tavp{key}`) | all of the above |

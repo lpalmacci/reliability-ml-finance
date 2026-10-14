@@ -27,7 +27,7 @@ def main(n: int = 10_000) -> dict:
         ref_mid, ref_se = (lo + hi) / 2, (hi - lo) / (2 * 1.96)
         z = (mean - ref_mid) / np.hypot(se, ref_se)
         out[k] = {"port_mean": mean, "port_se": se, "reference_mid": ref_mid, "z": float(z), "pass": bool(abs(z) < 3)}
-    path = REPO_ROOT / "docs" / "internal" / "E0_port_check.json"
+    path = REPO_ROOT / "docs" / "E0_port_check.json"
     path.write_text(json.dumps(out, indent=2))
     return out
 

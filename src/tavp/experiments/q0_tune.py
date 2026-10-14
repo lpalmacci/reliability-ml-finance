@@ -59,7 +59,9 @@ def main():
     cfg = common.load(args.config)
     d, r = market_log_returns()
     h = r[(d >= PERIOD[0]) & (d <= PERIOD[1])]
-    qcfg = load_yaml(REPO_ROOT / "configs" / "generators" / "qgan.yaml")
+    from tavp.experiments.q0_fidelity import START
+
+    qcfg = {**load_yaml(REPO_ROOT / "configs" / "generators" / "qgan.yaml"), **START}  # the grid overrides these
     garch = paper_scores(h, garch_paths(h, M, LENGTH, rng(cfg["master_seed"], "q0", "garch")))
     tune = pd.DataFrame(Parallel(n_jobs=4)(delayed(run)(cfg, h, qcfg, c, TUNE_SEED) for c in GRID))
     tune[["better", "emd_better"]] = [beats(x, garch) for _, x in tune.iterrows()]
