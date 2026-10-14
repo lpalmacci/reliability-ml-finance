@@ -7,12 +7,15 @@ hidden: 80
 # discriminator learning rate 1e-4. The generator learning rate and the weight of the R1 penalty are
 # set by the fidelity check Q0 on the data of the paper (tavp.experiments.q0_fidelity), before any
 # experiment of the protocol.
+# Frozen after the fidelity checks (docs/ADDENDUM_QGAN.md): Q0 with lr_g 1e-4, R1 weight 1 and 6,000 steps failed
+# its criterion; the single tuning round Q0b chose lr_g 3e-5, R1 weight 10 and 12,000 steps, accepted on three
+# new seeds.
 lr_d: 1.0e-4
-lr_g: 1.0e-4
+lr_g: 3.0e-5
 betas: [0.0, 0.9]
 batch: 64
-r1_gamma: 1.0
-steps: 6000
+r1_gamma: 10.0
+steps: 12000
 checkpoint_every: 250
 # Checkpoint selection on the training data, with the metrics of Table 2 of the paper (mean rank).
 select_paths: 200

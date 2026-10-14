@@ -140,7 +140,7 @@ def _args(p):
     p.add_argument("--max-windows", type=int, default=None, help="smoke runs: only the most recent windows")
     p.add_argument("--tests-only", action="store_true", help="recompute the tests from the stored PITs")
     p.add_argument("--qgan", action="store_true",
-                   help="E13: add the Quant GAN (three runs per window) to the stored PITs and recompute the tests")
+                   help="E13: add the Quant GAN (one run per window) to the stored PITs and recompute the tests")
 
 
 def main():
@@ -148,9 +148,8 @@ def main():
     cfg = common.load(args.config)
     if args.qgan:
         wins = windows(cfg)
-        seeds = min(TCVAE_SEEDS, 3)
-        for w in wins:  # training on the GPU, one window at a time
-            Parallel(n_jobs=3)(delayed(train_qgan)(cfg, w, s) for s in range(seeds))
+        seeds = 1  # addendum: one run per window
+        Parallel(n_jobs=4)(delayed(train_qgan)(cfg, w, s) for w in wins for s in range(seeds))  # on the GPU
         res = Parallel(n_jobs=common.n_jobs(cfg, args.jobs), verbose=5)(
             delayed(task)(cfg, w, "qgan", s) for w in wins for s in range(seeds))
         path = common.results_root(cfg) / "e11" / "pits.parquet"

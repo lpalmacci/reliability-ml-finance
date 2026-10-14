@@ -1,5 +1,5 @@
 {
-  "commit": "7dd24de4be37af5a704931c1a95d62fb4cb116ff",
+  "commit": "25a8dd7126982c4b0d19d9e251f6f8d738594744",
   "files": {
     "e1/l0.parquet": "d2d78b6174a5d622cd39d4ca5b6f3a3a9fab970a7160aa77d89e7651ce75be31",
     "e1/l0.provenance.json": "486d7cec0eaec70f591448b6b5936f859ede02118007dc5b0b3b1b49779a32fd",
@@ -115,10 +115,16 @@
     "e9/matched.provenance.json": "70a6ce6360bf4fbcda084f252f3d64a8534d8d6689f92bf9e1264e34c8114665",
     "numbers.json": "38f691103d501479ab45aae3c4b295d4b0154427659937064e09943bec073cfc",
     "numbers.tex": "694ec11d3abbe8eaa31eed2c87c3ec860488e479b4c83ab685602db2eb82b3c8",
+    "q0/confirm.parquet": "accd4c9a032f9981044fce4f26729f15cb42882f7d4d46347089fe1c11fe6184",
+    "q0/confirm.provenance.json": "16bd071eecab41bb56747028633dc7a420028ff527e1ea209657963ad306fe8b",
     "q0/criterion.parquet": "9daf410d03619d92c84de3a74cad7d18b92aa6d0942fcc7dc8f541e02b9ba7ca",
     "q0/criterion.provenance.json": "982b392a80cecf5d641940684aae64ab48345af3a073001c2c9d49618eabd53e",
     "q0/scores.parquet": "9b89fbab929259769ea240cb6169aa86c73efce5871ec5b33743cc843c80eae6",
     "q0/scores.provenance.json": "982b392a80cecf5d641940684aae64ab48345af3a073001c2c9d49618eabd53e",
+    "q0/tune.parquet": "2bf06907cff54c0f71e3889de9c7a981f47881f3551975e40aaba28bb91f03bc",
+    "q0/tune.provenance.json": "16bd071eecab41bb56747028633dc7a420028ff527e1ea209657963ad306fe8b",
+    "q0/tune_garch.parquet": "677e5b1c3a473fe71c2de1870b05526ce25051213043431eed36ad9cefd86599",
+    "q0/tune_garch.provenance.json": "16bd071eecab41bb56747028633dc7a420028ff527e1ea209657963ad306fe8b",
     "real/e1/l0.parquet": "667aa116e52c04b50aadaacf86208c73866be70e693c721181392c11f9f7c3f2",
     "real/e1/l0.provenance.json": "ae13c8855029cd6ed14586144a4bbbd4d21d113b99e48584dc8d91b8937a470c",
     "real/e1/l1.parquet": "68b5342397a06409aadbad8d0c59628ff639e0cd26b46fe9fa54e75e5d65628e",
