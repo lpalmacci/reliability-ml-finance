@@ -93,7 +93,8 @@ def card_latex(c: dict, pr_min: float, width: str = "13.5cm") -> str:
           f"{'valid' if c['L0']['valid'] else 'invalid'}; {100 * c['L0']['resolvable']:.0f}\\% of comparisons resolvable; "
           f"{c['runs']} training runs, {c['contexts']} contexts.")
     l1 = ", ".join(STAT_LABEL.get(s, s.replace("_", r"\_")) for s, _, _ in c["L1_flagged"]) or "none"
-    l3 = "; ".join(f"{s} {v['pr']:.2f} (mean regret {v['regret']:.3f})" for s, v in c["L3"].items())
+    l3 = "; ".join(f"{s} {v['pr']:.2f} (mean regret {v['regret']:.3f}, Kendall {v['tau']:.2f})"
+                   for s, v in c["L3"].items())
     l4 = "not applied" if c["L4"] is None else (
         f"{len(c['L4']['rejected'])} of {c['L4']['tests']} cells rejected"
         + (" (" + ", ".join(c["L4"]["rejected"]) + ")" if c["L4"]["rejected"] else ""))

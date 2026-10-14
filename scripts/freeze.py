@@ -17,7 +17,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 RESULTS, FROZEN = ROOT / "results", ROOT / "results" / "frozen"
-EXPERIMENTS = ["e1", "e2", "e4", "e5", "e6_meta", "e6_case", "e6_size", "e7_l1null", "e7_cost", "e7_obj_low",
+EXPERIMENTS = ["e1", "e1_n40k", "e2", "e4", "e5", "e6_meta", "e6_case", "e6_size", "e7_l1null", "e7_cost", "e7_obj_low",
                "e7_obj_high", "e7_n_alt", "x1_wide", "train"]
 
 

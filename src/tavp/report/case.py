@@ -255,6 +255,8 @@ Process & Generator & runs & flagged & pooled & per run & failed rules & rejecte
             k = gkey(kind, rg if rg != "none" else None)
             num.add(f"case.{k}.l3.TF.regret.min", float(r["min"]), "{:.3f}")
             num.add(f"case.{k}.l3.TF.regret.max", float(r["max"]), "{:.3f}")
+    res = l2[l2.kind.isin(["tcvae"])].groupby(["dgp", "regime"]).resolvable.mean()
+    num.pct("case.tcvae.resolvable.min", float(res.min()), 2)
     num.add("case.fit.count", int(tab[~tab.expl].fit.sum()))
     num.add("case.settings", int((~tab.expl).sum()))
     # rank agreement between L1 (statistics flagged) and L2 (cells passed) across generators and processes
