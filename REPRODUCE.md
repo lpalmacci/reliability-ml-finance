@@ -8,7 +8,7 @@ are three levels of verification, from the quickest to the most complete.
 |---|---|---|---|
 | 1 | The numbers of the chapter follow from the frozen result tables | `make verify-frozen` | about 1 minute |
 | 2 | The whole pipeline runs end to end (small sizes) | `make quick J=3` | about 25 minutes |
-| 3 | The full study, re-run from scratch | `make all`, then `make verify` | about 16 hours |
+| 3 | The full study, re-run from scratch | `make all`, then `make verify` | about 17 hours |
 
 Times are for the machine used for the thesis: Apple M2 Pro (12 cores, 16 GB), macOS,
 Python 3.12.11, CPU only.
@@ -77,6 +77,7 @@ and produces the same output.
 | E6 L4 on held-out histories | `python -m tavp.experiments.e6_calibration --part case` | `results/e6_case/` | 10 min (4) |
 | E7 robustness | `python -m tavp.experiments.e7_robust` | `results/e7_*/` | 3 h (6) |
 | E8 attainability and rich-regime benchmarks (not pre-registered, D5) | `python -m tavp.experiments.e8_attain` | `results/e8/` | 2 h (6) |
+| E9 planted mean reversion P7 (not pre-registered, D6; needs the facts of E4) | `python -m tavp.experiments.e9_mr` | `results/e9/` | 1 h (7) |
 | X1 exploratory wide ablation | `make exploratory` | `results/x1_wide/` | 1.5 h (2) |
 | Tables, figures, numbers | `make thesis` | `thesis_assets/` | 1 min |
 
@@ -92,14 +93,21 @@ differences propagate to the trained generators, so that some numbers of the cas
 differ slightly, while the meta-validation (E1, E2, E6 meta), which uses only the oracles,
 is unaffected by training.
 
+This was checked on 2026-10-14 with a clean-room run on the thesis machine: a fresh clone of
+the repository, a new environment from `uv.lock`, then `make test`, `make verify-frozen`
+(VERIFIED) and `make quick J=3` (11 minutes). The generators trained in the clean room were
+bit-identical to those of the original run (the only difference in their files is the
+absolute output path recorded in `training_config.json`), and all 2,048 numbers of the smoke
+run coincided with those of the original repository.
+
 ## Pre-registration and deviations
 
 The scientific settings were committed under the git tag `prereg` before any experiment
 (`git show prereg:configs/preregistration.yaml`). Every later change is recorded, with date
 and reason, in `docs/DEVIATIONS.md`, and results under the pre-registered settings are kept
 alongside: `p_prereg` and `flag_*_prereg` columns for the L1 null (D3), `reject_*_berkowitz_joint`
-columns for the L4 tests (D4), `results/e1_n40k/` for the first negative control (D1). Experiment E8 (D5) was added after the
-results and is not pre-registered; it does not change any pre-registered verdict.
+columns for the L4 tests (D4), `results/e1_n40k/` for the first negative control (D1). Experiments E8 (D5) and E9 (D6) and the critical
+tolerances (D7) were added after the results and are not pre-registered; they do not change any pre-registered verdict.
 
 ## Correspondence with the chapter
 
@@ -114,4 +122,6 @@ results and is not pre-registered; it does not change any pre-registered verdict
 | Case-study figures and summary | `figures/fig_case_*.pdf`, `tables/tab_case_summary.tex` | `results/e4/`, `results/e5/`, `results/e6_case/`, `results/x1_wide/` |
 | Robustness (E7) | `tables/tab_e7_robust.tex` | `results/e7_*/` |
 | Attainability (E8) | `tables/tab_e8_attain.tex`, `tables/tab_e8_functionals.tex`, `figures/fig_case_attain.pdf` | `results/e4/`, `results/e5/`, `results/e8/` |
+| Planted mean reversion (E9) | `tables/tab_e9_detection.tex`, `tables/tab_e9_match.tex` | `results/e4/`, `results/e8/`, `results/e9/` |
+| Critical tolerances (D7) | `tables/tab_tolcrit.tex`, `tables/tab_tolfunc.tex`, `figures/fig_tolcrit.pdf` | `results/e1/`, `results/e4/`, `results/e5/`, `results/e8/` |
 | Every number in the text | `numbers.tex` (macro `\tavp{key}`) | all of the above |

@@ -2,7 +2,7 @@ import numpy as np
 
 from tavp.dgp.processes import GBM, GJRGarchT
 from tavp.generators.base import OracleGenerator
-from tavp.perturb.operators import scale_volatility, shift_drift, shuffle_fraction
+from tavp.perturb.operators import ma1_coefficient, negative_autocorrelation, scale_volatility, shift_drift, shuffle_fraction
 from tavp.utils import rng
 
 
@@ -22,7 +22,7 @@ def test_partial_shuffle_moves_only_selected_positions():
 
 def test_zero_severity_is_identity():
     d = GJRGarchT.from_annual()
-    for k in ["P1", "P2", "P3", "P4", "P5", "P6"]:
+    for k in ["P1", "P2", "P3", "P4", "P5", "P6", "P7"]:
         a = OracleGenerator(d, k, 0.0).sample_returns(50, 59, rng(3, "z"))
         b = OracleGenerator(d).sample_returns(50, 59, rng(3, "z"))
         assert np.array_equal(a, b), k
@@ -41,3 +41,18 @@ def test_scale_and_drift():
 def test_target_hash_is_base_process():
     d = GJRGarchT.from_annual()
     assert OracleGenerator(d, "P3", 1.0).target_hash == d.hash()
+
+
+def test_negative_autocorrelation_keeps_variance_and_sets_acf1():
+    assert np.isclose(ma1_coefficient(-0.1) / (1 + ma1_coefficient(-0.1) ** 2), -0.1)
+    d = GBM()
+    m = d.drift_per_step()
+    r = d.simulate_returns(20000, 59, rng(5, "p7"))
+    r7 = negative_autocorrelation(r, 1.0, m, rng(6, "p7"))
+    u = r7 - m
+    acf1 = (u[:, 1:] * u[:, :-1]).mean() / (u**2).mean()
+    assert abs(acf1 + 0.10) < 0.005
+    assert abs(u.std() / (r - m).std() - 1) < 0.01
+    assert abs(u[:, 0].std() / u[:, 1:].std() - 1) < 0.02
+    vr = u.sum(axis=1).var() / (59 * u.var())
+    assert abs(vr - (1 + 2 * -0.10 * 58 / 59)) < 0.02

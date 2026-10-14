@@ -1,0 +1,17 @@
+\begin{tabular}{llrrrrrrrll}
+\toprule
+& & & & & \multicolumn{3}{c}{Failed in $\mathcal{A}$} & & \multicolumn{2}{c}{L3 failed} \\
+\cmidrule(lr){6-8}\cmidrule(lr){10-11}
+Training data & Process & ACF(1) & $\delta$ & $|\mathcal{A}|$ & G1 & P7 & both & $r$ & G1 & P7 \\
+\midrule
+10 years & D1 GBM & $-0.038$ & 0.38 & 14 & 8 & 2 & 2 & 0.99 & TF, TVF & -- \\
+ & D2 Heston & $-0.041$ & 0.41 & 13 & 12 & 3 & 3 & 0.79 & TF, TVF & -- \\
+ & D3 GJR-GARCH-$t$ & $-0.046$ & 0.46 & 14 & 14 & 3 & 3 & 0.83 & -- & -- \\
+ & D4 Regimes & $-0.042$ & 0.42 & 12 & 12 & 1 & 1 & 0.89 & TF, TVF & -- \\
+\addlinespace
+rich data & D1 GBM & $-0.057$ & 0.57 & 28 & 19 & 13 & 13 & 0.92 & TF, TVF & -- \\
+ & D2 Heston & $-0.063$ & 0.63 & 29 & 28 & 17 & 17 & 0.93 & -- & -- \\
+ & D3 GJR-GARCH-$t$ & $-0.044$ & 0.44 & 27 & 23 & 10 & 10 & 0.73 & TVF & -- \\
+ & D4 Regimes & $-0.046$ & 0.46 & 30 & 28 & 13 & 13 & 0.77 & TVF & -- \\
+\bottomrule
+\end{tabular}

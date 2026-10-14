@@ -16,6 +16,8 @@ import pandas as pd
 from tavp.experiments import common
 from tavp.report import summaries as S
 from tavp.report.attain import build_attain
+from tavp.report.mr import build_mr
+from tavp.report.tolcrit import build_tolcrit
 from tavp.report.case import build_case
 from tavp.report.robust import build_robust
 from tavp.report.numbers import Numbers
@@ -407,6 +409,8 @@ def main():
     build_case(root, out, num, cfg, pr_min)
     build_robust(root, out, num, pr_min)
     build_attain(root, out, num, cfg, pr_min)
+    build_tolcrit(root, out, num, cfg, pr_min)
+    build_mr(root, out, num, cfg, pr_min)
     num.write(out / "numbers.tex", out / "numbers.json")
     if args.export:
         dst = Path(args.export)

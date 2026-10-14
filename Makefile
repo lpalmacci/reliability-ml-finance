@@ -1,5 +1,5 @@
 # Reproduce the results of the chapter (see REPRODUCE.md). `make quick` is a smoke run;
-# `make all` is the full study (about 16 hours on a 12-core laptop CPU).
+# `make all` is the full study (about 17 hours on a 12-core laptop CPU).
 UV ?= uv
 export OMP_NUM_THREADS=1
 export VECLIB_MAXIMUM_THREADS=1
@@ -32,6 +32,7 @@ case:
 	$(PY) tavp.experiments.e6_calibration --config $(CFG) --part case $(JOBS)
 	$(PY) tavp.experiments.e7_robust --config $(CFG) $(JOBS)
 	$(PY) tavp.experiments.e8_attain --config $(CFG) $(JOBS)
+	$(PY) tavp.experiments.e9_mr --config $(CFG) $(JOBS)
 
 exploratory:
 	$(PY) tavp.experiments.train --config $(XCFG) $(JOBS)
