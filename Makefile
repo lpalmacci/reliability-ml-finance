@@ -22,6 +22,7 @@ train:
 meta:
 	$(PY) tavp.experiments.e1_null --config $(CFG) $(JOBS)
 	$(PY) tavp.experiments.e2_defects --config $(CFG) $(JOBS)
+	$(PY) tavp.experiments.e12_fine --config $(CFG) $(JOBS)
 	$(PY) tavp.experiments.e6_calibration --config $(CFG) --part meta $(JOBS)
 	$(PY) tavp.experiments.l4_size --config $(CFG) $(JOBS)
 

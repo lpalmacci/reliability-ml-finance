@@ -32,6 +32,9 @@ STAT_LABEL = {"mean": "mean", "std": "std. dev.", "skew": "skewness", "kurt": "k
               "acf_r": "ACF($r$)", "acf_abs": "ACF($|r|$)", "leverage": "leverage", "kurt_agg5": "kurt. (5d)",
               "kurt_agg20": "kurt. (20d)", "marginal_w1": "marginal $W_1$", "swd_logpath": "sliced $W_2$",
               "signature_mmd": "signature"}
+FUNC_LABEL = {("sharpe", "mean"): "Sharpe mean", ("sharpe", "q50"): "Sharpe median", ("sharpe", "q05"): "Sharpe $q_{0.05}$",
+              ("sharpe", "q95"): "Sharpe $q_{0.95}$", ("maxdd", "mean"): "MaxDD mean", ("maxdd", "q95"): "MaxDD $q_{0.95}$",
+              ("ret", "mean"): "return mean", ("ret", "var95"): "VaR", ("ret", "es95"): "ES"}
 # Categorical slots 1-3 of the reference palette (validated all-pairs, light mode).
 COLORS = {"L1": "#2a78d6", "L2": "#eb6834", "L3": "#1baf7a"}
 INK, INK2, GRID = "#0b0b0b", "#52514e", "#e4e3df"
@@ -133,7 +136,8 @@ def detection_curves(e1: dict, e2: dict, pr_min: float) -> pd.DataFrame:
     return pd.DataFrame(out)
 
 
-def power_figure(curves: pd.DataFrame, path: Path, pr_min: float) -> None:
+def power_figure(curves: pd.DataFrame, path: Path, pr_min: float, xmax: float = 1.0,
+                 xticks: tuple = (0, 0.5, 1)) -> None:
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
@@ -163,7 +167,8 @@ def power_figure(curves: pd.DataFrame, path: Path, pr_min: float) -> None:
                 ax.plot(c.delta, c[lev], color=COLORS[lev], linewidth=1.4, marker=mk, markersize=3.2,
                         markeredgecolor="white", markeredgewidth=0.6, label=lev, clip_on=False)
             ax.set_ylim(-0.03, 1.03)
-            ax.set_xticks([0, 0.5, 1])
+            ax.set_xlim(-0.02 * xmax, 1.02 * xmax)
+            ax.set_xticks(list(xticks))
             ax.set_yticks([0, 0.5, 1])
     handles, labels = axes[0, 0].get_legend_handles_labels()
     if not handles:
@@ -310,6 +315,115 @@ Defect & L1 silent & L1 flags & L1 silent & L1 flags & total \\
 
 
 # ----------------------------------------------------------------------------- E6
+# ----------------------------------------------------------------------------- E12
+def build_e12(root: Path, out: Path, num: Numbers, pr_min: float) -> None:
+    """Fine grid of severities (E12, D9): power curves between 0 and 0.25 and detection thresholds."""
+    e1 = {n: _read(root, "e1", n) for n in ("l1", "l2", "l3")}
+    e2 = {n: _read(root, "e2", n) for n in ("l1", "l2", "l3")}
+    e12 = {n: _read(root, "e12", n) for n in ("l1", "l2", "l3")}
+    if any(v is None for v in (*e1.values(), *e2.values(), *e12.values())):
+        return
+    both = {n: pd.concat([e2[n], e12[n]], ignore_index=True) for n in e2}
+    curves = detection_curves(e1, both, pr_min)
+    curves.to_csv(out / "tables" / "e12_detection_curves.csv", index=False)
+    power_figure(curves[curves.delta <= 0.25 + 1e-9], out / "figures" / "fig_power_fine.pdf", pr_min,
+                 xmax=0.25, xticks=(0, 0.1, 0.2))
+    cells = S.l2_cells(both["l2"], pr_min)
+    l1_power_min = 0.8
+
+    def first(c, col, thr):
+        hit = c[(c.delta > 0) & (c[col] > thr)].delta
+        return float(hit.min()) if len(hit) else None
+
+    fmt = lambda x: "--" if x is None else f"{x:g}"
+    lines, rows = [], []
+    for defect in DEFECT_LABEL:
+        for d in DGP_ORDER:
+            c = curves[(curves.defect == defect) & (curves.dgp == d)]
+            if c.empty:
+                continue
+            d1, d2, d3 = first(c, "L1", l1_power_min - 1e-12), first(c, "L2", 1 - pr_min), first(c, "L3", 1 - pr_min)
+            cell_txt, ratio, wpr = "--", None, None
+            if d2 is not None:
+                x = cells[(cells.defect == defect) & (cells.dgp == d) & np.isclose(cells.delta, d2)].sort_values("pr")
+                w = x.iloc[0]
+                cell_txt = f"{w.strategy} {FUNC_LABEL.get((w.metric, w.functional), w.metric + ' ' + w.functional)}"
+                ratio, wpr = float(w.abs_diff / w.eta), float(w.pr)
+            low = c[np.isclose(c.delta, 0.05)].iloc[0]
+            key = f"e12.{defect}.{d}"
+            num.add(key + ".first.l1", fmt(d1).replace("--", "none"))
+            num.add(key + ".first.l2", fmt(d2).replace("--", "none"))
+            num.add(key + ".first.l3", fmt(d3).replace("--", "none"))
+            if ratio is not None:
+                num.add(key + ".first.ratio", ratio)
+                num.add(key + ".first.pr", wpr)
+            for r in c[(c.delta > 0) & (c.delta < 0.25 - 1e-9)].itertuples():
+                num.add(f"{key}.{r.delta:g}.l1", float(r.L1))
+                num.add(f"{key}.{r.delta:g}.l2", float(r.L2))
+                num.add(f"{key}.{r.delta:g}.l2failed", int(r.l2_failed))
+            rows.append({"defect": defect, "dgp": d, "first_l1": d1, "first_l2": d2, "first_l3": d3,
+                         "l2_at_005": float(low.L2), "l1_at_005": float(low.L1), "ratio": ratio})
+            lines.append(f"{DEFECT_LABEL[defect]} & {DGP_LABEL[d]} & {fmt(d1)} & {fmt(d2)} & {cell_txt} & "
+                         f"{'--' if wpr is None else f'{wpr:.2f}'} & {'--' if ratio is None else f'{ratio:.2f}'} & "
+                         f"{low.L2:.2f} & {fmt(d3)} \\\\")
+    t = pd.DataFrame(rows)
+    t.to_csv(out / "tables" / "e12_thresholds.csv", index=False)
+    real = t[~((t.defect == "P1") & (t.dgp == "gbm"))]  # P1 on GBM is not a defect
+    num.add("e12.combos", int(len(real)))
+    num.add("e12.l2.before025", int((real.first_l2 < 0.25 - 1e-9).sum()))
+    num.add("e12.l2.at005", int((real.first_l2 <= 0.05 + 1e-9).sum()))
+    num.add("e12.l2.from025", int((real.first_l2 >= 0.25 - 1e-9).sum()))
+    num.add("e12.l1.before025", int((real.first_l1 < 0.25 - 1e-9).sum()))
+    num.add("e12.l1.earlier", int((real.first_l1.fillna(9) < real.first_l2.fillna(9)).sum()))
+    num.add("e12.l2.earlier", int((real.first_l2.fillna(9) < real.first_l1.fillna(9)).sum()))
+    num.add("e12.ratio.min", float(real.ratio.min()))
+    num.add("e12.ratio.max", float(real.ratio.max()))
+    num.add("e12.ratio.median", float(real.ratio.median()))
+    num.add("e12.P1.gbm.l2.max", float(curves[(curves.defect == "P1") & (curves.dgp == "gbm") & (curves.delta > 0)].L2.max()))
+    # effective tolerance: with a discrepancy estimated with noise sigma = hw / z_{1-alpha} in each context, a cell
+    # passes with probability Phi((eta - hw - d) / sigma) - Phi((-eta + hw - d) / sigma), so PR >= PR_min requires
+    # |d| <= eta - hw (1 + z_{PR_min} / z_{1-alpha})
+    from scipy.stats import norm
+
+    z_a, z_p = norm.ppf(0.95), norm.ppf(pr_min)
+    allc = S.l2_cells(pd.concat([e1["l2"][e1["l2"].kind == "oracle"].assign(defect="none"), both["l2"]],
+                                ignore_index=True), pr_min)
+    sig = allc.half_width / z_a
+    allc["pr_hat"] = norm.cdf((allc.eta - allc.half_width - allc["diff"]) / sig) - norm.cdf(
+        (-allc.eta + allc.half_width - allc["diff"]) / sig)
+    num.add("e12.model.cells", int(len(allc)))
+    num.add("e12.model.mae", float((allc.pr - allc.pr_hat).abs().mean()), "{:.3f}")
+    num.add("e12.model.corr", float(np.corrcoef(allc.pr, allc.pr_hat)[0, 1]), "{:.3f}")
+    num.pct("e12.model.agree", float(((allc.pr >= pr_min) == (allc.pr_hat >= pr_min)).mean()))
+    num.add("e12.zsum", float(z_a + z_p))
+    num.add("e12.zfactor", float(1 + z_p / z_a))
+    num.add("e12.eff.atlimit", float(1 - 0.5 * (1 + z_p / z_a)))  # half-width at the L0 limit, eta / 2
+    elines = []
+    for (m, f), lab in FUNC_LABEL.items():
+        x = allc[(allc.metric == m) & (allc.functional == f)]
+        r = float((x.half_width / x.eta).median())
+        eff = 1 - (1 + z_p / z_a) * r
+        num.add(f"e12.hw.{m}.{f}", r)
+        num.add(f"e12.eff.{m}.{f}", eff)
+        elines.append(f"{lab} & {x.eta.iloc[0]:g} & {r:.2f} & {eff:.2f} & {eff * x.eta.iloc[0]:.3f} \\\\")
+    _write(out / "tables" / "tab_e12_effective.tex", r"""\begin{tabular}{lrrrr}
+\toprule
+Functional & $\eta$ & $w/\eta$ & $\eta_{\mathrm{eff}}/\eta$ & $\eta_{\mathrm{eff}}$ \\
+\midrule
+""" + "\n".join(elines) + "\n" + r"""\bottomrule
+\end{tabular}
+""")
+    _write(out / "tables" / "tab_e12_thresholds.tex", r"""\begin{tabular}{llrrlrrrr}
+\toprule
+& & L1 & \multicolumn{5}{c}{L2} & L3 \\
+\cmidrule(lr){3-3}\cmidrule(lr){4-8}\cmidrule(lr){9-9}
+Defect & Process & $\delta^{*}$ & $\delta^{*}$ & first cell failed & PR & $\overline{|d|}/\eta$ & at $\delta=0.05$ & $\delta^{*}$ \\
+\midrule
+""" + "\n".join(lines) + "\n" + r"""\bottomrule
+\end{tabular}
+""")
+
+
 def build_e6(root: Path, out: Path, num: Numbers, part: str) -> None:
     t = _read(root, f"e6_{part}", "tests")
     if t is None:
@@ -405,6 +519,7 @@ def main():
     num.add("cfg.B", int(cfg["protocol"]["L1"]["b_null"]))
     num.add("cfg.B.prereg", int(cfg["protocol"]["L1"].get("b_null_prereg", cfg["protocol"]["L1"]["b_null"])))
     build_e2(root, out, num, pr_min)
+    build_e12(root, out, num, pr_min)
     build_e6(root, out, num, "meta")
     build_e6(root, out, num, "case")
     build_case(root, out, num, cfg, pr_min)

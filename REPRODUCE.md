@@ -69,6 +69,7 @@ and produces the same output.
 | Training of the neural generators (G1, G2) | `python -m tavp.experiments.train` | `results/runs/` | 1.5 h (3) |
 | E1 negative control and L1 null | `python -m tavp.experiments.e1_null` | `results/e1/` | 1 h (4) |
 | E2 planted defects | `python -m tavp.experiments.e2_defects` | `results/e2/` | 3.5 h (4) |
+| E12 fine grid of severities (not pre-registered, D9) | `python -m tavp.experiments.e12_fine` | `results/e12/` | 1.5 h (6) |
 | E6 meta-validation of L4 | `python -m tavp.experiments.e6_calibration --part meta` | `results/e6_meta/` | 15 min (4) |
 | Size of the L4 tests under dependence | `python -m tavp.experiments.l4_size` | `results/e6_size/` | 2 min (1) |
 | E4 case study (TC-VAE) | `python -m tavp.experiments.e4_case` | `results/e4/` | 2 h (4) |
@@ -112,7 +113,7 @@ The scientific settings were committed under the git tag `prereg` before any exp
 and reason, in `docs/DEVIATIONS.md`, and results under the pre-registered settings are kept
 alongside: `p_prereg` and `flag_*_prereg` columns for the L1 null (D3), `reject_*_berkowitz_joint`
 columns for the L4 tests (D4), `results/e1_n40k/` for the first negative control (D1). Experiments E8 (D5) and E9 (D6), the critical
-tolerances (D7) and the market-data analysis (D8: E10, its multistart sensitivity, E11) were added after the results and
+tolerances (D7), the market-data analysis (D8: E10, its multistart sensitivity, E11) and the fine grid of severities (D9: E12) were added after the results and
 are not pre-registered; they do not change any pre-registered verdict. `make real` runs the market-data analysis.
 
 ## Correspondence with the chapter
@@ -130,5 +131,6 @@ are not pre-registered; they do not change any pre-registered verdict. `make rea
 | Attainability (E8) | `tables/tab_e8_attain.tex`, `tables/tab_e8_functionals.tex`, `figures/fig_case_attain.pdf` | `results/e4/`, `results/e5/`, `results/e8/` |
 | Planted mean reversion (E9) | `tables/tab_e9_detection.tex`, `tables/tab_e9_match.tex` | `results/e4/`, `results/e8/`, `results/e9/` |
 | Critical tolerances (D7) | `tables/tab_tolcrit.tex`, `tables/tab_tolfunc.tex`, `figures/fig_tolcrit.pdf` | `results/e1/`, `results/e4/`, `results/e5/`, `results/e8/` |
+| Fine grid of severities (E12) | `figures/fig_power_fine.pdf`, `tables/tab_e12_thresholds.tex`, `tables/tab_e12_effective.tex` | `results/e1/`, `results/e2/`, `results/e12/` |
 | Market data (D8) | `tables/tab_real_params.tex`, `tables/tab_real_protocol.tex`, `tables/tab_real_l4.tex` | `results/real/`, `results/e10ms/` |
 | Every number in the text | `numbers.tex` (macro `\tavp{key}`) | all of the above |
