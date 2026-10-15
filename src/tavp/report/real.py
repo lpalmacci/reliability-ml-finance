@@ -287,7 +287,7 @@ def build_real_l4(rroot: Path, out: Path, num: Numbers, cfg: dict) -> None:
     num.add("real.l4.test.last", _date(wins.test_last.max()))
     num.add("real.l4.train.first", _date(wins.train_first.min()))
     num.add("real.l4.hash_ok", "yes" if bool(pits.hash_ok.all()) else "no")
-    lines, summary = [], {}
+    lines, summary = {}, {}
     for gname in ("tcvae", "qgan", "bootstrap", "garch"):
         t = tests[tests.generator == gname]
         for seed in sorted(t.seed.unique()):
@@ -311,7 +311,8 @@ def build_real_l4(rroot: Path, out: Path, num: Numbers, cfg: dict) -> None:
             num.add(key + ".which", which.replace("_", r"\_") or "none")
             summary.setdefault(gname, []).append((rej, cov, pooled))
             lab = GEN_LABEL[gname] + (f", run {int(seed) + 1}" if gname in PER_RUN else "")
-            lines.append(f"{lab} & {rej}/{len(pooled)} & {100 * cov:.0f}\\% & " + " & ".join(map(str, per)) + r" \\")
+            lines.setdefault(gname, []).append(f"{lab} & {rej}/{len(pooled)} & {100 * cov:.0f}\\% & "
+                                               + " & ".join(map(str, per)) + r" \\")
     for gname in PER_RUN:
         if gname not in summary:
             continue
@@ -342,18 +343,31 @@ def build_real_l4(rroot: Path, out: Path, num: Numbers, cfg: dict) -> None:
         for _, x in g.iterrows():
             for col in ("drift_garch", "mean_train", "mean_test", "vol_train", "vol_test"):
                 num.add(f"real.l4.win.{int(x.test_first) // 10000}.{col}", float(x[col]), "{:.3f}")
-    # held-out periods in which some generator is rejected
-    bad = [w for w in wins.window if tests[(tests.window == w)].reject_any.any()]
+    # held-out periods in which some generator of E11 is rejected (the Quant GAN, added by addendum, is reported apart)
+    t11 = tests[tests.generator != "qgan"]
+    bad = [w for w in wins.window if t11[(t11.window == w)].reject_any.any()]
     num.add("real.l4.periods.rejected", len(bad))
     num.add("real.l4.periods.rejected.which", ", ".join(
         f"{str(a)[:4]}--{str(b)[:4]}" for w, a, b in zip(wins.window, wins.test_first, wins.test_last) if w in bad))
     head = " & ".join(f"{str(a)[:4]}--{str(b)[2:4]}" for a, b in zip(wins.test_first, wins.test_last))
-    (out / "tables" / "tab_real_l4.tex").write_text(r"""\begin{tabular}{lrr""" + "r" * len(wins) + r"""}
+
+    def table(groups: list[list[str]]) -> str:
+        body = "\n\\addlinespace\n".join("\n".join(sum((lines.get(g, []) for g in gs), [])) for gs in groups)
+        return (r"""\begin{tabular}{lrr""" + "r" * len(wins) + r"""}
 \toprule
 & \multicolumn{2}{c}{Pooled over periods} & \multicolumn{""" + str(len(wins)) + r"""}{c}{Rejected in each held-out period} \\
 \cmidrule(lr){2-3}\cmidrule(lr){4-""" + str(3 + len(wins)) + r"""}
 Generator & rejected & coverage & """ + head + r""" \\
 \midrule
-""" + "\n".join(lines) + "\n" + r"""\bottomrule
+""" + body + "\n" + r"""\bottomrule
 \end{tabular}
 """)
+
+    (out / "tables" / "tab_real_l4.tex").write_text(table([["tcvae", "bootstrap", "garch"]]))
+    if "qgan" in lines:
+        (out / "tables" / "tab_qgan_market.tex").write_text(table([["qgan"], ["tcvae", "bootstrap", "garch"]]))
+        q = tests[(tests.generator == "qgan") & (tests.window >= 0)]
+        bad_q = [w for w in wins.window if q[q.window == w].reject_any.any()]
+        num.add("real.l4.qgan.periods.rejected", len(bad_q))
+        num.add("real.l4.qgan.periods.rejected.which", ", ".join(
+            f"{str(a)[:4]}--{str(b)[:4]}" for w, a, b in zip(wins.window, wins.test_first, wins.test_last) if w in bad_q))

@@ -1,0 +1,20 @@
+\begin{tabular}{lrrrrrrrrr}
+\toprule
+\multicolumn{10}{p{13.5cm}}{L0: process hashes consistent; scenarios valid; 100\% of comparisons resolvable; 3 training runs, 50 contexts.} \\
+\midrule
+ & \multicolumn{4}{c}{Sharpe} & \multicolumn{2}{c}{MaxDD} & \multicolumn{3}{c}{Return} \\
+\cmidrule(lr){2-5}\cmidrule(lr){6-7}\cmidrule(lr){8-10}
+L2 pass rate & mean & $q_{.05}$ & $q_{.50}$ & $q_{.95}$ & mean & $q_{.95}$ & mean & VaR & ES \\
+\midrule
+BH & \textbf{0.00}$^{\dagger}$ & \textbf{0.31} & \textbf{0.33}$^{\dagger}$ & \textbf{0.00} & 1.00 & \textbf{0.33} & \textbf{0.08} & \textbf{0.24} & \textbf{0.00} \\
+TF & \textbf{0.08} & \textbf{0.30} & \textbf{0.07}$^{\dagger}$ & \textbf{0.09} & \textbf{0.74} & \textbf{0.77} & \textbf{0.13} & \textbf{0.32} & \textbf{0.31} \\
+VT & \textbf{0.00}$^{\dagger}$ & \textbf{0.15} & \textbf{0.25}$^{\dagger}$ & \textbf{0.01} & 1.00 & \textbf{0.84} & \textbf{0.28} & \textbf{0.31} & \textbf{0.15} \\
+TVF & \textbf{0.07}$^{\dagger}$ & \textbf{0.32} & \textbf{0.11}$^{\dagger}$ & \textbf{0.11} & \textbf{0.78} & \textbf{0.75} & \textbf{0.28} & \textbf{0.44} & \textbf{0.41} \\
+\midrule
+\multicolumn{10}{p{13.5cm}}{L1 flagged (power at least 0.5): ACF($|r|$), ACF($r$), Hill index, kurtosis, leverage, marginal $W_1$, mean, signature distance, skewness, sliced $W_2$.} \\
+\multicolumn{10}{p{13.5cm}}{L3 pass rate: TF 0.77 (mean regret 0.041, Kendall 0.43); TVF 0.63 (mean regret 0.056, Kendall 0.47); VT 1.00 (mean regret 0.002, Kendall 0.91).} \\
+\multicolumn{10}{p{13.5cm}}{L4: not applied.} \\
+\multicolumn{10}{p{13.5cm}}{\textbf{Verdict: not fit for the declared use.}} \\
+\multicolumn{10}{p{13.5cm}}{$^{\dagger}$Not attainable with this amount of data. Attainable cells passed: 2 of 29; attainable rules of L3 failed: TF, TVF. \textbf{Verdict on the attainable cells: not fit.}} \\
+\bottomrule
+\end{tabular}

@@ -2,12 +2,12 @@
 
 ## Simulated data
 
-All the experiments of Sections 5 and 6.1-6.3.3 of the chapter use data simulated from the four
+All the experiments of Sections 5, 6.1, 6.2.1-6.2.3 and 6.3.1-6.3.3 of the chapter (except the fidelity check Q0) use data simulated from the four
 reference processes of `configs/preregistration.yaml`. They need no download: every path is generated
 from the master seed through named random streams (`tavp.utils.rng`), so the same command produces the
 same data on the same platform.
 
-## Market data (Section 6.3.4, experiments E10 and E11)
+## Market data (Sections 6.2.4 and 6.3.4, experiments E10, E11 and E13; Section 6.3.1, check Q0)
 
 - Source: Kenneth R. French Data Library, *Fama/French 3 Factors [Daily]*,
   <https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html>. The series used is the

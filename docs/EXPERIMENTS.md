@@ -20,14 +20,14 @@ Commands take `--config` (default `configs/full.yaml`) and `--jobs`; `make all` 
 | E6 case | Level L4 on the held-out half of each history | P (D4) | `tavp.experiments.e6_calibration --part case` | `results/e6_case/` | 6.1.5 |
 | E7 | Are the verdicts robust to cost, objective, N, tolerances and the L1 null? | P | `tavp.experiments.e7_robust` | `results/e7_*/` | 7.3 |
 | X1 | Exploratory wide ablation (256 hidden units) | D2 | `make exploratory` | `results/x1_wide/` | 6.1.4 |
-| Q0, Q0b | Does the Quant GAN implementation reproduce the paper? One bounded tuning round | A | `tavp.experiments.q0_fidelity`; `tavp.experiments.q0_tune` | `results/q0/` | 6.2 |
-| E13 | Is the Quant GAN (G3) fit for the declared use? L0-L3, L4 on held-out histories and on the market | A (D10) | `tavp.experiments.e13_qgan --stage train/facts/protocol/l4`; `tavp.experiments.e11_market_l4 --config configs/real.yaml --qgan` | `results/e13/`, `results/runs/qgan/`, `results/real/e11/` | 6.2 |
-| E8 | Which cells can the data support? Does the protocol certify a correctly specified generator? | D5 | `tavp.experiments.e8_attain` | `results/e8/` | 6.3.1 |
-| Critical tolerances | How far is each verdict from its threshold? | D7 | in the report (`tavp.report.tolcrit`) | from E1, E4, E5, E8 | 6.3.2 |
-| E9 | Does the spurious autocorrelation of the TC-VAE explain its failures (planted defect P7)? | D6 | `tavp.experiments.e9_mr` | `results/e9/` | 6.3.3 |
-| E10 | The protocol on oracles calibrated on the US market, 1926-2026; multistart refit of B2 | D8 | `tavp.experiments.e10_calibrate`; the experiments above with `configs/real.yaml`; `tavp.experiments.e10_multistart` | `results/real/`, `results/e10ms/` | 6.3.4 |
-| E11 | Level L4 on nine held-out decades of the US market | D8 | `tavp.experiments.e11_market_l4 --config configs/real.yaml` | `results/real/e11/` | 6.3.4 |
-| Curves | Descriptive figures (induced laws, autocorrelation, quantiles, paths) | descriptive | `tavp.experiments.e4_curves` | `results/e4_curves/` | 4.3, 6.1.3 |
+| Q0, Q0b | Does the Quant GAN implementation reproduce the paper? One bounded tuning round | A | `tavp.experiments.q0_fidelity`; `tavp.experiments.q0_tune` | `results/q0/` | 6.3.1 |
+| E13 | Is the Quant GAN (G3) fit for the declared use? L0-L3, L4 on held-out histories and on the market | A (D10) | `tavp.experiments.e13_qgan --stage train/facts/protocol/l4`; `tavp.experiments.e11_market_l4 --config configs/real.yaml --qgan` | `results/e13/`, `results/runs/qgan/`, `results/real/e11/` | 6.3 |
+| E8 | Which cells can the data support? Does the protocol certify a correctly specified generator? | D5 | `tavp.experiments.e8_attain` | `results/e8/` | 6.2.1 |
+| Critical tolerances | How far is each verdict from its threshold? | D7 | in the report (`tavp.report.tolcrit`) | from E1, E4, E5, E8 | 6.2.2 |
+| E9 | Does the spurious autocorrelation of the TC-VAE explain its failures (planted defect P7)? | D6 | `tavp.experiments.e9_mr` | `results/e9/` | 6.2.3 |
+| E10 | The protocol on oracles calibrated on the US market, 1926-2026; multistart refit of B2 | D8 | `tavp.experiments.e10_calibrate`; the experiments above with `configs/real.yaml`; `tavp.experiments.e10_multistart` | `results/real/`, `results/e10ms/` | 6.2.4 |
+| E11 | Level L4 on nine held-out decades of the US market | D8 | `tavp.experiments.e11_market_l4 --config configs/real.yaml` | `results/real/e11/` | 6.2.4, 6.3.4 |
+| Curves | Descriptive figures (induced laws, autocorrelation, quantiles, paths) | descriptive | `tavp.experiments.e4_curves` | `results/e4_curves/` | 4.3, 6.1.3, 6.3.3 |
 
 ## Generators
 

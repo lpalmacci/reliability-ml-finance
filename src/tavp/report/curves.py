@@ -1,6 +1,7 @@
 """Descriptive figures of the chapter: induced laws, autocorrelation and leverage curves, sample paths,
 quantiles, and the PITs of level L4 on the market. Reads results/e4_curves/ (tavp.experiments.e4_curves)
-and results/real/e11/; each figure includes the Quant GAN when its results exist."""
+and results/real/e11/. The figures of the pre-registered analysis show the generators of that analysis; the Quant
+GAN, added by addendum, has its own figure of dependence curves (fig_qgan_curves)."""
 
 from __future__ import annotations
 
@@ -12,8 +13,9 @@ import pandas as pd
 from tavp.report.case import DGP_LABEL, DGP_ORDER, FAMILY, GRID, INK, INK2
 from tavp.report.numbers import Numbers
 
-GEN10 = [("tcvae", "single", "G1 TC-VAE"), ("qgan", "single", "G3 Quant GAN"), ("bootstrap", None, "B1 bootstrap"),
-         ("garch", None, "B2 GJR-GARCH-$t$")]
+GEN10 = [("tcvae", "single", "G1 TC-VAE"), ("bootstrap", None, "B1 bootstrap"), ("garch", None, "B2 GJR-GARCH-$t$")]
+GEN_QGAN = [("tcvae", "single", "G1 TC-VAE, 10 years"), ("qgan", "single", "G3 Quant GAN, 10 years"),
+            ("tcvae", "rich", "G1 TC-VAE, rich data"), ("qgan", "rich", "G3 Quant GAN, long history")]
 BAND = "#d9d8d3"
 STRAT = ["BH", "TF", "VT", "TVF"]
 
@@ -51,8 +53,12 @@ def _sel(df, kind, regime):
     return x[x.regime == regime] if regime else x
 
 
-def _present(df) -> list:
-    return [g for g in GEN10 if not _sel(df, g[0], g[1]).empty]
+def _present(df, gens=GEN10) -> list:
+    return [g for g in gens if not _sel(df, g[0], g[1]).empty]
+
+
+def _dash(regime) -> str:
+    return "--" if regime == "rich" else "-"
 
 
 # ----------------------------------------------------------------------------- figure 1: induced laws
@@ -61,7 +67,6 @@ def induced_figure(ind: pd.DataFrame, cfg: dict, path: Path) -> None:
 
     plt = _plt()
     gens = [("oracle", None, "oracle")] + [("tcvae", "rich", "G1 TC-VAE, rich data"),
-                                            ("qgan", "rich", "G3 Quant GAN, long history"),
                                             ("bootstrap", None, "B1 bootstrap, 10 years"),
                                             ("garch", None, "B2 GJR-GARCH-$t$, 10 years")]
     gens = [g for g in gens if not _sel(ind, g[0], g[1]).empty]
@@ -99,10 +104,10 @@ def induced_figure(ind: pd.DataFrame, cfg: dict, path: Path) -> None:
 
 
 # ----------------------------------------------------------------------------- figure 2: dependence curves
-def curves_figure(cur: pd.DataFrame, band: pd.DataFrame, path: Path) -> None:
+def curves_figure(cur: pd.DataFrame, band: pd.DataFrame, path: Path, gens: list | None = None) -> None:
     plt = _plt()
     rows = [("acf_r", "ACF of returns"), ("acf_abs", "ACF of absolute returns"), ("leverage", "leverage")]
-    gens = _present(cur)
+    gens = _present(cur, gens or GEN10)
     fig, axes = plt.subplots(len(rows), 4, figsize=(6.3, 5.0), sharex=True)
     for i, (curve, lab) in enumerate(rows):
         for j, d in enumerate(DGP_ORDER):
@@ -115,7 +120,8 @@ def curves_figure(cur: pd.DataFrame, band: pd.DataFrame, path: Path) -> None:
             for kind, regime, glab in gens:
                 c = _sel(cur, kind, regime)
                 c = c[(c.dgp == d) & (c.curve == curve)].groupby("x").value.median()
-                ax.plot(c.index, c.values, color=FAMILY[kind], linewidth=1.1, label=glab, zorder=2)
+                ax.plot(c.index, c.values, color=FAMILY[kind], linewidth=1.1, linestyle=_dash(regime), label=glab,
+                        zorder=2)
             ax.axhline(0, color=INK2, linewidth=0.5)
             if i == 0:
                 ax.set_title(DGP_LABEL[d].replace("$", "").replace("-t", "-t"), fontsize=7, color=INK)
@@ -124,7 +130,8 @@ def curves_figure(cur: pd.DataFrame, band: pd.DataFrame, path: Path) -> None:
             if i == len(rows) - 1:
                 ax.set_xticks([1, 5, 10, 15, 20])
     h, l = axes[0, 0].get_legend_handles_labels()
-    fig.legend(h, l, loc="upper center", ncol=len(l), fontsize=6, frameon=False, bbox_to_anchor=(0.5, 1.0))
+    fig.legend(h, l, loc="upper center", ncol=len(l) if len(l) <= 5 else 3, fontsize=6, frameon=False,
+               bbox_to_anchor=(0.5, 1.0))
     fig.supxlabel("lag (days)", fontsize=7, color=INK)
     fig.tight_layout(rect=(0, 0, 1, 0.95))
     _save(fig, path)
@@ -199,7 +206,7 @@ def pit_figure(pits: pd.DataFrame, path: Path, bins: int = 10) -> None:
 
     plt = _plt()
     gens = [(g, lab) for g, lab in (("bootstrap", "B1 bootstrap"), ("garch", "B2 GJR-GARCH-$t$"),
-                                    ("tcvae", "G1 TC-VAE"), ("qgan", "G3 Quant GAN")) if g in set(pits.generator)]
+                                    ("tcvae", "G1 TC-VAE")) if g in set(pits.generator)]
     metrics = [("ret", "59-day return"), ("sharpe", "Sharpe ratio"), ("maxdd", "maximum drawdown")]
     fig, axes = plt.subplots(len(gens), 3, figsize=(6.3, 1.25 * len(gens) + 0.5), sharex=True, sharey=True)
     for i, (g, glab) in enumerate(gens):
@@ -231,6 +238,8 @@ def build_curves(root: Path, out: Path, num: Numbers, cfg: dict) -> None:
         return
     fig = out / "figures"
     curves_figure(cur, band, fig / "fig_curves.pdf")
+    if len(_present(cur, GEN_QGAN)) == len(GEN_QGAN):
+        curves_figure(cur, band, fig / "fig_qgan_curves.pdf", GEN_QGAN)
     quantile_figure(cur, band, fig / "fig_quantiles.pdf")
     paths = _read(root, "e4_curves", "paths")
     if paths is not None:

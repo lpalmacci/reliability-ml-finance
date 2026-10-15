@@ -22,6 +22,7 @@ from tavp.report.tolcrit import build_tolcrit
 from tavp.report.case import build_case
 from tavp.report.curves import build_curves
 from tavp.report.robust import build_robust
+from tavp.report.qgan import build_qgan
 from tavp.report.numbers import Numbers
 from tavp.utils import REPO_ROOT
 
@@ -530,6 +531,7 @@ def main():
     build_mr(root, out, num, cfg, pr_min)
     build_real(root, out, num, cfg, pr_min)
     build_curves(root, out, num, cfg)
+    build_qgan(root, out, num, cfg, pr_min)
     num.write(out / "numbers.tex", out / "numbers.json")
     if args.export:
         dst = Path(args.export)

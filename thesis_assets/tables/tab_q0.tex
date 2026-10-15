@@ -1,0 +1,20 @@
+\begin{tabular}{llrrrrrrl}
+\toprule
+& & & generator & R1 & selected & \multicolumn{2}{c}{better than GARCH(1,1)} & meets \\
+\cmidrule(lr){7-8}
+Stage & Training run & steps & learning rate & weight & checkpoint & metrics & EMDs & criterion \\
+\midrule
+Q0 & run 1 & 6{,}000 & $10^{-4}$ & 1 & 4{,}250 & 8/12 & 3/4 & no \\
+ & run 2 & 6{,}000 & $10^{-4}$ & 1 & 5{,}000 & 4/12 & 1/4 & no \\
+ & run 3 & 6{,}000 & $10^{-4}$ & 1 & 4{,}750 & 9/12 & 4/4 & no \\
+\addlinespace
+Q0b, tuning & one run & 12{,}000 & $10^{-4}$ & 1 & 6{,}500 & 10/12 & 4/4 & -- \\
+ & one run & 12{,}000 & $10^{-4}$ & 10 & 5{,}000 & 9/12 & 4/4 & -- \\
+ & one run & 12{,}000 & $3\cdot 10^{-5}$ & 1 & 6{,}250 & 9/12 & 4/4 & -- \\
+ & one run$^{\ast}$ & 12{,}000 & $3\cdot 10^{-5}$ & 10 & 10{,}750 & 10/12 & 4/4 & -- \\
+\addlinespace
+Q0b, confirmation & run 1 & 12{,}000 & $3\cdot 10^{-5}$ & 10 & 9{,}500 & 11/12 & 4/4 & yes \\
+ & run 2 & 12{,}000 & $3\cdot 10^{-5}$ & 10 & 8{,}250 & 10/12 & 4/4 & yes \\
+ & run 3 & 12{,}000 & $3\cdot 10^{-5}$ & 10 & 8{,}500 & 10/12 & 4/4 & yes \\
+\bottomrule
+\end{tabular}

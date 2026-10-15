@@ -225,7 +225,10 @@ class QuantGANGenerator(Generator):
 
     def sample_returns(self, n, T, rng, batch: int = 5000):
         z = rng.standard_normal((n, self.cfg["noise_dim"], T + RFS - 1)).astype(np.float32)
-        return self.pre.inverse_transform(self._raw(z, batch))
+        out = self.pre.inverse_transform(self._raw(z, batch))
+        if self.dev.type == "mps":  # the GPU shares the memory of the system: release the cached blocks
+            torch.mps.empty_cache()
+        return out
 
     # ---------------------------------------------------------------- training
     def fit(self, history: np.ndarray, seed: int, out_dir: str | Path) -> "QuantGANGenerator":

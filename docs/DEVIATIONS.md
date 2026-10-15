@@ -31,6 +31,21 @@ pre-registered configuration.
 | D9 | 2026-10-14 | Fine grid of severities, not pre-registered (E12, `tavp.experiments.e12_fine`) | -- | Defects P1-P6 at delta = 0.05, 0.10, 0.15, 0.20 on every applicable process, with the contexts, sizes (K = 50, N = 100,000) and random streams of E2 (generated draws are shared across severities); results in results/e12/. The detection tables and the hypotheses of E2 stay on the pre-registered grid. The report adds the approximation of the pass rate by the Monte Carlo error of each cell and the resulting effective tolerance of level L2. | E2 detects most defects at its smallest severity, 0.25, so the pre-registered grid does not show where detection begins. |
 | D10 | 2026-10-14 | Second deep generator G3 (Quant GAN), pre-registered by addendum (docs/ADDENDUM_QGAN.md, tag `prereg-qgan`) before experiment E13 | -- | Quant GAN (Wiese et al., 2020), implemented from the paper (no licensed code exists); fidelity checks Q0 (not accepted) and Q0b (one bounded tuning round, accepted on three new seeds) on the data of the paper; settings frozen in configs/generators/qgan.yaml; E13: three runs per process and regime (10 years; long histories of E8), levels L0-L3 as in E4/E5/E8, L4 as in E6 and on the market as in E11 (one run per window); hypotheses HQ1-HQ6. Apple GPU (MPS) for this generator only. | The case study had one deep generator, while adversarial networks account for 53% of the corpus of the review. |
 
+## Observations from experiment E13 (not deviations)
+
+- Explosive scenarios (2026-10-15). One run of the Quant GAN (D3, ten years, run 1) generates, in 4 of the 50
+  contexts of level L2, scenarios with returns so large that the equity curve of a rule overflows and its maximum
+  drawdown is undefined (12 comparisons). The forward Lambert W transform, y = mu + s u exp(delta u^2 / 2), turns
+  an output of the network far in the tail into an extreme return. Level L0, as pre-registered, checks only that
+  every value is finite, so these scenarios are valid; the TOST rule cannot declare equivalence with an undefined
+  estimate, so the comparisons count as failures, and the critical tolerances treat them as infinite. No rule was
+  changed; the chapter discusses a plausibility check for level L0 as a direction (Sections 7.4 and 7.5).
+- Reporting (2026-10-15). The figures and tables of the pre-registered analysis (Section 6.1) and of the analyses
+  of D5-D9 (Section 6.2) show only the generators of those analyses; the Quant GAN, added by addendum, is reported
+  in Section 6.3 with its own tables (tab_q0, tab_qgan_summary, tab_qgan_hyp, tab_qgan_market) and figures
+  (fig_qgan_facts, fig_qgan_curves). The PITs of the Quant GAN on the market are appended to results/real/e11/
+  and excluded from the counts of E11 (real.l4.periods.*).
+
 ## Observations from the negative control (not deviations)
 
 - L1, first E1 run: with the pre-registered null of B = 100 pairs, raw per-statistic false-alarm rates average 5.8% and exceed 9% in 7 of 52 (process, statistic) cells; the family-wise rate with the Holm correction, which is the rule used to flag, is 0% on every process. Part of the per-statistic dispersion comes from the null sample being shared by the 50 comparisons: against an independent null of B = 500 pairs, the largest rate (Hill index on D4) falls from 20% to 6%. A sensitivity analysis against an independent null is part of E7. Note (D3): with B = 100 the Holm rate is 0% by construction, so this observation does not measure the size of the L1 flag; see D3.

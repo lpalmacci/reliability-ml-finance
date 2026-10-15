@@ -126,16 +126,17 @@ def cells_figure(l2: pd.DataFrame, path: Path, pr_min: float) -> None:
     plt.close(fig)
 
 
-def facts_figure(facts: pd.DataFrame, path: Path) -> None:
+def facts_figure(facts: pd.DataFrame, path: Path, order: list[str] | None = None, names: dict | None = None) -> None:
     import matplotlib
 
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
-    facts = facts.assign(g=[gkey(k, r) if k in ("tcvae", "vae_mlp") else k for k, r in zip(facts.kind, facts.regime)])
-    order = ["tcvae_single", "tcvae_rich", "vae_mlp_single", "bootstrap", "garch"]
-    names = {"tcvae_single": "G1 single", "tcvae_rich": "G1 rich", "vae_mlp_single": "G2", "bootstrap": "B1",
-             "garch": "B2"}
+    facts = facts.assign(g=[gkey(k, r) if k in ("tcvae", "vae_mlp", "qgan") else k
+                            for k, r in zip(facts.kind, facts.regime)])
+    order = order or ["tcvae_single", "tcvae_rich", "vae_mlp_single", "bootstrap", "garch"]
+    names = names or {"tcvae_single": "G1 single", "tcvae_rich": "G1 rich", "vae_mlp_single": "G2", "bootstrap": "B1",
+                      "garch": "B2"}
     fig, axes = plt.subplots(len(STAT_ROWS), 4, figsize=(6.3, 9.2), sharey=True)
     for i, (stat, slab) in enumerate(STAT_ROWS):
         for j, d in enumerate(DGP_ORDER):
@@ -151,8 +152,12 @@ def facts_figure(facts: pd.DataFrame, path: Path) -> None:
                            linewidths=0, zorder=3)
                 ax.scatter([np.median(x)], [y], s=34, color=COLORS[g], marker=MARKERS[g], edgecolors="white",
                            linewidths=0.8, zorder=4)
-            if stat == "kurt":
+            vals = pd.concat([f[f.g.isin(order)][stat], pd.Series([o])])
+            if stat == "kurt" and vals.max() > 20 * vals.min():  # logarithmic scale only for a wide range
+                from matplotlib.ticker import NullFormatter
+
                 ax.set_xscale("log")
+                ax.xaxis.set_minor_formatter(NullFormatter())
             ax.set_yticks(range(len(order)))
             ax.set_yticklabels([names[g] for g in order], fontsize=6.5, color=INK)
             ax.set_ylim(len(order) - 0.5, -0.5)
