@@ -54,16 +54,22 @@ real:
 	$(PY) tavp.experiments.e10_multistart --config $(CFG) $(JOBS)
 	$(PY) tavp.experiments.e11_market_l4 --config $(RCFG) $(JOBS)
 
-# Second deep generator (addendum prereg-qgan, D10): fidelity checks Q0 and Q0b, then E13. The Quant GAN uses the
-# Apple GPU when available. The market stage needs the results of `make real`.
+# Second deep generator (addendum prereg-qgan, D10): fidelity checks Q0 and Q0b, then E13; the analyses that give
+# it the same validation as the TC-VAE (D11): processes calibrated on the market (E10), three runs per window on the
+# market (E11), robustness (E7) and its properties as planted defects (E14). The Quant GAN uses the Apple GPU when
+# available. The stages on market data need the results of `make real`.
 qgan:
 	$(PY) tavp.experiments.q0_fidelity --config $(CFG)
 	$(PY) tavp.experiments.q0_tune --config $(CFG)
-	$(PY) tavp.experiments.e13_qgan --config $(CFG) --stage train
+	$(PY) tavp.experiments.e13_qgan --config $(CFG) --stage train --train-jobs 4
 	$(PY) tavp.experiments.e13_qgan --config $(CFG) --stage facts $(JOBS)
 	$(PY) tavp.experiments.e13_qgan --config $(CFG) --stage protocol $(JOBS)
 	$(PY) tavp.experiments.e13_qgan --config $(CFG) --stage l4 $(JOBS)
 	$(PY) tavp.experiments.e11_market_l4 --config $(RCFG) --qgan $(JOBS)
+	$(PY) tavp.experiments.e13_qgan --config $(RCFG) --stage train --train-jobs 4
+	$(PY) tavp.experiments.e13_qgan --config $(RCFG) --stage protocol $(JOBS)
+	$(PY) tavp.experiments.e7_robust --config $(CFG) --with-qgan $(JOBS)
+	$(PY) tavp.experiments.e14_qgan_defects --config $(CFG) $(JOBS)
 	$(PY) tavp.experiments.e4_curves --config $(CFG) $(JOBS)
 
 thesis:

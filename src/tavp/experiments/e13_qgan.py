@@ -2,13 +2,17 @@
 
 The settings of G3 are frozen in configs/generators/qgan.yaml after the fidelity check Q0 and before this
 experiment. G3 is trained on the same data as the other generators: the first ten years of each of the first three
-histories of each process (regime "single") and the five long histories of E8 with as many returns as the
-rich training set of the TC-VAE (first three; regime "rich"; the Quant GAN needs one history longer than its receptive
-field of 127 days, so it cannot use the independent paths of 60 prices of that set). It is then validated
+histories of each process (regime "single") and the long histories of E8 with as many returns as the
+rich training set of the TC-VAE (regime "rich"; the Quant GAN needs one history longer than its receptive
+field of 127 days, so it cannot use the independent paths of 60 prices of that set). The addendum fixed three
+runs per process and regime; deviation D11 adds runs 4 and 5, so that G3 has as many runs as the TC-VAE,
+and the hypotheses of the addendum are evaluated on the first three runs as stated. It is then validated
 under exactly the protocol of E4, E5 and E8 (levels L0-L3, same contexts, oracle scenarios and sizes) and,
 in the single regime, at level L4 on the held-out half of each history as in E6.
 
 Stages: `train` (Apple GPU when available), `protocol`, `l4`, `facts` (stylized facts as in E4).
+With `--config configs/real.yaml` the stages `train` and `protocol` add G3 to the processes calibrated on the
+market (E10, deviation D11).
 """
 
 from __future__ import annotations
@@ -21,7 +25,8 @@ from tavp.protocol.l4 import calibration_tests, pits_on_history
 from tavp.tasks.strategies import build_strategies
 from tavp.utils import REPO_ROOT, load_yaml, rng, stable_hash
 
-SEEDS = 3  # addendum: three runs per process and regime (each model costs twice the planned steps)
+PREREG_SEEDS = 3  # addendum: three runs per process and regime; the hypotheses HQ1-HQ6 use these
+SEEDS = 5  # D11: runs 4 and 5 added after E13, as many runs as the TC-VAE
 REGIMES = ("single", "rich")
 
 

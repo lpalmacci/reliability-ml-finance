@@ -2,11 +2,11 @@
 
 The daily US market log-returns 1926-2026 are cut into windows of 20 years sliding by 10 years and
 aligned to the end of the sample, so that each held-out decade is used once. In each window the
-TC-VAE (three runs), the stationary bootstrap and the GJR-GARCH-t model are trained on the first 10
+TC-VAE (three runs), the Quant GAN (three runs; E13 and D11), the stationary bootstrap and the GJR-GARCH-t model are trained on the first 10
 years, and level L4 is applied at the 42 non-overlapping origins of the last 10 years: the rules are
 calibrated on the 500 preceding days of market data, the generator gives the induced law of each
 metric, and the PIT of the realised metric is recorded. The PITs are pooled over windows and tested
-as in E6, for each generator and each run of the TC-VAE separately: the three runs of a window share
+as in E6, for each generator and each run of a deep generator separately: the three runs of a window share
 the realised metrics, so their PITs are not independent and are not pooled.
 """
 
@@ -23,6 +23,7 @@ from tavp.tasks.strategies import build_strategies
 from tavp.utils import REPO_ROOT, load_yaml, rng, stable_hash
 
 TCVAE_SEEDS = 3
+QGAN_SEEDS = 3  # D11: as many runs per window as the TC-VAE (the addendum fixed one)
 
 
 def windows(cfg: dict, max_windows: int | None = None) -> list[dict]:
@@ -140,7 +141,7 @@ def _args(p):
     p.add_argument("--max-windows", type=int, default=None, help="smoke runs: only the most recent windows")
     p.add_argument("--tests-only", action="store_true", help="recompute the tests from the stored PITs")
     p.add_argument("--qgan", action="store_true",
-                   help="E13: add the Quant GAN (one run per window) to the stored PITs and recompute the tests")
+                   help="E13, D11: add the Quant GAN (three runs per window) to the stored PITs and recompute the tests")
 
 
 def main():
@@ -148,7 +149,7 @@ def main():
     cfg = common.load(args.config)
     if args.qgan:
         wins = windows(cfg)
-        seeds = 1  # addendum: one run per window
+        seeds = QGAN_SEEDS
         Parallel(n_jobs=4)(delayed(train_qgan)(cfg, w, s) for w in wins for s in range(seeds))  # on the GPU
         res = Parallel(n_jobs=common.n_jobs(cfg, args.jobs), verbose=5)(
             delayed(task)(cfg, w, "qgan", s) for w in wins for s in range(seeds))

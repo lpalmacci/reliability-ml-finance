@@ -1,9 +1,10 @@
-"""Planted defects P1-P7 used to validate the protocol (known-answer tests).
+"""Planted defects P1-P8 used to validate the protocol (known-answer tests).
 
-P1, P5, P6 and P7 act on simulated paths and apply to every process; P2, P3 and P4
+P1, P5, P6, P7 and P8 act on simulated paths and apply to every process; P2, P3 and P4
 change the parameters of the process (see `DGP.perturbed`). Severity delta = 0
 always returns the unperturbed oracle. P1-P6 are pre-registered; P7 (experiment E9,
-deviation D6) was added after the case study to test the explanation of its failures.
+deviation D6) and P8 (experiment E14, deviation D11) were added after the case study to test
+the explanation of the failures of the TC-VAE and of the Quant GAN.
 """
 
 from __future__ import annotations
@@ -12,7 +13,7 @@ import numpy as np
 
 from tavp.dgp.base import DGP
 
-PATH_DEFECTS = ("P1", "P5", "P6", "P7")
+PATH_DEFECTS = ("P1", "P5", "P6", "P7", "P8")
 PARAM_DEFECTS = ("P2", "P3", "P4")
 
 # Which defects are defined for which process (Table P4 of the chapter).
@@ -24,11 +25,14 @@ APPLICABILITY = {
     "P5": ("gbm", "heston", "gjr_garch_t", "regime"),
     "P6": ("gbm", "heston", "gjr_garch_t", "regime"),
     "P7": ("gbm", "heston", "gjr_garch_t", "regime"),
+    "P8": ("gbm", "heston", "gjr_garch_t", "regime"),
 }
 
 VOL_SCALE_STEP = 0.20  # P5: volatility multiplied by 1 + 0.20 delta
 DRIFT_STEP_ANNUAL = 0.05  # P6: annual drift shifted by 0.05 delta
 ACF1_STEP = -0.10  # P7: first-order autocorrelation of returns equal to -0.10 delta
+EXTREME_PROB_STEP = 0.002  # P8: probability 0.002 delta that a return is an extreme one
+EXTREME_FACTOR = 4.0  # P8: an extreme return is the centred return multiplied by 4
 
 
 def shuffle_fraction(returns: np.ndarray, delta: float, rng: np.random.Generator) -> np.ndarray:
@@ -83,6 +87,20 @@ def negative_autocorrelation(returns: np.ndarray, delta: float, drift_per_step: 
     return drift_per_step + (u + theta * prev) / np.sqrt(1.0 + theta**2)
 
 
+def extreme_returns(returns: np.ndarray, delta: float, drift_per_step: float,
+                    rng: np.random.Generator) -> np.ndarray:
+    """P8: r'_t = m + u_t (1 + (lambda - 1) B_t) / c, u = r - m, B_t ~ Bernoulli(pi), pi = 0.002 delta, lambda = 4.
+
+    With probability pi a return becomes an extreme one, its centred value multiplied by lambda, and
+    c = sqrt(1 + pi (lambda^2 - 1)) keeps the variance of each return unchanged, so that the defect
+    makes extreme returns more frequent without changing the volatility or the serial dependence.
+    """
+    pi = EXTREME_PROB_STEP * delta
+    u = returns - drift_per_step
+    b = rng.random(u.shape) < pi
+    return drift_per_step + u * np.where(b, EXTREME_FACTOR, 1.0) / np.sqrt(1.0 + pi * (EXTREME_FACTOR**2 - 1.0))
+
+
 def apply_path_defect(kind: str, returns: np.ndarray, delta: float, dgp: DGP,
                       rng: np.random.Generator) -> np.ndarray:
     if delta == 0.0:
@@ -95,6 +113,8 @@ def apply_path_defect(kind: str, returns: np.ndarray, delta: float, dgp: DGP,
         return shift_drift(returns, delta, dgp.dt)
     if kind == "P7":
         return negative_autocorrelation(returns, delta, dgp.drift_per_step(), rng)
+    if kind == "P8":
+        return extreme_returns(returns, delta, dgp.drift_per_step(), rng)
     raise ValueError(f"{kind} is not a path defect")
 
 

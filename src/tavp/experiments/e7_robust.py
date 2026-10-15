@@ -1,7 +1,7 @@
 """E7: robustness of the L2 verdicts of the case study.
 
-Re-runs level L2 for the TC-VAE (single-history regime) and the two classical benchmarks
-(first three histories each) under four variants: transaction cost of 10 basis points, two
+Re-runs level L2 for the TC-VAE (single-history regime), the Quant GAN (single-history regime, with
+`--with-qgan`, deviation D11) and the two classical benchmarks (first three histories or runs each) under four variants: transaction cost of 10 basis points, two
 alternative calibration objectives, and N = 10,000 scenarios. It also recomputes the L1 flags
 of the negative control against an independent null of the same size B, to check that sharing
 one null sample across the comparisons does not distort the false-alarm rates. The robustness to the
@@ -21,13 +21,17 @@ from tavp.utils import deep_update
 N_HISTORIES = 3
 
 
-def settings(cfg: dict) -> list[tuple[str, dict]]:
+def settings(cfg: dict, with_qgan: bool = False) -> list[tuple[str, dict]]:
     G = cfg["generators"]
     out = []
     for d in cfg["dgps"]:
         out += [(d, {"kind": "tcvae", "regime": "single", "seed": s}) for s in range(min(N_HISTORIES, G["tcvae"]["seeds"]))]
         for kind in ("bootstrap", "garch"):
             out += [(d, {"kind": kind, "seed": s}) for s in range(min(N_HISTORIES, G[kind]["seeds"]))]
+    if with_qgan:  # D11: same histories as the TC-VAE
+        from tavp.experiments import e13_qgan
+
+        out += [(d, sp) for d, sp in e13_qgan.settings(cfg) if sp["regime"] == "single" and sp["seed"] < N_HISTORIES]
     return out
 
 
@@ -59,13 +63,19 @@ def l1_null_sensitivity(cfg: dict, jobs: int) -> pd.DataFrame:
     return df
 
 
+def _args(p):
+    p.add_argument("--with-qgan", action="store_true",
+                   help="D11: add the Quant GAN (run by `make qgan`; the check of the L1 null is not repeated)")
+
+
 def main():
-    args = common.parse_args(__doc__)
+    args = common.parse_args(__doc__, _args)
     cfg = common.load(args.config)
-    l1_null_sensitivity(cfg, common.n_jobs(cfg, args.jobs))
+    if not args.with_qgan:
+        l1_null_sensitivity(cfg, common.n_jobs(cfg, args.jobs))
     for name, override in variants(cfg).items():
         cfg_v = deep_update(cfg, override)
-        runner.run(cfg_v, f"e7_{name}", settings(cfg), common.n_jobs(cfg, args.jobs), parts=("L2",))
+        runner.run(cfg_v, f"e7_{name}", settings(cfg, args.with_qgan), common.n_jobs(cfg, args.jobs), parts=("L2",))
 
 
 if __name__ == "__main__":

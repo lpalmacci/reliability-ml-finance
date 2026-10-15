@@ -2,7 +2,8 @@ import numpy as np
 
 from tavp.dgp.processes import GBM, GJRGarchT
 from tavp.generators.base import OracleGenerator
-from tavp.perturb.operators import ma1_coefficient, negative_autocorrelation, scale_volatility, shift_drift, shuffle_fraction
+from tavp.perturb.operators import (EXTREME_FACTOR, extreme_returns, ma1_coefficient, negative_autocorrelation,
+                                   scale_volatility, shift_drift, shuffle_fraction)
 from tavp.utils import rng
 
 
@@ -22,7 +23,7 @@ def test_partial_shuffle_moves_only_selected_positions():
 
 def test_zero_severity_is_identity():
     d = GJRGarchT.from_annual()
-    for k in ["P1", "P2", "P3", "P4", "P5", "P6", "P7"]:
+    for k in ["P1", "P2", "P3", "P4", "P5", "P6", "P7", "P8"]:
         a = OracleGenerator(d, k, 0.0).sample_returns(50, 59, rng(3, "z"))
         b = OracleGenerator(d).sample_returns(50, 59, rng(3, "z"))
         assert np.array_equal(a, b), k
@@ -56,3 +57,29 @@ def test_negative_autocorrelation_keeps_variance_and_sets_acf1():
     assert abs(u[:, 0].std() / u[:, 1:].std() - 1) < 0.02
     vr = u.sum(axis=1).var() / (59 * u.var())
     assert abs(vr - (1 + 2 * -0.10 * 58 / 59)) < 0.02
+
+
+def test_extreme_returns_keep_variance_and_add_extremes():
+    d = GBM()
+    m = d.drift_per_step()
+    r = d.simulate_returns(20000, 59, rng(7, "p8"))
+    r8 = extreme_returns(r, 2.0, m, rng(8, "p8"))
+    u, u0 = r8 - m, r - m
+    assert abs(u.std() / u0.std() - 1) < 0.01
+    ratio = np.abs(u / u0)
+    assert np.isclose(ratio.max() / ratio.min(), EXTREME_FACTOR)
+    assert abs((ratio > ratio.min() * 1.5).mean() - 0.004) < 0.0005
+    acf1 = (u[:, 1:] * u[:, :-1]).mean() / (u**2).mean()
+    assert abs(acf1) < 0.01
+
+
+def test_matched_severities_invert_the_defect():
+    from tavp.experiments.e14_qgan_defects import p7_severity, p8_rate, p8_severity
+
+    u = np.abs(GBM().simulate_returns(5000, 59, rng(9, "m"))).ravel()
+    thr = np.quantile(u, 0.9999)
+    target = 5 * p8_rate(u, thr, 0.0)
+    assert np.isclose(p8_rate(u, thr, p8_severity(u, thr, target)), target, rtol=1e-6)
+    assert p8_severity(u, thr, 0.5 * p8_rate(u, thr, 0.0)) == 0.0
+    assert np.isclose(1 + 2 * (-0.1 * p7_severity(0.8, 59)) * 58 / 59, 0.8)
+    assert p7_severity(1.05, 59) == 0.0
