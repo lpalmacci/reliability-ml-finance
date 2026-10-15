@@ -1,7 +1,7 @@
 """Robustness of the verdicts (E7): use variants, sample size and tolerances.
 
-The variants re-run level L2 for the TC-VAE (single history), the bootstrap and the GJR-GARCH
-benchmark on the first three histories. The scaling of the tolerances does not need new runs:
+The variants re-run level L2 for the TC-VAE (single history), the Quant GAN (single history, D11), the
+bootstrap and the GJR-GARCH benchmark on the first three histories. The scaling of the tolerances does not need new runs:
 the stored 90% confidence intervals of the discrepancies are compared with the scaled
 tolerances, and resolvability is re-assessed against half of the scaled tolerance.
 """
@@ -14,8 +14,9 @@ import pandas as pd
 
 from tavp.report.numbers import Numbers
 
-GENS = [("tcvae", "G1 TC-VAE, single history"), ("bootstrap", "B1 stationary bootstrap"),
-        ("garch", "B2 GJR-GARCH-$t$")]
+GENS = [("tcvae", "G1 TC-VAE, single history"), ("qgan", "G3 Quant GAN, single history"),
+        ("bootstrap", "B1 stationary bootstrap"), ("garch", "B2 GJR-GARCH-$t$")]
+PREREG = ("tcvae", "bootstrap", "garch")  # generators of the pre-registered E7, for the shares of resolvable comparisons
 VARIANTS = [("cost", "transaction cost of 10 basis points"), ("obj_low", "objective with halved penalties"),
             ("obj_high", "objective with doubled penalties"), ("n_alt", "$N=10{,}000$ scenarios")]
 N_HISTORIES = 3
@@ -27,10 +28,10 @@ def _read(root: Path, exp: str, name: str) -> pd.DataFrame | None:
 
 
 def _subset(l2: pd.DataFrame) -> pd.DataFrame:
-    """Settings of E7: TC-VAE single history, bootstrap and GARCH, first three histories."""
-    m = l2.kind.isin(["tcvae", "bootstrap", "garch"]) & (l2.seed < N_HISTORIES)
+    """Settings of E7: TC-VAE and Quant GAN single history, bootstrap and GARCH, first three histories or runs."""
+    m = l2.kind.isin(["tcvae", "qgan", "bootstrap", "garch"]) & (l2.seed < N_HISTORIES)
     if "regime" in l2:
-        m &= (l2.kind != "tcvae") | (l2.regime == "single")
+        m &= ~l2.kind.isin(["tcvae", "qgan"]) | (l2.regime == "single")
     return l2[m]
 
 
@@ -45,7 +46,7 @@ def passed(l2: pd.DataFrame, pr_min: float, scale: float = 1.0) -> pd.DataFrame:
 
 
 def build_robust(root: Path, out: Path, num: Numbers, pr_min: float) -> None:
-    parts = [t for t in (_read(root, e, "l2") for e in ("e4", "e5")) if t is not None]
+    parts = [t for t in (_read(root, e, "l2") for e in ("e4", "e13", "e5")) if t is not None]
     if not parts:
         return
     main = _subset(pd.concat(parts, ignore_index=True))
@@ -74,20 +75,25 @@ def build_robust(root: Path, out: Path, num: Numbers, pr_min: float) -> None:
         cells = []
         for kind, _ in GENS:
             x = r[r.kind == kind]
+            if x.empty:
+                cells.append(" & ")
+                continue
             n_pass, n_cells = int(x.passed.sum()), int(x.cells.sum())
             fit = int((x.passed == x.cells).sum())
             cells.append(f"{n_pass}/{n_cells} & {fit}")
             num.add(f"e7.{key}.{kind}.passed", n_pass)
             num.add(f"e7.{key}.{kind}.fit", fit)
         lines.append(f"{labels[key]} & " + " & ".join(cells) + r" \\")
-        num.pct(f"e7.{key}.resolvable", float(r.resolvable.mean()))
+        num.pct(f"e7.{key}.resolvable", float(r[r.kind.isin(PREREG)].resolvable.mean()))
+        if (r.kind == "qgan").any():
+            num.pct(f"e7.{key}.qgan.resolvable", float(r[r.kind == "qgan"].resolvable.mean()))
     pd.concat([r.assign(variant=k) for k, r in rows.items()]).to_csv(out / "tables" / "e7_robust.csv", index=False)
     head = " & ".join(r"\multicolumn{2}{c}{" + lab.split(",")[0] + "}" for _, lab in GENS)
-    (out / "tables" / "tab_e7_robust.tex").write_text(r"""\begin{tabular}{lrrrrrr}
+    (out / "tables" / "tab_e7_robust.tex").write_text(r"""\begin{tabular}{l""" + "rr" * len(GENS) + r"""}
 \toprule
 & """ + head + r""" \\
-\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}
-Variant & cells & fit & cells & fit & cells & fit \\
+""" + "".join(rf"\cmidrule(lr){{{2 + 2 * i}-{3 + 2 * i}}}" for i in range(len(GENS))) + r"""
+Variant & """ + " & ".join(["cells & fit"] * len(GENS)) + r""" \\
 \midrule
 """ + "\n".join(lines) + "\n" + r"""\bottomrule
 \end{tabular}

@@ -18,7 +18,8 @@ from tavp.report.case import BLUES, DGP_LABEL, DGP_ORDER, INK, INK2
 from tavp.report.numbers import Numbers
 
 KINDS = [("oracle_drift", "$\\hat{O}$ oracle, estimated drift", "$\\hat{O}$"), ("tcvae", "G1 TC-VAE", "G1"),
-         ("bootstrap", "B1 stationary bootstrap", "B1"), ("garch", "B2 GJR-GARCH-$t$", "B2")]
+         ("qgan", "G3 Quant GAN", "G3"), ("bootstrap", "B1 stationary bootstrap", "B1"),
+         ("garch", "B2 GJR-GARCH-$t$", "B2")]
 REGIMES = ["single", "rich"]
 FUNC_TEXT = {("sharpe", "mean"): "Sharpe ratio, mean", ("sharpe", "q05"): "Sharpe ratio, $q_{.05}$",
              ("sharpe", "q50"): "Sharpe ratio, $q_{.50}$", ("sharpe", "q95"): "Sharpe ratio, $q_{.95}$",
@@ -36,7 +37,7 @@ def _levels(root: Path) -> dict[str, pd.DataFrame]:
     kinds = [k for k, _, _ in KINDS]
     out = {}
     for level in ("l0", "l1", "l2", "l3"):
-        parts = [t for t in (_read(root, e, level) for e in ("e4", "e5", "e8")) if t is not None]
+        parts = [t for t in (_read(root, e, level) for e in ("e4", "e13", "e5", "e8")) if t is not None]
         if not parts:
             continue
         df = pd.concat(parts, ignore_index=True)
@@ -102,8 +103,8 @@ def attain_figure(cards: dict, path: Path, pr_min: float) -> None:
         for y in (9, 18, 27):
             ax.axhline(y - 0.5, color="white", linewidth=1.5)
         ax.set_xticks(range(len(cols)))
-        ax.set_xticklabels([f"{short.replace('$', '').replace(chr(92) + 'hat{O}', 'Ô')} {'10y' if r == 'single' else 'long'}"
-                            for r, _, short in cols], rotation=90, fontsize=7, color=INK)
+        ax.set_xticklabels([f"{short.replace('$', '').replace(chr(92) + 'hat{O}', 'Ô')} {'10y' if r == 'single' else 'rich' if kind in ('tcvae', 'qgan') else 'long'}"
+                            for r, kind, short in cols], rotation=90, fontsize=6.5, color=INK)
         ax.set_title(DGP_LABEL[d].replace("$", ""), fontsize=8, color=INK)
         ax.tick_params(length=0)
         for sp in ax.spines.values():

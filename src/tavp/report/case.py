@@ -1,4 +1,4 @@
-"""Tables, figures, validation cards and numbers of the case study (E4, E5, E6 case, X1)."""
+"""Tables, figures, validation cards and numbers of the case study (E4, E5, E6 case, X1, and the Quant GAN of E13)."""
 
 from __future__ import annotations
 
@@ -17,6 +17,8 @@ DGP_ORDER = ["gbm", "heston", "gjr_garch_t", "regime"]
 # (kind, regime, label, exploratory)
 GENERATORS = [("tcvae", "single", "G1 TC-VAE, single history", False),
               ("tcvae", "rich", "G1 TC-VAE, rich", False),
+              ("qgan", "single", "G3 Quant GAN, single history", False),
+              ("qgan", "rich", "G3 Quant GAN, rich", False),
               ("vae_mlp", "single", "G2 non-causal VAE", False),
               ("bootstrap", None, "B1 stationary bootstrap", False),
               ("garch", None, "B2 GJR-GARCH-$t$", False),
@@ -50,7 +52,7 @@ def _read(root: Path, exp: str, name: str) -> pd.DataFrame | None:
 def _levels(root: Path) -> dict[str, pd.DataFrame]:
     out = {}
     for level in ("l0", "l1", "l2", "l3"):
-        parts = [t for t in (_read(root, e, level) for e in ("e4", "e5", "x1_wide")) if t is not None]
+        parts = [t for t in (_read(root, e, level) for e in ("e4", "e13", "e5", "x1_wide")) if t is not None]
         if parts:
             out[level] = pd.concat(parts, ignore_index=True)
     return out
@@ -63,6 +65,23 @@ def _sel(df: pd.DataFrame | None, dgp: str, kind: str, regime: str | None) -> pd
     if regime is not None and "regime" in df:
         m &= df.regime == regime
     return df[m]
+
+
+def attainable(root: Path, pr_min: float) -> tuple[dict, dict]:
+    """Attainable cells and rules (E8): those that the oracle with estimated drift passes, per process and regime."""
+    l2, l3 = _read(root, "e8", "l2"), _read(root, "e8", "l3")
+    cells, rules = {}, {}
+    if l2 is None:
+        return cells, rules
+    o = l2[l2.kind == "oracle_drift"]
+    for (d, r), g in o.groupby(["dgp", "regime"]):
+        pr = g.groupby(["strategy", "metric", "functional"]).equivalent.mean()
+        cells[(d, r)] = set(pr[pr >= pr_min].index)
+    if l3 is not None:
+        for (d, r), g in l3[l3.kind == "oracle_drift"].groupby(["dgp", "regime"]):
+            pr = g.groupby("strategy")["pass"].mean()
+            rules[(d, r)] = set(pr[pr >= pr_min].index)
+    return cells, rules
 
 
 def l4_pooled(pits: pd.DataFrame, cfg: dict) -> pd.DataFrame:
@@ -94,8 +113,8 @@ def cells_figure(l2: pd.DataFrame, path: Path, pr_min: float) -> None:
     from matplotlib.colors import LinearSegmentedColormap
 
     cmap = LinearSegmentedColormap.from_list("blues", BLUES)
-    short = {"tcvae_single": "G1 single", "tcvae_rich": "G1 rich", "vae_mlp_single": "G2", "bootstrap": "B1",
-             "garch": "B2"}
+    short = {"tcvae_single": "G1 single", "tcvae_rich": "G1 rich", "qgan_single": "G3 single", "qgan_rich": "G3 rich",
+             "vae_mlp_single": "G2", "bootstrap": "B1", "garch": "B2"}
     flab = {"mean": "mean", "q05": "q.05", "q50": "q.50", "q95": "q.95", "var95": "VaR", "es95": "ES"}
     mlab = {"sharpe": "Sharpe", "maxdd": "MaxDD", "ret": "return"}
     rows = [f"{s}  {mlab[m]} {flab[f]}" for s in STRATS for m, f in FUNC_ORDER]
@@ -132,12 +151,14 @@ def facts_figure(facts: pd.DataFrame, path: Path, order: list[str] | None = None
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
-    facts = facts.assign(g=[gkey(k, r) if k in ("tcvae", "vae_mlp", "qgan") else k
+    facts = facts.assign(g=[gkey(k, r) if k in ("tcvae", "vae_mlp", "vae_mlp_wide", "qgan") else k
                             for k, r in zip(facts.kind, facts.regime)])
-    order = order or ["tcvae_single", "tcvae_rich", "vae_mlp_single", "bootstrap", "garch"]
-    names = names or {"tcvae_single": "G1 single", "tcvae_rich": "G1 rich", "vae_mlp_single": "G2", "bootstrap": "B1",
-                      "garch": "B2"}
-    fig, axes = plt.subplots(len(STAT_ROWS), 4, figsize=(6.3, 9.2), sharey=True)
+    order = order or ["tcvae_single", "tcvae_rich", "qgan_single", "qgan_rich", "bootstrap", "garch"]
+    names = names or {"tcvae_single": "G1 single", "tcvae_rich": "G1 rich", "qgan_single": "G3 single",
+                      "qgan_rich": "G3 rich", "vae_mlp_single": "G2", "vae_mlp_wide_single": "X1",
+                      "bootstrap": "B1", "garch": "B2"}
+    order = [g for g in order if (facts.g == g).any()]
+    fig, axes = plt.subplots(len(STAT_ROWS), 4, figsize=(6.3, 2.9 + 1.25 * len(order)), sharey=True)
     for i, (stat, slab) in enumerate(STAT_ROWS):
         for j, d in enumerate(DGP_ORDER):
             ax = axes[i, j]
@@ -153,7 +174,8 @@ def facts_figure(facts: pd.DataFrame, path: Path, order: list[str] | None = None
                 ax.scatter([np.median(x)], [y], s=34, color=COLORS[g], marker=MARKERS[g], edgecolors="white",
                            linewidths=0.8, zorder=4)
             vals = pd.concat([f[f.g.isin(order)][stat], pd.Series([o])])
-            if stat == "kurt" and vals.max() > 20 * vals.min():  # logarithmic scale only for a wide range
+            log = stat == "kurt" and vals.max() > 20 * vals.min()  # logarithmic scale only for a wide range
+            if log:
                 from matplotlib.ticker import NullFormatter
 
                 ax.set_xscale("log")
@@ -183,14 +205,16 @@ def build_case(root: Path, out: Path, num: Numbers, cfg: dict, pr_min: float) ->
     if "l2" not in lv:
         return
     l0, l1, l2, l3 = lv.get("l0"), lv.get("l1"), lv["l2"], lv.get("l3")
-    pits = _read(root, "e6_case", "pits")
+    p6, p13 = _read(root, "e6_case", "pits"), _read(root, "e13", "l4_pits")  # G3: held-out halves as in E6
+    pits = pd.concat([t for t in (p6, p13) if t is not None], ignore_index=True) if p6 is not None else None
     l4 = l4_pooled(pits, cfg) if pits is not None else None
+    att_cells, att_rules = attainable(root, pr_min)
     if l4 is not None:
         l4.to_csv(out / "tables" / "e6_case_pooled.csv", index=False)
         # per-run rejections and, for the TC-VAE, pooled rejections without collapsed runs
         for (d, k), g in pits.groupby(["dgp", "kind"]):
             per = [int(pd.DataFrame(calibration_tests(h, cfg)).reject_any.sum()) for _, h in g.groupby("history")]
-            key = f"case.{gkey(k, 'single') if k in ('tcvae', 'vae_mlp') else k}.{d}"
+            key = f"case.{gkey(k, 'single') if k in ('tcvae', 'vae_mlp', 'qgan') else k}.{d}"
             num.add(key + ".l4rej.run.min", min(per))
             num.add(key + ".l4rej.run.max", max(per))
         facts0 = _read(root, "e4", "facts")
@@ -235,7 +259,10 @@ def build_case(root: Path, out: Path, num: Numbers, cfg: dict, pr_min: float) ->
             if not expl:
                 stem = f"card_{gkey(kind, regime)}_{d}"
                 (out / "cards").mkdir(parents=True, exist_ok=True)
-                (out / "cards" / f"{stem}.tex").write_text(card_latex(c, pr_min) + "\n")
+                A = att_cells.get((d, regime or "single"))
+                (out / "cards" / f"{stem}.tex").write_text(
+                    card_latex(c, pr_min, attainable=A, attainable_rules=att_rules.get((d, regime or "single")))
+                    + "\n")
                 cards_md.append(card_markdown(c))
     (out / "cards" / "cards.md").write_text("\n\n".join(cards_md) + "\n")
     tab = pd.DataFrame(rows)
@@ -267,13 +294,17 @@ Process & Generator & runs & flagged & pooled & per run & failed rules & rejecte
             num.add(f"case.{k}.l3.TF.regret.max", float(r["max"]), "{:.3f}")
     res = l2[l2.kind.isin(["tcvae"])].groupby(["dgp", "regime"]).resolvable.mean()
     num.pct("case.tcvae.resolvable.min", float(res.min()), 2)
-    num.add("case.fit.count", int(tab[~tab.expl].fit.sum()))
-    num.add("case.settings", int((~tab.expl).sum()))
+    # pre-registered generators (G1, G2, B1, B2), and all generators including G3 (addendum)
+    prereg = ~tab.expl & ~tab.label.str.startswith("G3")
+    num.add("case.fit.count", int(tab[prereg].fit.sum()))
+    num.add("case.settings", int(prereg.sum()))
+    num.add("case.fit.count.all", int(tab[~tab.expl].fit.sum()))
+    num.add("case.settings.all", int((~tab.expl).sum()))
     # rank agreement between L1 (statistics flagged) and L2 (cells passed) across generators and processes
-    t = tab[~tab.expl]
-    tau, p = sps.kendalltau(-t.l1, t.l2)
-    num.add("case.tau.l1l2", float(tau))
-    num.add("case.tau.l1l2.p", float(p), "{:.3f}")
+    for sfx, t in (("", tab[prereg]), (".all", tab[~tab.expl])):
+        tau, p = sps.kendalltau(-t.l1, t.l2)
+        num.add("case.tau.l1l2" + sfx, float(tau))
+        num.add("case.tau.l1l2.p" + sfx, float(p), "{:.3f}")
     # drift error of the generators: annualised error of the mean horizon return of buy-and-hold
     T = cfg["data"]["scenario_prices"] - 1
     bh = l2[(l2.strategy == "BH") & (l2.metric == "ret") & (l2.functional == "mean")]
@@ -290,12 +321,21 @@ Process & Generator & runs & flagged & pooled & per run & failed rules & rejecte
     cells_figure(l2, out / "figures" / "fig_case_cells.pdf", pr_min)
     facts = _read(root, "e4", "facts")
     if facts is not None:
+        f13 = _read(root, "e13", "facts")
+        if f13 is not None:
+            facts = pd.concat([facts, f13], ignore_index=True)
         facts_figure(facts, out / "figures" / "fig_case_facts.pdf")
-        f = facts.assign(g=[gkey(k, r) if k in ("tcvae", "vae_mlp") else k for k, r in zip(facts.kind, facts.regime)])
+        # the degenerate ablation (G2) and its exploratory variant (X1) have a figure of their own: their values would
+        # compress the scale of the other generators
+        facts_figure(facts, out / "figures" / "fig_ablation_facts.pdf", order=["vae_mlp_single", "vae_mlp_wide_single"])
+        f = facts.assign(g=[gkey(k, r) if k in ("tcvae", "vae_mlp", "qgan") else k
+                            for k, r in zip(facts.kind, facts.regime)])
         med = f.groupby(["g", "dgp"])[[s for s, _ in STAT_ROWS]].median()
         for (g, d), r in med.iterrows():
             for s, _ in STAT_ROWS:
-                num.add(f"facts.{g}.{d}.{s}", float(r[s]), "{:.3f}" if s in ("acf_r1", "acf_abs", "leverage") else "{:.2f}")
+                v = float(r[s])
+                fmt = "{:.3f}" if s in ("acf_r1", "acf_abs", "leverage") else "{:,.0f}" if abs(v) >= 100 else "{:.2f}"
+                num.add(f"facts.{g}.{d}.{s}", fmt.format(v).replace(",", "{,}"))
         num.add("facts.tcvae.vr.min", float(f[(f.kind == "tcvae") & (f["std"] >= 0.05)].vr.min()))
         num.add("facts.tcvae.vr.max", float(f[(f.kind == "tcvae") & (f["std"] >= 0.05)].vr.max()))
         tc = f[(f.kind == "tcvae") & (f["std"] >= 0.05)]  # collapsed runs are reported separately

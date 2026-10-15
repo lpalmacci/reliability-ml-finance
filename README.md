@@ -62,11 +62,11 @@ README.md, REVIEWER_GUIDE.md, REPRODUCE.md   entry points
 docs/               protocol definition, experiment map, deviations, addendum, data
 configs/            pre-registration, run configurations (full, quick, exploratory, real), generators
 src/tavp/dgp/       reference processes D1-D4 (oracles)
-src/tavp/perturb/   planted defects P1-P7
+src/tavp/perturb/   planted defects P1-P8
 src/tavp/generators/oracle, oracle with estimated drift, bootstrap, GJR-GARCH-t, TC-VAE wrapper, Quant GAN
 src/tavp/tasks/     decision rules, backtest, calibration, functionals and equivalence tests
 src/tavp/protocol/  levels L1-L4, statistics, validation cards
-src/tavp/experiments/ one module per experiment (E1-E13, Q0) and the training scripts
+src/tavp/experiments/ one module per experiment (E1-E14, Q0) and the training scripts
 src/tavp/report/    tables, figures and numbers of the chapter
 third_party/tcvae/  Time-Causal VAE code (upstream commit a43effe, unmodified, Apache-2.0)
 scripts/            data download, optional Tail-GAN download, freeze and verification

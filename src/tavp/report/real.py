@@ -11,15 +11,16 @@ import pandas as pd
 
 from tavp.protocol.card import FUNC_ORDER, STRATS, build_card
 from tavp.report.numbers import Numbers
-from tavp.report.tolcrit import critical_cells
+from tavp.report.tolcrit import critical_cells, undefined_as_infinite
 
 DGPS = [("gjr_real", "GJR-GARCH-$t$"), ("regime_real", "Regimes")]
 ROWS = [("oracle", "none", "$O$ oracle (negative control)"),
         ("oracle_drift", "single", "$\\hat{O}$ oracle, estimated drift"),
-        ("tcvae", "single", "G1 TC-VAE"), ("bootstrap", "single", "B1 stationary bootstrap"),
-        ("garch", "single", "B2 GJR-GARCH-$t$"),
+        ("tcvae", "single", "G1 TC-VAE"), ("qgan", "single", "G3 Quant GAN"),
+        ("bootstrap", "single", "B1 stationary bootstrap"), ("garch", "single", "B2 GJR-GARCH-$t$"),
         ("oracle_drift", "rich", "$\\hat{O}$ oracle, estimated drift"), ("tcvae", "rich", "G1 TC-VAE"),
-        ("bootstrap", "rich", "B1 stationary bootstrap"), ("garch", "rich", "B2 GJR-GARCH-$t$"),
+        ("qgan", "rich", "G3 Quant GAN"), ("bootstrap", "rich", "B1 stationary bootstrap"),
+        ("garch", "rich", "B2 GJR-GARCH-$t$"),
         ("garch_ms", "rich", "B2, multistart fit")]
 KEYS = [(s, m, f) for s in STRATS for m, f in FUNC_ORDER]
 GEN_LABEL = {"tcvae": "G1 TC-VAE", "qgan": "G3 Quant GAN", "bootstrap": "B1 stationary bootstrap",
@@ -39,14 +40,14 @@ def _levels(root: Path) -> dict[str, pd.DataFrame]:
         e1 = _read(root, "e1", level)
         if e1 is not None:
             parts.append(e1[e1.kind == "oracle"].assign(regime="none"))
-        for exp in ("e4", "e5", "e8", "e10ms"):
+        for exp in ("e4", "e13", "e5", "e8", "e10ms"):
             t = _read(root, exp, level)
             if t is not None:
-                parts.append(t[t.kind.isin(["oracle_drift", "tcvae", "bootstrap", "garch", "garch_ms"])])
+                parts.append(t[t.kind.isin(["oracle_drift", "tcvae", "qgan", "bootstrap", "garch", "garch_ms"])])
         if parts:
             df = pd.concat(parts, ignore_index=True)
             df["regime"] = df.regime.fillna("single")
-            out[level] = df
+            out[level] = undefined_as_infinite(df) if level == "l2" else df
     return out
 
 
@@ -343,9 +344,8 @@ def build_real_l4(rroot: Path, out: Path, num: Numbers, cfg: dict) -> None:
         for _, x in g.iterrows():
             for col in ("drift_garch", "mean_train", "mean_test", "vol_train", "vol_test"):
                 num.add(f"real.l4.win.{int(x.test_first) // 10000}.{col}", float(x[col]), "{:.3f}")
-    # held-out periods in which some generator of E11 is rejected (the Quant GAN, added by addendum, is reported apart)
-    t11 = tests[tests.generator != "qgan"]
-    bad = [w for w in wins.window if t11[(t11.window == w)].reject_any.any()]
+    # held-out periods in which some generator is rejected, over all generators and for each
+    bad = [w for w in wins.window if tests[(tests.window == w)].reject_any.any()]
     num.add("real.l4.periods.rejected", len(bad))
     num.add("real.l4.periods.rejected.which", ", ".join(
         f"{str(a)[:4]}--{str(b)[:4]}" for w, a, b in zip(wins.window, wins.test_first, wins.test_last) if w in bad))
@@ -363,11 +363,10 @@ Generator & rejected & coverage & """ + head + r""" \\
 \end{tabular}
 """)
 
-    (out / "tables" / "tab_real_l4.tex").write_text(table([["tcvae", "bootstrap", "garch"]]))
-    if "qgan" in lines:
-        (out / "tables" / "tab_qgan_market.tex").write_text(table([["qgan"], ["tcvae", "bootstrap", "garch"]]))
-        q = tests[(tests.generator == "qgan") & (tests.window >= 0)]
-        bad_q = [w for w in wins.window if q[q.window == w].reject_any.any()]
-        num.add("real.l4.qgan.periods.rejected", len(bad_q))
-        num.add("real.l4.qgan.periods.rejected.which", ", ".join(
-            f"{str(a)[:4]}--{str(b)[:4]}" for w, a, b in zip(wins.window, wins.test_first, wins.test_last) if w in bad_q))
+    (out / "tables" / "tab_real_l4.tex").write_text(table([["tcvae", "qgan"], ["bootstrap", "garch"]]))
+    for gname in lines:
+        q = tests[(tests.generator == gname) & (tests.window >= 0)]
+        bad_g = [w for w in wins.window if q[q.window == w].reject_any.any()]
+        num.add(f"real.l4.{gname}.periods.rejected", len(bad_g))
+        num.add(f"real.l4.{gname}.periods.rejected.which", ", ".join(
+            f"{str(a)[:4]}--{str(b)[:4]}" for w, a, b in zip(wins.window, wins.test_first, wins.test_last) if w in bad_g))

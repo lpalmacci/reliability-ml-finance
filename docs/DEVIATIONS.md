@@ -40,12 +40,15 @@ pre-registered configuration.
   an output of the network far in the tail into an extreme return. Level L0, as pre-registered, checks only that
   every value is finite, so these scenarios are valid; the TOST rule cannot declare equivalence with an undefined
   estimate, so the comparisons count as failures, and the critical tolerances treat them as infinite. No rule was
-  changed; the chapter discusses a plausibility check for level L0 as a direction (Sections 7.4 and 7.5).
-- Reporting (2026-10-15). The figures and tables of the pre-registered analysis (Section 6.1) and of the analyses
-  of D5-D9 (Section 6.2) show only the generators of those analyses; the Quant GAN, added by addendum, is reported
-  in Section 6.3 with its own tables (tab_q0, tab_qgan_summary, tab_qgan_hyp, tab_qgan_market) and figures
-  (fig_qgan_facts, fig_qgan_curves). The PITs of the Quant GAN on the market are appended to results/real/e11/
-  and excluded from the counts of E11 (real.l4.periods.*).
+  changed; the chapter discusses a plausibility check for level L0 as a direction (Sections 8.3 and 8.4).
+- Reporting (2026-10-15, superseded by D11 on the same day). Before D11 the figures and tables of the
+  pre-registered analysis and of D5-D9 showed only the generators of those analyses, and the Quant GAN had tables and
+  figures of its own. With D11 the Quant GAN enters every table and figure next to the TC-VAE, with two exceptions
+  drawn in figures of their own and declared in the captions: the dependence curves of the Quant GAN
+  (fig_curves_qgan), whose spikes at some lags would compress the scale of the other curves, and the stylized facts
+  of the non-causal ablation G2 and of X1 (fig_ablation_facts), for the same reason. The counts of held-out periods
+  with a rejection on the market (real.l4.periods.*) now include every generator. The plausibility check of level L0
+  is discussed in Sections 8.3 and 8.4 of the restructured chapter.
 
 ## Observations from the negative control (not deviations)
 

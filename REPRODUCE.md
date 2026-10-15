@@ -137,9 +137,10 @@ are not pre-registered; they do not change any pre-registered verdict. `make rea
 | Robustness (E7) | `tables/tab_e7_robust.tex` | `results/e7_*/` |
 | Attainability (E8) | `tables/tab_e8_attain.tex`, `tables/tab_e8_functionals.tex`, `figures/fig_case_attain.pdf` | `results/e4/`, `results/e5/`, `results/e8/` |
 | Planted mean reversion (E9) | `tables/tab_e9_detection.tex`, `tables/tab_e9_match.tex` | `results/e4/`, `results/e8/`, `results/e9/` |
+| Properties of the Quant GAN as planted defects (E14) | `tables/tab_e14_detection.tex`, `tables/tab_e14_match.tex` | `results/e8/`, `results/e13/`, `results/e14/` |
 | Critical tolerances (D7) | `tables/tab_tolcrit.tex`, `tables/tab_tolfunc.tex`, `figures/fig_tolcrit.pdf` | `results/e1/`, `results/e4/`, `results/e5/`, `results/e8/` |
 | Fine grid of severities (E12) | `figures/fig_power_fine.pdf`, `tables/tab_e12_thresholds.tex`, `tables/tab_e12_effective.tex` | `results/e1/`, `results/e2/`, `results/e12/` |
-| Descriptive figures | `figures/fig_induced.pdf`, `figures/fig_curves.pdf`, `figures/fig_quantiles.pdf`, `figures/fig_paths.pdf`, `figures/fig_pit_market.pdf` | `results/e4_curves/`, `results/real/e11/` |
-| Quant GAN (Q0, Q0b, E13) | numbers `q0.*`, `e13.*` and the tables of Section 6.2 | `results/q0/`, `results/e13/`, `results/real/e11/` |
+| Descriptive figures | `figures/fig_induced.pdf`, `figures/fig_curves.pdf`, `figures/fig_curves_qgan.pdf`, `figures/fig_quantiles.pdf`, `figures/fig_paths.pdf`, `figures/fig_pit_market.pdf`, `figures/fig_ablation_facts.pdf` | `results/e4_curves/`, `results/real/e11/` |
+| Quant GAN (Q0, Q0b, E13, D11) | `tables/tab_q0.tex`, `tables/tab_q0_metrics.tex`, `tables/tab_qgan_hyp.tex`, numbers `q0.*`, `e13.*`, `hq.*`; G3 also appears in every table and figure above | `results/q0/`, `results/e13/`, `results/real/e11/`, `results/real/e13/` |
 | Market data (D8) | `tables/tab_real_params.tex`, `tables/tab_real_protocol.tex`, `tables/tab_real_l4.tex` | `results/real/`, `results/e10ms/` |
 | Every number in the text | `numbers.tex` (macro `\tavp{key}`) | all of the above |

@@ -1,7 +1,8 @@
 """Descriptive figures of the chapter: induced laws, autocorrelation and leverage curves, sample paths,
 quantiles, and the PITs of level L4 on the market. Reads results/e4_curves/ (tavp.experiments.e4_curves)
-and results/real/e11/. The figures of the pre-registered analysis show the generators of that analysis; the Quant
-GAN, added by addendum, has its own figure of dependence curves (fig_qgan_curves)."""
+and results/real/e11/. Every figure shows the two deep generators, the TC-VAE (G1) and the Quant GAN (G3), with the
+classical benchmarks, except the dependence curves of G3, which are drawn in a figure of their own (fig_curves_qgan)
+with the same conventions, because their spikes at some lags would compress the scale of the other curves."""
 
 from __future__ import annotations
 
@@ -13,9 +14,13 @@ import pandas as pd
 from tavp.report.case import DGP_LABEL, DGP_ORDER, FAMILY, GRID, INK, INK2
 from tavp.report.numbers import Numbers
 
-GEN10 = [("tcvae", "single", "G1 TC-VAE"), ("bootstrap", None, "B1 bootstrap"), ("garch", None, "B2 GJR-GARCH-$t$")]
-GEN_QGAN = [("tcvae", "single", "G1 TC-VAE, 10 years"), ("qgan", "single", "G3 Quant GAN, 10 years"),
-            ("tcvae", "rich", "G1 TC-VAE, rich data"), ("qgan", "rich", "G3 Quant GAN, long history")]
+GEN10 = [("tcvae", "single", "G1 TC-VAE"), ("qgan", "single", "G3 Quant GAN"), ("bootstrap", None, "B1 bootstrap"),
+         ("garch", None, "B2 GJR-GARCH-$t$")]
+# dependence curves: the Quant GAN has a figure of its own, with the same conventions, because the spikes of its curves
+# at some lags would compress the scale of the other generators; each figure shows ten years (solid) and rich data (dashed)
+GEN_CURVES = [("tcvae", "single", "G1 TC-VAE, 10 years"), ("tcvae", "rich", "G1 TC-VAE, rich data"),
+              ("bootstrap", None, "B1 bootstrap, 10 years"), ("garch", None, "B2 GJR-GARCH-$t$, 10 years")]
+GEN_CURVES_QGAN = [("qgan", "single", "G3 Quant GAN, 10 years"), ("qgan", "rich", "G3 Quant GAN, rich data")]
 BAND = "#d9d8d3"
 STRAT = ["BH", "TF", "VT", "TVF"]
 
@@ -67,6 +72,7 @@ def induced_figure(ind: pd.DataFrame, cfg: dict, path: Path) -> None:
 
     plt = _plt()
     gens = [("oracle", None, "oracle")] + [("tcvae", "rich", "G1 TC-VAE, rich data"),
+                                            ("qgan", "rich", "G3 Quant GAN, rich data"),
                                             ("bootstrap", None, "B1 bootstrap, 10 years"),
                                             ("garch", None, "B2 GJR-GARCH-$t$, 10 years")]
     gens = [g for g in gens if not _sel(ind, g[0], g[1]).empty]
@@ -97,8 +103,8 @@ def induced_figure(ind: pd.DataFrame, cfg: dict, path: Path) -> None:
             if j == 0:
                 ax.set_ylabel(lab, fontsize=6.5, color=INK)
     h, l = axes[0, 0].get_legend_handles_labels()
-    fig.legend(h, l, loc="upper center", ncol=len(l), fontsize=6, frameon=False, bbox_to_anchor=(0.5, 1.0))
-    fig.tight_layout(rect=(0, 0, 1, 0.92))
+    fig.legend(h, l, loc="upper center", ncol=3, fontsize=6, frameon=False, bbox_to_anchor=(0.5, 1.0))
+    fig.tight_layout(rect=(0, 0, 1, 0.88))
     _save(fig, path)
     plt.close(fig)
 
@@ -205,8 +211,8 @@ def pit_figure(pits: pd.DataFrame, path: Path, bins: int = 10) -> None:
     from scipy.stats import binom
 
     plt = _plt()
-    gens = [(g, lab) for g, lab in (("bootstrap", "B1 bootstrap"), ("garch", "B2 GJR-GARCH-$t$"),
-                                    ("tcvae", "G1 TC-VAE")) if g in set(pits.generator)]
+    gens = [(g, lab) for g, lab in (("tcvae", "G1 TC-VAE"), ("qgan", "G3 Quant GAN"), ("bootstrap", "B1 bootstrap"),
+                                    ("garch", "B2 GJR-GARCH-$t$")) if g in set(pits.generator)]
     metrics = [("ret", "59-day return"), ("sharpe", "Sharpe ratio"), ("maxdd", "maximum drawdown")]
     fig, axes = plt.subplots(len(gens), 3, figsize=(6.3, 1.25 * len(gens) + 0.5), sharex=True, sharey=True)
     for i, (g, glab) in enumerate(gens):
@@ -237,9 +243,9 @@ def build_curves(root: Path, out: Path, num: Numbers, cfg: dict) -> None:
     if cur is None or band is None:
         return
     fig = out / "figures"
-    curves_figure(cur, band, fig / "fig_curves.pdf")
-    if len(_present(cur, GEN_QGAN)) == len(GEN_QGAN):
-        curves_figure(cur, band, fig / "fig_qgan_curves.pdf", GEN_QGAN)
+    curves_figure(cur, band, fig / "fig_curves.pdf", GEN_CURVES)
+    if _present(cur, GEN_CURVES_QGAN):
+        curves_figure(cur, band, fig / "fig_curves_qgan.pdf", GEN_CURVES_QGAN)
     quantile_figure(cur, band, fig / "fig_quantiles.pdf")
     paths = _read(root, "e4_curves", "paths")
     if paths is not None:

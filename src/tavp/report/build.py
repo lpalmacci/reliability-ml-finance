@@ -17,6 +17,7 @@ from tavp.experiments import common
 from tavp.report import summaries as S
 from tavp.report.attain import build_attain
 from tavp.report.mr import build_mr
+from tavp.report.qdefects import build_qdefects
 from tavp.report.real import build_real
 from tavp.report.tolcrit import build_tolcrit
 from tavp.report.case import build_case
@@ -529,6 +530,7 @@ def main():
     build_attain(root, out, num, cfg, pr_min)
     build_tolcrit(root, out, num, cfg, pr_min)
     build_mr(root, out, num, cfg, pr_min)
+    build_qdefects(root, out, num, cfg, pr_min)
     build_real(root, out, num, cfg, pr_min)
     build_curves(root, out, num, cfg)
     build_qgan(root, out, num, cfg, pr_min)

@@ -102,7 +102,7 @@ verdicts, as for the TC-VAE.
 ## Outcome (added on 2026-10-15, after E13 was run)
 
 The hypotheses above are unchanged; this section records their outcomes, computed by `tavp.report.qgan`
-exactly as stated (table `thesis_assets/tables/tab_qgan_hyp.tex`, Section 6.3 of the chapter).
+exactly as stated (table `thesis_assets/tables/tab_qgan_hyp.tex`, Section 7.9 of the chapter).
 
 - HQ1 not supported: on D3 the Hill index of G3 is closer to the oracle than that of the TC-VAE in both
   regimes, but its kurtosis overshoots by orders of magnitude (medians 4,620 and 109 against 21.9).
@@ -118,3 +118,11 @@ Observation, not foreseen by the addendum: one run (D3, ten years, run 1) genera
 returns so large that the drawdown of some rules cannot be computed in 4 of the 50 contexts of level L2. Level
 L0 declares them valid (every value is finite); level L2 counts the affected comparisons as failures. See
 `docs/DEVIATIONS.md`.
+
+## Extension after E13 (deviation D11, 2026-10-15)
+
+After E13 the author asked that the Quant GAN be validated with every analysis of the TC-VAE. Deviation D11 adds
+runs 4 and 5 per process and regime, three runs per window on the market, the processes calibrated on the market
+(E10), the robustness variants of E7 and the test of its properties as planted defects (E14); its design was committed
+before any of these results (`docs/DEVIATIONS.md`). The hypotheses above are not changed: they are evaluated on runs
+1-3 as stated, and their outcomes on the five runs are reported alongside in the same table.

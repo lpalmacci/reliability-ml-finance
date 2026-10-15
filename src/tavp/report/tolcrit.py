@@ -25,13 +25,16 @@ from tavp.report.numbers import Numbers
 ROWS = [("oracle", "none", "$O$ oracle (negative control)", "O"),
         ("oracle_drift", "single", "$\\hat{O}$ oracle, estimated drift", "Ô 10y"),
         ("tcvae", "single", "G1 TC-VAE", "G1 10y"),
+        ("qgan", "single", "G3 Quant GAN", "G3 10y"),
         ("bootstrap", "single", "B1 stationary bootstrap", "B1 10y"),
         ("garch", "single", "B2 GJR-GARCH-$t$", "B2 10y"),
         ("oracle_drift", "rich", "$\\hat{O}$ oracle, estimated drift", "Ô long"),
         ("tcvae", "rich", "G1 TC-VAE", "G1 rich"),
+        ("qgan", "rich", "G3 Quant GAN", "G3 rich"),
         ("bootstrap", "rich", "B1 stationary bootstrap", "B1 long"),
         ("garch", "rich", "B2 GJR-GARCH-$t$", "B2 long")]
 KEYS = ["kind", "regime", "dgp"]
+CLIP = 300.0  # largest ratio drawn in the figure
 CELL = ["strategy", "metric", "functional"]
 
 
@@ -50,14 +53,21 @@ def _load(root: Path, level: str) -> pd.DataFrame | None:
     e1 = _read(root, "e1", level)
     if e1 is not None:
         parts.append(e1[e1.kind == "oracle"].assign(regime="none"))
-    for exp in ("e4", "e5", "e8"):
+    for exp in ("e4", "e13", "e5", "e8"):
         t = _read(root, exp, level)
         if t is not None:
-            parts.append(t[t.kind.isin(["oracle_drift", "tcvae", "bootstrap", "garch"])])
+            parts.append(t[t.kind.isin(["oracle_drift", "tcvae", "qgan", "bootstrap", "garch"])])
     if not parts:
         return None
     df = pd.concat(parts, ignore_index=True)
     df["regime"] = df.regime.fillna("single")
+    return undefined_as_infinite(df)
+
+
+def undefined_as_infinite(df: pd.DataFrame) -> pd.DataFrame:
+    """An undefined confidence interval (a metric that cannot be computed, E13) is within no tolerance."""
+    if "lo" in df and "hi" in df:
+        df = df.assign(lo=df.lo.fillna(-np.inf), hi=df.hi.fillna(np.inf))
     return df
 
 
@@ -87,8 +97,9 @@ def tolcrit_figure(cells: pd.DataFrame, attain: dict, path: Path) -> None:
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
-    fig, axes = plt.subplots(1, 4, figsize=(6.3, 4.4), sharey=True, sharex=True)
     rows = [r for r in ROWS if ((cells.kind == r[0]) & (cells.regime == r[1])).any()]
+    fig, axes = plt.subplots(1, 4, figsize=(6.3, 1.4 + 0.33 * len(rows)), sharey=True, sharex=True)
+    seps = [i - 0.5 for i in range(1, len(rows)) if rows[i][1] != rows[i - 1][1]]
     rng = np.random.default_rng(0)  # vertical jitter only, for legibility
     for ax, d in zip(axes, DGP_ORDER):
         ax.axvline(1.0, color=INK2, linewidth=0.8, zorder=1)
@@ -99,10 +110,11 @@ def tolcrit_figure(cells: pd.DataFrame, attain: dict, path: Path) -> None:
             A = attain.get((regime, d))
             inA = np.array([A is None or tuple(k) in A for k in x[CELL].itertuples(index=False)])
             y = i + rng.uniform(-0.22, 0.22, len(x))
-            ax.scatter(x.ratio[inA], y[inA], s=7, color=BLUES[6], linewidths=0, zorder=3)
-            ax.scatter(x.ratio[~inA], y[~inA], s=7, facecolors="none", edgecolors=BLUES[3], linewidths=0.6,
+            ratio = np.minimum(x.ratio.to_numpy(), CLIP)  # infinite ratios (undefined estimates) at the edge
+            ax.scatter(ratio[inA], y[inA], s=7, color=BLUES[6], linewidths=0, zorder=3)
+            ax.scatter(ratio[~inA], y[~inA], s=7, facecolors="none", edgecolors=BLUES[3], linewidths=0.6,
                        zorder=2)
-        for yy in (0.5, 4.5):
+        for yy in seps:
             ax.axhline(yy, color=GRID, linewidth=0.8)
         ax.set_xscale("log")
         ax.set_title(DGP_LABEL[d].replace("$", ""), fontsize=8, color=INK)
@@ -157,7 +169,7 @@ def build_tolcrit(root: Path, out: Path, num: Numbers, cfg: dict, pr_min: float)
             num.add(key + ".attain", k_att, "{:.1f}" if k_att >= 10 else "{:.2f}")
             num.add(key + ".l3", l3c, "{:.3f}")
             num.add(key + ".median", float(x.ratio.median()), "{:.2f}")
-            fmt = lambda v: ("--" if np.isnan(v) else (f"{v:.1f}" if v >= 10 else f"{v:.2f}"))
+            fmt = lambda v: ("--" if np.isnan(v) else r"$\infty$" if np.isinf(v) else (f"{v:.1f}" if v >= 10 else f"{v:.2f}"))
             bold = lambda s, ok: r"\textbf{" + s + "}" if ok else s
             vals += [bold(fmt(k_all), k_all <= 1), "--" if A is None else bold(fmt(k_att), k_att <= 1),
                      bold(f"{l3c:.3f}", l3c <= cfg["use"]["tolerances"]["regret"])]
