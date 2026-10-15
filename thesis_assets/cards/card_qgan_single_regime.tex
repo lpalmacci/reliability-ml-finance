@@ -1,20 +1,20 @@
 \begin{tabular}{lrrrrrrrrr}
 \toprule
-\multicolumn{10}{p{13.5cm}}{L0: process hashes consistent; scenarios valid; 100\% of comparisons resolvable; 3 training runs, 50 contexts.} \\
+\multicolumn{10}{p{13.5cm}}{L0: process hashes consistent; scenarios valid; 100\% of comparisons resolvable; 5 training runs, 50 contexts.} \\
 \midrule
  & \multicolumn{4}{c}{Sharpe} & \multicolumn{2}{c}{MaxDD} & \multicolumn{3}{c}{Return} \\
 \cmidrule(lr){2-5}\cmidrule(lr){6-7}\cmidrule(lr){8-10}
 L2 pass rate & mean & $q_{.05}$ & $q_{.50}$ & $q_{.95}$ & mean & $q_{.95}$ & mean & VaR & ES \\
 \midrule
-BH & \textbf{0.00}$^{\dagger}$ & \textbf{0.33}$^{\dagger}$ & \textbf{0.00}$^{\dagger}$ & \textbf{0.00}$^{\dagger}$ & 1.00 & \textbf{0.05} & \textbf{0.33}$^{\dagger}$ & \textbf{0.00}$^{\dagger}$ & \textbf{0.00}$^{\dagger}$ \\
-TF & \textbf{0.02}$^{\dagger}$ & \textbf{0.27}$^{\dagger}$ & \textbf{0.03}$^{\dagger}$ & \textbf{0.03}$^{\dagger}$ & \textbf{0.85} & \textbf{0.87} & \textbf{0.07}$^{\dagger}$ & \textbf{0.56} & \textbf{0.34} \\
-VT & \textbf{0.00}$^{\dagger}$ & \textbf{0.33}$^{\dagger}$ & \textbf{0.00}$^{\dagger}$ & \textbf{0.00}$^{\dagger}$ & 1.00 & \textbf{0.89} & \textbf{0.41}$^{\dagger}$ & \textbf{0.49}$^{\dagger}$ & \textbf{0.21}$^{\dagger}$ \\
-TVF & \textbf{0.02}$^{\dagger}$ & \textbf{0.32}$^{\dagger}$ & \textbf{0.09}$^{\dagger}$ & \textbf{0.08}$^{\dagger}$ & 0.91 & 0.97 & \textbf{0.19}$^{\dagger}$ & \textbf{0.59} & \textbf{0.49} \\
+BH & \textbf{0.04}$^{\dagger}$ & \textbf{0.20}$^{\dagger}$ & \textbf{0.00}$^{\dagger}$ & \textbf{0.00}$^{\dagger}$ & \textbf{0.60} & \textbf{0.03} & \textbf{0.40}$^{\dagger}$ & \textbf{0.00}$^{\dagger}$ & \textbf{0.00}$^{\dagger}$ \\
+TF & \textbf{0.02}$^{\dagger}$ & \textbf{0.20}$^{\dagger}$ & \textbf{0.02}$^{\dagger}$ & \textbf{0.03}$^{\dagger}$ & \textbf{0.83} & \textbf{0.83} & \textbf{0.06}$^{\dagger}$ & \textbf{0.48} & \textbf{0.36} \\
+VT & \textbf{0.12}$^{\dagger}$ & \textbf{0.20}$^{\dagger}$ & \textbf{0.00}$^{\dagger}$ & \textbf{0.00}$^{\dagger}$ & \textbf{0.87} & \textbf{0.69} & \textbf{0.45}$^{\dagger}$ & \textbf{0.30}$^{\dagger}$ & \textbf{0.13}$^{\dagger}$ \\
+TVF & \textbf{0.03}$^{\dagger}$ & \textbf{0.22}$^{\dagger}$ & \textbf{0.08}$^{\dagger}$ & \textbf{0.07}$^{\dagger}$ & \textbf{0.89} & 0.90 & \textbf{0.19}$^{\dagger}$ & \textbf{0.51} & \textbf{0.42} \\
 \midrule
 \multicolumn{10}{p{13.5cm}}{L1 flagged (power at least 0.5): ACF($|r|$), ACF($r$), Hill index, kurtosis, kurtosis (20 days), kurtosis (5 days), leverage, marginal $W_1$, mean, signature distance, skewness, standard deviation, sliced $W_2$.} \\
-\multicolumn{10}{p{13.5cm}}{L3 pass rate: TF 0.83 (mean regret 0.031, Kendall 0.66); TVF 0.80 (mean regret 0.024, Kendall 0.64); VT 1.00 (mean regret 0.021, Kendall 0.47).} \\
-\multicolumn{10}{p{13.5cm}}{L4: 0 of 12 cells rejected.} \\
+\multicolumn{10}{p{13.5cm}}{L3 pass rate: TF 0.86 (mean regret 0.022, Kendall 0.65); TVF 0.82 (mean regret 0.021, Kendall 0.64); VT 1.00 (mean regret 0.019, Kendall 0.51).} \\
+\multicolumn{10}{p{13.5cm}}{L4: 2 of 12 cells rejected (BH/sharpe, VT/sharpe).} \\
 \multicolumn{10}{p{13.5cm}}{\textbf{Verdict: not fit for the declared use.}} \\
-\multicolumn{10}{p{13.5cm}}{$^{\dagger}$Not attainable with this amount of data. Attainable cells passed: 4 of 12; attainable rules of L3 failed: TF, TVF. \textbf{Verdict on the attainable cells: not fit.}} \\
+\multicolumn{10}{p{13.5cm}}{$^{\dagger}$Not attainable with this amount of data. Attainable cells passed: 1 of 12; attainable rules of L3 failed: TF, TVF. \textbf{Verdict on the attainable cells: not fit.}} \\
 \bottomrule
 \end{tabular}

@@ -6,14 +6,15 @@
 \cmidrule(lr){2-5}\cmidrule(lr){6-7}\cmidrule(lr){8-10}
 L2 pass rate & mean & $q_{.05}$ & $q_{.50}$ & $q_{.95}$ & mean & $q_{.95}$ & mean & VaR & ES \\
 \midrule
-BH & \textbf{0.27} & \textbf{0.40} & \textbf{0.15} & \textbf{0.41} & 1.00 & 1.00 & \textbf{0.80} & \textbf{0.39} & \textbf{0.20} \\
-TF & \textbf{0.26} & \textbf{0.07} & \textbf{0.23} & \textbf{0.41} & 0.90 & 0.92 & \textbf{0.70} & \textbf{0.10} & \textbf{0.05} \\
-VT & \textbf{0.38} & \textbf{0.40} & \textbf{0.30} & \textbf{0.40} & 1.00 & 1.00 & 0.94 & \textbf{0.82} & \textbf{0.63} \\
-TVF & \textbf{0.35} & \textbf{0.11} & \textbf{0.38} & \textbf{0.42} & 0.94 & 1.00 & \textbf{0.78} & \textbf{0.40} & \textbf{0.31} \\
+BH & \textbf{0.27}$^{\dagger}$ & \textbf{0.40} & \textbf{0.15}$^{\dagger}$ & \textbf{0.41} & 1.00 & 1.00 & \textbf{0.80} & \textbf{0.39} & \textbf{0.20} \\
+TF & \textbf{0.26}$^{\dagger}$ & \textbf{0.07} & \textbf{0.23}$^{\dagger}$ & \textbf{0.41} & 0.90 & 0.92 & \textbf{0.70} & \textbf{0.10} & \textbf{0.05} \\
+VT & \textbf{0.38}$^{\dagger}$ & \textbf{0.40} & \textbf{0.30}$^{\dagger}$ & \textbf{0.40} & 1.00 & 1.00 & 0.94 & \textbf{0.82} & \textbf{0.63} \\
+TVF & \textbf{0.35}$^{\dagger}$ & \textbf{0.11} & \textbf{0.38}$^{\dagger}$ & \textbf{0.42} & 0.94 & 1.00 & \textbf{0.78} & \textbf{0.40} & \textbf{0.31} \\
 \midrule
 \multicolumn{10}{p{13.5cm}}{L1 flagged (power at least 0.5): ACF($|r|$), ACF($r$), Hill index, kurtosis, kurtosis (5 days), leverage, marginal $W_1$, signature distance, skewness, standard deviation, sliced $W_2$.} \\
 \multicolumn{10}{p{13.5cm}}{L3 pass rate: TF 0.86 (mean regret 0.015, Kendall 0.75); TVF 0.82 (mean regret 0.015, Kendall 0.71); VT 1.00 (mean regret 0.001, Kendall 0.93).} \\
 \multicolumn{10}{p{13.5cm}}{L4: not applied.} \\
 \multicolumn{10}{p{13.5cm}}{\textbf{Verdict: not fit for the declared use.}} \\
+\multicolumn{10}{p{13.5cm}}{$^{\dagger}$Not attainable with this amount of data. Attainable cells passed: 9 of 28; attainable rules of L3 failed: TF, TVF. \textbf{Verdict on the attainable cells: not fit.}} \\
 \bottomrule
 \end{tabular}

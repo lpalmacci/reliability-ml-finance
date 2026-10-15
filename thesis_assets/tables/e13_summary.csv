@@ -1,9 +1,9 @@
-dgp,regime,A,pass,passA,runs,l1,l3fa,l4,kappaA,fitA,resolvable,valid
-gbm,single,14,11,11,"[10, 12, 10]",10,none,0/12,1.847056786069183,False,1.0,True
-gbm,rich,28,18,18,"[27, 18, 20]",5,none,--,1.7139815536401803,False,1.0,True
-heston,single,13,3,3,"[4, 8, 5]",13,"TF, TVF",1/12,4.7364996793850445,False,0.9992592592592593,True
-heston,rich,29,2,2,"[3, 6, 10]",10,"TF, TVF",--,14.392157865214843,False,0.9981481481481481,True
-gjr_garch_t,single,14,2,2,"[6, 0, 8]",7,"TF, TVF",0/12,4.821729927686424,False,0.9783333333333334,True
-gjr_garch_t,rich,27,7,7,"[6, 7, 8]",2,"TF, TVF",--,4.270672176069221,False,0.9940740740740741,True
-regime,single,12,4,4,"[5, 8, 5]",13,"TF, TVF",0/12,2.2766799615520044,False,1.0,True
-regime,rich,30,7,7,"[7, 7, 18]",10,none,--,9.119440469229401,False,1.0,True
+dgp,regime,A,pass,passA,runs,l1,kappaA,fitA,resolvable,valid
+gbm,single,14,9,9,"[10, 12, 10, 10, 8]",11,1.8668320234553981,False,1.0,True
+gbm,rich,28,20,20,"[27, 18, 20, 26, 28]",3,1.6851106454054707,False,1.0,True
+heston,single,13,3,3,"[4, 8, 5, 2, 8]",13,3.896754209699569,False,0.9993333333333333,True
+heston,rich,29,2,2,"[3, 6, 10, 2, 4]",10,13.369190673381716,False,0.9987777777777778,True
+gjr_garch_t,single,14,2,2,"[6, 0, 8, 7, 4]",5,4.791611553838418,False,0.9868888888888889,True
+gjr_garch_t,rich,27,5,5,"[6, 7, 8, 4, 6]",2,7.8044017275733815,False,0.991,True
+regime,single,12,1,1,"[5, 8, 5, 4, 0]",13,3.184177961809968,False,1.0,True
+regime,rich,30,7,7,"[7, 7, 18, 4, 11]",10,13.797014129513121,False,1.0,True

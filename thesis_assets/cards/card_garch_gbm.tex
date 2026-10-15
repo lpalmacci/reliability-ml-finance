@@ -6,14 +6,15 @@
 \cmidrule(lr){2-5}\cmidrule(lr){6-7}\cmidrule(lr){8-10}
 L2 pass rate & mean & $q_{.05}$ & $q_{.50}$ & $q_{.95}$ & mean & $q_{.95}$ & mean & VaR & ES \\
 \midrule
-BH & \textbf{0.15} & \textbf{0.24} & \textbf{0.10} & \textbf{0.25} & 1.00 & 1.00 & \textbf{0.20} & \textbf{0.58} & \textbf{0.59} \\
-TF & \textbf{0.37} & 0.94 & \textbf{0.38} & \textbf{0.44} & 1.00 & 1.00 & \textbf{0.70} & 0.98 & 0.98 \\
-VT & \textbf{0.16} & \textbf{0.25} & \textbf{0.12} & \textbf{0.25} & 1.00 & 1.00 & \textbf{0.38} & \textbf{0.78} & \textbf{0.76} \\
-TVF & \textbf{0.34} & 0.92 & \textbf{0.41} & \textbf{0.45} & 1.00 & 1.00 & \textbf{0.69} & 1.00 & 1.00 \\
+BH & \textbf{0.15}$^{\dagger}$ & \textbf{0.24}$^{\dagger}$ & \textbf{0.10}$^{\dagger}$ & \textbf{0.25}$^{\dagger}$ & 1.00 & 1.00 & \textbf{0.20}$^{\dagger}$ & \textbf{0.58}$^{\dagger}$ & \textbf{0.59}$^{\dagger}$ \\
+TF & \textbf{0.37}$^{\dagger}$ & 0.94 & \textbf{0.38}$^{\dagger}$ & \textbf{0.44}$^{\dagger}$ & 1.00 & 1.00 & \textbf{0.70}$^{\dagger}$ & 0.98 & 0.98 \\
+VT & \textbf{0.16}$^{\dagger}$ & \textbf{0.25}$^{\dagger}$ & \textbf{0.12}$^{\dagger}$ & \textbf{0.25}$^{\dagger}$ & 1.00 & 1.00 & \textbf{0.38}$^{\dagger}$ & \textbf{0.78}$^{\dagger}$ & \textbf{0.76}$^{\dagger}$ \\
+TVF & \textbf{0.34}$^{\dagger}$ & 0.92 & \textbf{0.41}$^{\dagger}$ & \textbf{0.45}$^{\dagger}$ & 1.00 & 1.00 & \textbf{0.69}$^{\dagger}$ & 1.00 & 1.00 \\
 \midrule
 \multicolumn{10}{p{13.5cm}}{L1 flagged (power at least 0.5): kurtosis, mean, signature distance, standard deviation, sliced $W_2$.} \\
 \multicolumn{10}{p{13.5cm}}{L3 pass rate: TF 0.80 (mean regret 0.023, Kendall 0.71); TVF 0.78 (mean regret 0.024, Kendall 0.70); VT 1.00 (mean regret 0.000, Kendall 0.97).} \\
 \multicolumn{10}{p{13.5cm}}{L4: 0 of 12 cells rejected.} \\
 \multicolumn{10}{p{13.5cm}}{\textbf{Verdict: not fit for the declared use.}} \\
+\multicolumn{10}{p{13.5cm}}{$^{\dagger}$Not attainable with this amount of data. Attainable cells passed: 14 of 14; attainable rules of L3 failed: none. \textbf{Verdict on the attainable cells: fit.}} \\
 \bottomrule
 \end{tabular}

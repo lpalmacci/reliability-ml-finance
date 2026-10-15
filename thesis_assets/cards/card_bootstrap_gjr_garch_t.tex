@@ -6,14 +6,15 @@
 \cmidrule(lr){2-5}\cmidrule(lr){6-7}\cmidrule(lr){8-10}
 L2 pass rate & mean & $q_{.05}$ & $q_{.50}$ & $q_{.95}$ & mean & $q_{.95}$ & mean & VaR & ES \\
 \midrule
-BH & \textbf{0.20} & \textbf{0.33} & \textbf{0.10} & \textbf{0.00} & \textbf{0.40} & \textbf{0.18} & \textbf{0.47} & \textbf{0.20} & \textbf{0.01} \\
-TF & \textbf{0.18} & \textbf{0.34} & \textbf{0.12} & \textbf{0.16} & \textbf{0.57} & \textbf{0.33} & \textbf{0.60} & \textbf{0.30} & \textbf{0.06} \\
-VT & \textbf{0.18} & \textbf{0.24} & \textbf{0.11} & \textbf{0.00} & 0.93 & \textbf{0.79} & \textbf{0.62} & \textbf{0.41} & \textbf{0.51} \\
-TVF & \textbf{0.14} & \textbf{0.46} & \textbf{0.28} & \textbf{0.12} & 0.98 & 0.97 & \textbf{0.68} & \textbf{0.71} & \textbf{0.61} \\
+BH & \textbf{0.20}$^{\dagger}$ & \textbf{0.33}$^{\dagger}$ & \textbf{0.10}$^{\dagger}$ & \textbf{0.00}$^{\dagger}$ & \textbf{0.40} & \textbf{0.18} & \textbf{0.47}$^{\dagger}$ & \textbf{0.20}$^{\dagger}$ & \textbf{0.01}$^{\dagger}$ \\
+TF & \textbf{0.18}$^{\dagger}$ & \textbf{0.34} & \textbf{0.12}$^{\dagger}$ & \textbf{0.16}$^{\dagger}$ & \textbf{0.57} & \textbf{0.33} & \textbf{0.60}$^{\dagger}$ & \textbf{0.30} & \textbf{0.06} \\
+VT & \textbf{0.18}$^{\dagger}$ & \textbf{0.24}$^{\dagger}$ & \textbf{0.11}$^{\dagger}$ & \textbf{0.00}$^{\dagger}$ & 0.93 & \textbf{0.79} & \textbf{0.62}$^{\dagger}$ & \textbf{0.41}$^{\dagger}$ & \textbf{0.51}$^{\dagger}$ \\
+TVF & \textbf{0.14}$^{\dagger}$ & \textbf{0.46} & \textbf{0.28}$^{\dagger}$ & \textbf{0.12}$^{\dagger}$ & 0.98 & 0.97 & \textbf{0.68}$^{\dagger}$ & \textbf{0.71} & \textbf{0.61} \\
 \midrule
 \multicolumn{10}{p{13.5cm}}{L1 flagged (power at least 0.5): ACF($r$), Hill index, marginal $W_1$, mean, standard deviation.} \\
 \multicolumn{10}{p{13.5cm}}{L3 pass rate: TF 0.90 (mean regret 0.008, Kendall 0.76); TVF 0.72 (mean regret 0.035, Kendall 0.67); VT 1.00 (mean regret 0.010, Kendall 0.89).} \\
 \multicolumn{10}{p{13.5cm}}{L4: 2 of 12 cells rejected (BH/maxdd, TF/maxdd).} \\
 \multicolumn{10}{p{13.5cm}}{\textbf{Verdict: not fit for the declared use.}} \\
+\multicolumn{10}{p{13.5cm}}{$^{\dagger}$Not attainable with this amount of data. Attainable cells passed: 3 of 14; attainable rules of L3 failed: TVF. \textbf{Verdict on the attainable cells: not fit.}} \\
 \bottomrule
 \end{tabular}

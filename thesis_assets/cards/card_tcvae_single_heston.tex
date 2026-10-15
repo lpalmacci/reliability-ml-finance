@@ -6,14 +6,15 @@
 \cmidrule(lr){2-5}\cmidrule(lr){6-7}\cmidrule(lr){8-10}
 L2 pass rate & mean & $q_{.05}$ & $q_{.50}$ & $q_{.95}$ & mean & $q_{.95}$ & mean & VaR & ES \\
 \midrule
-BH & \textbf{0.00} & \textbf{0.58} & \textbf{0.00} & \textbf{0.19} & \textbf{0.51} & \textbf{0.59} & \textbf{0.21} & \textbf{0.20} & \textbf{0.06} \\
-TF & \textbf{0.14} & \textbf{0.17} & \textbf{0.18} & \textbf{0.31} & \textbf{0.66} & \textbf{0.37} & \textbf{0.42} & \textbf{0.22} & \textbf{0.09} \\
-VT & \textbf{0.04} & \textbf{0.66} & \textbf{0.00} & \textbf{0.14} & \textbf{0.88} & 0.91 & \textbf{0.39} & \textbf{0.55} & \textbf{0.56} \\
-TVF & \textbf{0.10} & \textbf{0.24} & \textbf{0.18} & \textbf{0.31} & \textbf{0.72} & \textbf{0.77} & \textbf{0.53} & \textbf{0.44} & \textbf{0.40} \\
+BH & \textbf{0.00}$^{\dagger}$ & \textbf{0.58}$^{\dagger}$ & \textbf{0.00}$^{\dagger}$ & \textbf{0.19}$^{\dagger}$ & \textbf{0.51} & \textbf{0.59} & \textbf{0.21}$^{\dagger}$ & \textbf{0.20}$^{\dagger}$ & \textbf{0.06}$^{\dagger}$ \\
+TF & \textbf{0.14}$^{\dagger}$ & \textbf{0.17} & \textbf{0.18}$^{\dagger}$ & \textbf{0.31}$^{\dagger}$ & \textbf{0.66} & \textbf{0.37} & \textbf{0.42}$^{\dagger}$ & \textbf{0.22} & \textbf{0.09} \\
+VT & \textbf{0.04}$^{\dagger}$ & \textbf{0.66}$^{\dagger}$ & \textbf{0.00}$^{\dagger}$ & \textbf{0.14}$^{\dagger}$ & \textbf{0.88} & 0.91 & \textbf{0.39}$^{\dagger}$ & \textbf{0.55}$^{\dagger}$ & \textbf{0.56}$^{\dagger}$ \\
+TVF & \textbf{0.10}$^{\dagger}$ & \textbf{0.24}$^{\dagger}$ & \textbf{0.18}$^{\dagger}$ & \textbf{0.31}$^{\dagger}$ & \textbf{0.72} & \textbf{0.77} & \textbf{0.53}$^{\dagger}$ & \textbf{0.44} & \textbf{0.40} \\
 \midrule
 \multicolumn{10}{p{13.5cm}}{L1 flagged (power at least 0.5): ACF($|r|$), ACF($r$), Hill index, kurtosis, kurtosis (5 days), leverage, marginal $W_1$, mean, signature distance, skewness, standard deviation, sliced $W_2$.} \\
 \multicolumn{10}{p{13.5cm}}{L3 pass rate: TF 0.84 (mean regret 0.042, Kendall 0.65); TVF 0.74 (mean regret 0.038, Kendall 0.56); VT 1.00 (mean regret 0.003, Kendall 0.87).} \\
 \multicolumn{10}{p{13.5cm}}{L4: 1 of 12 cells rejected (BH/sharpe).} \\
 \multicolumn{10}{p{13.5cm}}{\textbf{Verdict: not fit for the declared use.}} \\
+\multicolumn{10}{p{13.5cm}}{$^{\dagger}$Not attainable with this amount of data. Attainable cells passed: 1 of 13; attainable rules of L3 failed: TF, TVF. \textbf{Verdict on the attainable cells: not fit.}} \\
 \bottomrule
 \end{tabular}

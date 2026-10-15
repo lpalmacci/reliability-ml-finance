@@ -7,6 +7,10 @@ garch,gbm,18,36,1.0,main
 garch,gjr_garch_t,2,36,0.9777777777777777,main
 garch,heston,0,36,0.9687037037037037,main
 garch,regime,4,36,1.0,main
+qgan,gbm,11,36,1.0,main
+qgan,gjr_garch_t,2,36,0.9783333333333334,main
+qgan,heston,3,36,0.9992592592592593,main
+qgan,regime,4,36,1.0,main
 tcvae,gbm,7,36,1.0,main
 tcvae,gjr_garch_t,1,36,0.9998148148148148,main
 tcvae,heston,1,36,1.0,main
@@ -19,6 +23,10 @@ garch,gbm,12,36,0.7785185185185185,tol_half
 garch,gjr_garch_t,0,36,0.6996296296296296,tol_half
 garch,heston,0,36,0.6211111111111111,tol_half
 garch,regime,0,36,0.7283333333333334,tol_half
+qgan,gbm,6,36,0.772962962962963,tol_half
+qgan,gjr_garch_t,0,36,0.6764814814814815,tol_half
+qgan,heston,0,36,0.6361111111111111,tol_half
+qgan,regime,1,36,0.7661111111111111,tol_half
 tcvae,gbm,0,36,0.7455555555555555,tol_half
 tcvae,gjr_garch_t,0,36,0.7398148148148148,tol_half
 tcvae,heston,0,36,0.7311111111111112,tol_half
@@ -31,6 +39,10 @@ garch,gbm,28,36,1.0,tol_double
 garch,gjr_garch_t,10,36,1.0,tol_double
 garch,heston,7,36,0.9875925925925926,tol_double
 garch,regime,17,36,1.0,tol_double
+qgan,gbm,18,36,1.0,tol_double
+qgan,gjr_garch_t,10,36,0.99,tol_double
+qgan,heston,7,36,1.0,tol_double
+qgan,regime,13,36,1.0,tol_double
 tcvae,gbm,11,36,1.0,tol_double
 tcvae,gjr_garch_t,6,36,1.0,tol_double
 tcvae,heston,8,36,1.0,tol_double
@@ -43,6 +55,10 @@ garch,gbm,18,36,0.9996296296296296,cost
 garch,gjr_garch_t,2,36,0.975925925925926,cost
 garch,heston,0,36,0.9662962962962963,cost
 garch,regime,4,36,1.0,cost
+qgan,gbm,11,36,1.0,cost
+qgan,gjr_garch_t,1,36,0.9775925925925926,cost
+qgan,heston,3,36,0.9987037037037036,cost
+qgan,regime,4,36,1.0,cost
 tcvae,gbm,7,36,1.0,cost
 tcvae,gjr_garch_t,0,36,0.9985185185185185,cost
 tcvae,heston,1,36,0.9998148148148148,cost
@@ -55,6 +71,10 @@ garch,gbm,18,36,1.0,obj_low
 garch,gjr_garch_t,2,36,0.9777777777777777,obj_low
 garch,heston,0,36,0.9687037037037037,obj_low
 garch,regime,4,36,1.0,obj_low
+qgan,gbm,10,36,1.0,obj_low
+qgan,gjr_garch_t,2,36,0.9783333333333334,obj_low
+qgan,heston,3,36,0.9992592592592593,obj_low
+qgan,regime,4,36,1.0,obj_low
 tcvae,gbm,7,36,1.0,obj_low
 tcvae,gjr_garch_t,0,36,0.9998148148148148,obj_low
 tcvae,heston,1,36,1.0,obj_low
@@ -67,6 +87,10 @@ garch,gbm,18,36,1.0,obj_high
 garch,gjr_garch_t,2,36,0.9779629629629629,obj_high
 garch,heston,0,36,0.9687037037037037,obj_high
 garch,regime,4,36,1.0,obj_high
+qgan,gbm,11,36,1.0,obj_high
+qgan,gjr_garch_t,2,36,0.9781481481481481,obj_high
+qgan,heston,3,36,0.9992592592592593,obj_high
+qgan,regime,4,36,1.0,obj_high
 tcvae,gbm,7,36,1.0,obj_high
 tcvae,gjr_garch_t,0,36,0.9998148148148148,obj_high
 tcvae,heston,1,36,1.0,obj_high
@@ -79,6 +103,10 @@ garch,gbm,14,36,0.5374074074074074,n_alt
 garch,gjr_garch_t,2,36,0.4146296296296296,n_alt
 garch,heston,0,36,0.3675925925925926,n_alt
 garch,regime,2,36,0.4111111111111111,n_alt
+qgan,gbm,8,36,0.5435185185185185,n_alt
+qgan,gjr_garch_t,1,36,0.3987037037037037,n_alt
+qgan,heston,2,36,0.4033333333333333,n_alt
+qgan,regime,3,36,0.41203703703703703,n_alt
 tcvae,gbm,6,36,0.5531481481481482,n_alt
 tcvae,gjr_garch_t,0,36,0.43925925925925924,n_alt
 tcvae,heston,1,36,0.4174074074074074,n_alt
