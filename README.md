@@ -25,7 +25,7 @@ compared with a known reference law on five levels:
 The protocol is itself validated with known-answer tests: defects of graded severity are
 planted in four reference processes (geometric Brownian motion, Heston, GJR-GARCH-t, regime
 switching) and the size and power of every level are measured. It is then applied to two deep
-generators, the Time-Causal VAE of Acciaio, Eckstein and Hou (2024) and a Quant GAN (Wiese et
+generators, the Time-Causal VAE of Acciaio, Eckstein and Hou (2026) and a Quant GAN (Wiese et
 al., 2020), against a stationary bootstrap and a GJR-GARCH-t model, on simulated processes, on
 processes calibrated on a century of US market returns, and on the market itself.
 [`docs/PROTOCOL.md`](docs/PROTOCOL.md) defines the protocol; [`docs/EXPERIMENTS.md`](docs/EXPERIMENTS.md)

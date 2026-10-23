@@ -1,4 +1,4 @@
-# G1: Time-Causal VAE (Acciaio, Eckstein and Hou, 2024). Hyperparameters of the
+# G1: Time-Causal VAE (Acciaio, Eckstein and Hou, 2026). Hyperparameters of the
 # authors' Heston configuration (configs/Hestonprice/infocvae.yaml, commit a43effe).
 model: InfoCVAE
 encoder: CLSTMRes
