@@ -1,10 +1,24 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
+type: software
 title: "tavp: a task-aware validation protocol for generative models of financial time series"
+abstract: >-
+  Validation protocol that judges a generator of financial time series by a declared use:
+  the induced laws of the metrics of calibrated decision rules are tested for equivalence
+  with those of a known reference law within economic tolerances, with a statistical
+  diagnosis, a test of the choice of the rule and a calibration test on market data. The
+  repository validates the protocol with known-answer tests, applies it to the Time-Causal
+  VAE and the Quant GAN, and reproduces every number, table and figure of the thesis chapter.
 authors:
   - family-names: Palmacci
     given-names: Luca
     affiliation: "Sapienza University of Rome"
+keywords:
+  - generative models
+  - financial time series
+  - validation
+  - backtesting
+  - equivalence testing
 version: 0.1.0
 date-released: 2026-10-18
 license: Apache-2.0

@@ -54,6 +54,9 @@ any experiment (`git show prereg:configs/preregistration.yaml`). The second deep
 pre-registered by an addendum under the tag `prereg-qgan` before its experiment
 ([`docs/ADDENDUM_QGAN.md`](docs/ADDENDUM_QGAN.md)). Every other change, and every analysis added
 after the results, is recorded with its date and reason in [`docs/DEVIATIONS.md`](docs/DEVIATIONS.md).
+The tags belong to the history of this repository: when the folder is included in a larger
+repository, it should be imported with its history (for example with `git subtree add`, followed
+by a fetch of the tags) so that these commands keep working.
 
 ## Repository structure
 
