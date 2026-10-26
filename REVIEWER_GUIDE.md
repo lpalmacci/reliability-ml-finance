@@ -21,7 +21,7 @@ It gives a reading path from the chapter to the repository and three levels of v
 
 ## 2. Three levels of verification
 
-All commands run from the root of the repository, after `uv sync` (Python 3.12 and
+All commands run from the folder that contains this guide, after `uv sync` (Python 3.12 and
 [uv](https://docs.astral.sh/uv/); about two minutes).
 
 ### Level 1: the numbers of the chapter (about five minutes)
@@ -70,7 +70,7 @@ command) or one figure (`make thesis` after any experiment).
 ```sh
 git tag -n1                                          # prereg, prereg-qgan, thesis-v1
 git show prereg:configs/preregistration.yaml         # settings and hypotheses before any experiment
-git diff prereg -- configs/preregistration.yaml      # empty: the file was never changed
+git diff prereg:configs/preregistration.yaml HEAD:./configs/preregistration.yaml   # empty: never changed
 git log --oneline prereg..HEAD                       # what happened afterwards, in order
 ```
 
