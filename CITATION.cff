@@ -27,6 +27,7 @@ keywords:
   - validation
   - pre-registration
 version: 0.6.0
+repository-code: "https://github.com/lpalmacci/reliability-ml-finance"
 license: Apache-2.0
 references:
   - type: conference-paper
