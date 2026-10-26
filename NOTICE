@@ -1,5 +1,5 @@
 Replication package of the doctoral thesis "Reliability of Machine Learning Outputs in Finance"
-(Luca Palmacci, Sapienza University of Rome), Chapters 3, 4 and 5.
+(Luca Palmacci, Sapienza University of Rome), Chapters 3 to 6.
 Copyright 2026 Luca Palmacci
 
 The code is licensed under the Apache License 2.0 (LICENSE). The model of the members' probabilities
@@ -10,6 +10,15 @@ via Decoupled Ensemble Modeling", IPMU 2026.
 The systematic review of Chapter 5 (chapter5_systematic_review/) is the work of the author alone. Its
 screening records, coding sheet and extraction notes may be reused for research purposes with citation of
 the thesis.
+
+Chapter 6 (chapter6_validation_protocol/) includes software developed by Songyan Hou and co-authors
+(Time-Causal VAE, https://github.com/justinhou95/TimeCausalVAE), commit
+a43effe0125d7c778d0560e4704754991d8e271b, licensed under the Apache License 2.0; the files are in
+chapter6_validation_protocol/third_party/tcvae/ and are unmodified (see chapter6_validation_protocol/NOTICE).
+Reference: B. Acciaio, S. Eckstein, S. Hou (2026), "Time-Causal VAE: Robust Financial Time Series Generator",
+SIAM Journal on Financial Mathematics 17(1), 245-279. The Quant GAN (Wiese et al., 2020) is an independent
+implementation of the published paper. The market data of Chapter 6 (Ken French Data Library) are not
+redistributed: chapter6_validation_protocol/scripts/get_french.py downloads them.
 
 Third-party data, redistributed unchanged except where stated in chapter4_fraud_experiments/data/README.md:
 
