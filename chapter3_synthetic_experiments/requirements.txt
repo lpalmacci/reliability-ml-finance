@@ -1,0 +1,10 @@
+# Package versions with which the results of Chapter 3 are reproduced exactly (Python 3.12 or 3.13).
+numpy==2.5.3
+scipy==1.18.1
+matplotlib==3.11.2
+# notebook and tests
+jupyterlab
+nbconvert==7.17.1
+ipykernel==7.4.0
+pytest==9.1.1
+# confidex: install it from the folder next to this one, with  pip install -e ../confidex

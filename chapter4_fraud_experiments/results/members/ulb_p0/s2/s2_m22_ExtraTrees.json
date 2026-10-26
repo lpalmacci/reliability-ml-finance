@@ -1,0 +1,25 @@
+{
+  "dataset": "ulb",
+  "partition": 0,
+  "strategy": "s2",
+  "index": 22,
+  "family": "ExtraTrees",
+  "fraction": 0.8417257996379601,
+  "subsample_seed": 944881155,
+  "model_seed": 1834121489,
+  "auxiliary_seed": 355527237,
+  "hyperparameters": {},
+  "key": [
+    2,
+    2,
+    0,
+    2,
+    0,
+    22
+  ],
+  "n_train": 131851,
+  "train_frauds": 228,
+  "fit_seconds": 1.02,
+  "total_seconds": 2.1,
+  "warnings": []
+}

@@ -1,0 +1,25 @@
+{
+  "dataset": "carclaims",
+  "partition": 4,
+  "strategy": "s2",
+  "index": 5,
+  "family": "LogReg",
+  "fraction": 0.769958371514804,
+  "subsample_seed": 1607717905,
+  "model_seed": 255006424,
+  "auxiliary_seed": 605457086,
+  "hyperparameters": {},
+  "key": [
+    2,
+    1,
+    4,
+    2,
+    0,
+    5
+  ],
+  "n_train": 6530,
+  "train_frauds": 391,
+  "fit_seconds": 0.06,
+  "total_seconds": 0.06,
+  "warnings": []
+}

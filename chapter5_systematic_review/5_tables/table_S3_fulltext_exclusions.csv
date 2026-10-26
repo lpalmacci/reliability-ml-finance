@@ -1,0 +1,28 @@
+report_title,channel,outcome,code,reason
+A Comprehensive Review of Generative AI in Finance,databases,excluded,EC1,secondary study (topic-model review)
+A general framework for portfolio construction based on generative models of asset returns,databases,excluded,EC2,"scenario generator based on copulas, no deep-learning component"
+"Algorithms in future capital markets: A survey on AI, ML and associated algorithms in capital markets",databases,excluded,EC1,secondary study (survey)
+Assessment of differentially private synthetic data for utility and fairness in end-to-end machine learning pipelines for tabular data,databases,excluded,EC3,static tabular data
+Comparative Study of Two Generative AI Models for Long Time-Series Generation,databases,not retrieved,,full text not accessible (paywalled or unavailable)
+Default Risk Model Using Conditional Generative Adversarial Net by High-Dimensional Financial Time-Series Generation,databases,not retrieved,,full text not accessible (paywalled or unavailable)
+Enhancing Portfolio Construction with Synthetic Data,databases,not retrieved,,full text not accessible (paywalled or unavailable)
+Entity-based Financial Tabular Data Synthesis with Diffusion Models,databases,excluded,EC3,static tabular data
+FinDiff: Diffusion Models for Financial Tabular Data Generation,databases,excluded,EC3,static tabular data
+GAN-Augmented Naïve Bayes for identifying high-risk coronary artery disease patients using CT angiography data,databases,excluded,EC6,not financial data (medical imaging)
+Mitigating Overfitting on Financial Datasets with Generative Adversarial Networks,databases,not retrieved,,full text not accessible (paywalled or unavailable)
+Tackling the Exponential Scaling of Signature-Based Generative Adversarial Networks for High-Dimensional Financial Time-Series Generation,databases,not retrieved,,full text not accessible (paywalled or unavailable)
+The optimization path of agricultural industry structure and intelligent transformation by deep learning,databases,excluded,EC6,not financial time-series data
+The SEV-SV Model—Applications in Portfolio Optimization,databases,excluded,EC2,"parametric stochastic model, no deep-learning component"
+A Comprehensive Systematic Review of AI Algorithms for Financial Market Prediction: From Machine Learning to Transformers,databases,excluded,EC1,secondary study (systematic review of forecasting)
+Advance Stock Market Prediction with Generative Artificial Intelligence (Gen Ai): A Review on Technical Indicators and Sentiment Approach,databases,excluded,EC1,secondary study (narrative review)
+Data-driven Methods for Simulation and Forecasting of Financial Time Series,databases,excluded,EC5,thesis (grey literature)
+DisCorrGAN: A Disentangled and Correlation-Aware Generative Adversarial Networks for Multivariate Financial TimeSeries Generation,databases,not retrieved,,full text not accessible (paywalled or unavailable)
+"Generating Synthetic Data in Finance: Opportunities, Challenges and Pitfalls",databases,excluded,EC1,secondary study (position paper)
+Generative Adversarial Networks in Finance: An Overview,databases,excluded,EC1,secondary study (overview)
+"Generative Models in Finance:Market Generators, a Paradigm Shift in Financial Modeling",databases,excluded,EC1,secondary study (position paper)
+Distilling Analysis from Generative Models for Investment Decisions,databases,excluded,EC4,generated object is text (large language models)
+Discriminating modelling approaches for Point in Time Economic Scenario Generation,databases,excluded,EC5,thesis (grey literature)
+Short-term forecasting of electricity prices using generative neural networks,databases,not retrieved,,full text not accessible (paywalled or unavailable)
+Quantum Generative Models of Mid-Price Movement in Limit Order Books,databases,excluded,EC2,"quantum hidden-Markov-type model, no deep-learning component"
+Housing GANs: Deep Generation of Housing Market Data,databases,excluded,EC3,cross-sectional housing data
+TSGBench: Time Series Generation Benchmark,other_methods,excluded,EC1,benchmark study (methodological source)

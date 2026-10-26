@@ -1,0 +1,64 @@
+dataset: carclaims
+partition: 2
+version: unconstrained
+validation_diagnostics:
+  s2:
+    n_validation: 2313
+    share_degenerate: 0.0
+    share_probabilities_at_clip: 0.005176058029495124
+    share_at_clip_by_family:
+      CatBoost: 0.0
+      ExtraTrees: 0.0
+      LightGBM: 0.0
+      LogReg: 0.0
+      MLP: 0.0
+      RandomForest: 0.04658452226545612
+      SVM_RBF: 0.0
+      TabPFN: 0.0
+      XGBoost: 0.0
+    border_share: 0.0
+    keff: 14.828968928786963
+    keff_rho_within: 0.49722351035918116
+    keff_rho_between: -0.07568068574510622
+    min_distinct_values_per_member: 1699
+    validation_thresholds:
+      prevalence_validation: 0.05966277561608301
+      pbar_quantiles:
+        q01: 0.00397793966683024
+        q25: 0.014669468582017215
+        q50: 0.030536278480367815
+        q75: 0.10256959295349341
+        q99: 0.21601117925583563
+      tau_F1:
+        tau: 0.11445538951660751
+        share_positive: 0.19066147859922178
+        error_rate: 0.1837440553393861
+        FP: 364
+        FN: 61
+      tau_cost:
+        tau: 0.1
+        share_positive: 0.2624297449200173
+        error_rate: 0.23908344141807178
+        FP: 511
+        FN: 42
+border_share_beyond_1pc:
+  s2: false
+grid:
+  grid_bound: 1.0e-06
+  grid_points: 1000
+timings:
+  preparation_s: 0.2
+  s2:
+    members_s_this_run: 7.8
+    members_s_by_family:
+      LightGBM: 7.72
+      XGBoost: 2.93
+      CatBoost: 93.15
+      RandomForest: 1.62
+      ExtraTrees: 1.36
+      LogReg: 0.38
+      MLP: 11.11
+      SVM_RBF: 18.42
+      TabPFN: 51.3
+    members_s_total: 188.0
+    diagnostics_s: 0.2

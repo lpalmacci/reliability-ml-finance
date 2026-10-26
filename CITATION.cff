@@ -1,0 +1,40 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "Confidex: per-sample confidence for ensemble classifiers (replication package of Chapters 3, 4 and 5 of the thesis)"
+abstract: >-
+  The library Confidex, which reconstructs from the probabilities of the members of an ensemble the law
+  of a further member and reads it at the operating threshold, and the code that reproduces every number,
+  table and figure of Chapter 3 (synthetic ensembles with a known truth) and Chapter 4 (two public fraud
+  datasets) of the doctoral thesis "Reliability of Machine Learning Outputs in Finance", together with the
+  records, the coding and the analysis script of the systematic review of generative models for financial
+  time series in Chapter 5.
+authors:
+  - family-names: Palmacci
+    given-names: Luca
+    affiliation: "Sapienza University of Rome"
+keywords:
+  - ensembles
+  - per-sample confidence
+  - Bayesian inference
+  - selective classification
+  - fraud detection
+  - systematic review
+  - generative models
+version: 0.5.1
+license: Apache-2.0
+references:
+  - type: conference-paper
+    title: "Bayesian Per-Sample Confidence Estimation via Decoupled Ensemble Modeling"
+    authors:
+      - family-names: Galiani
+        given-names: Stefano
+      - family-names: Petturiti
+        given-names: Davide
+      - family-names: Vantaggi
+        given-names: Barbara
+      - family-names: Palmacci
+        given-names: Luca
+    conference:
+      name: "International Conference on Information Processing and Management of Uncertainty in Knowledge-Based Systems (IPMU 2026)"
+    year: 2026

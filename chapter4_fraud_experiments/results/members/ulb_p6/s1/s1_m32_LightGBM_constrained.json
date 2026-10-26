@@ -1,0 +1,34 @@
+{
+  "dataset": "ulb",
+  "partition": 6,
+  "strategy": "s1",
+  "index": 32,
+  "family": "LightGBM_constrained",
+  "fraction": 0.7163649608244099,
+  "subsample_seed": 1025201770,
+  "model_seed": 694316558,
+  "auxiliary_seed": 599445921,
+  "hyperparameters": {
+    "num_leaves": 16,
+    "learning_rate": 0.02909178293276345,
+    "max_depth": 4,
+    "feature_fraction": 0.8662119472541515,
+    "bagging_fraction": 0.6538583037831425,
+    "lambda_l2": 6.540486443895381,
+    "min_data_in_leaf": 71,
+    "num_boost_round": 163
+  },
+  "key": [
+    2,
+    2,
+    6,
+    1,
+    0,
+    32
+  ],
+  "n_train": 112214,
+  "train_frauds": 194,
+  "fit_seconds": 1.34,
+  "total_seconds": 1.6,
+  "warnings": []
+}

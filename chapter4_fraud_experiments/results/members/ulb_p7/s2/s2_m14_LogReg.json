@@ -1,0 +1,25 @@
+{
+  "dataset": "ulb",
+  "partition": 7,
+  "strategy": "s2",
+  "index": 14,
+  "family": "LogReg",
+  "fraction": 0.8069359205785678,
+  "subsample_seed": 813293073,
+  "model_seed": 1577645062,
+  "auxiliary_seed": 772752374,
+  "hyperparameters": {},
+  "key": [
+    2,
+    2,
+    7,
+    2,
+    0,
+    14
+  ],
+  "n_train": 126401,
+  "train_frauds": 219,
+  "fit_seconds": 0.13,
+  "total_seconds": 0.13,
+  "warnings": []
+}

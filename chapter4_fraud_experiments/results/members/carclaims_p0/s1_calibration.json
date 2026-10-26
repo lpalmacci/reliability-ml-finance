@@ -1,0 +1,290 @@
+[
+  {
+    "member": "s1_m00_LightGBM_constrained",
+    "family": "LightGBM_constrained",
+    "a": 0.7246068421078361,
+    "b": -0.32410756421584963,
+    "method": "maximum_likelihood",
+    "n_iter": 10
+  },
+  {
+    "member": "s1_m01_LightGBM_constrained",
+    "family": "LightGBM_constrained",
+    "a": 0.6008443589795446,
+    "b": -0.5388845434546643,
+    "method": "maximum_likelihood",
+    "n_iter": 9
+  },
+  {
+    "member": "s1_m02_LightGBM_constrained",
+    "family": "LightGBM_constrained",
+    "a": 1.3091247870054616,
+    "b": 0.619752703812123,
+    "method": "maximum_likelihood",
+    "n_iter": 9
+  },
+  {
+    "member": "s1_m03_LightGBM_constrained",
+    "family": "LightGBM_constrained",
+    "a": 0.9141188300349834,
+    "b": -0.17541138014190633,
+    "method": "maximum_likelihood",
+    "n_iter": 9
+  },
+  {
+    "member": "s1_m04_LightGBM_constrained",
+    "family": "LightGBM_constrained",
+    "a": 0.7983851717306002,
+    "b": -0.23644083040273173,
+    "method": "maximum_likelihood",
+    "n_iter": 11
+  },
+  {
+    "member": "s1_m05_LightGBM_constrained",
+    "family": "LightGBM_constrained",
+    "a": 0.9153847671250477,
+    "b": -0.1698981779968359,
+    "method": "maximum_likelihood",
+    "n_iter": 9
+  },
+  {
+    "member": "s1_m06_LightGBM_constrained",
+    "family": "LightGBM_constrained",
+    "a": 0.939550174089863,
+    "b": -0.07312000351765614,
+    "method": "maximum_likelihood",
+    "n_iter": 7
+  },
+  {
+    "member": "s1_m07_LightGBM_constrained",
+    "family": "LightGBM_constrained",
+    "a": 1.0718602871626957,
+    "b": 0.14070551266587375,
+    "method": "maximum_likelihood",
+    "n_iter": 8
+  },
+  {
+    "member": "s1_m08_LightGBM_constrained",
+    "family": "LightGBM_constrained",
+    "a": 1.0156881251175813,
+    "b": 0.01916936659328966,
+    "method": "maximum_likelihood",
+    "n_iter": 9
+  },
+  {
+    "member": "s1_m09_LightGBM_constrained",
+    "family": "LightGBM_constrained",
+    "a": 0.9917264553921062,
+    "b": -0.014464653543823008,
+    "method": "maximum_likelihood",
+    "n_iter": 8
+  },
+  {
+    "member": "s1_m10_LightGBM_constrained",
+    "family": "LightGBM_constrained",
+    "a": 0.8097543316375629,
+    "b": -0.3089939218326742,
+    "method": "maximum_likelihood",
+    "n_iter": 10
+  },
+  {
+    "member": "s1_m11_LightGBM_constrained",
+    "family": "LightGBM_constrained",
+    "a": 1.060730522043261,
+    "b": 0.1387229248500474,
+    "method": "maximum_likelihood",
+    "n_iter": 9
+  },
+  {
+    "member": "s1_m12_LightGBM_constrained",
+    "family": "LightGBM_constrained",
+    "a": 1.0918412504961534,
+    "b": 0.17895105253402707,
+    "method": "maximum_likelihood",
+    "n_iter": 7
+  },
+  {
+    "member": "s1_m13_LightGBM_constrained",
+    "family": "LightGBM_constrained",
+    "a": 0.7551074733250849,
+    "b": -0.45308271256886484,
+    "method": "maximum_likelihood",
+    "n_iter": 10
+  },
+  {
+    "member": "s1_m14_LightGBM_constrained",
+    "family": "LightGBM_constrained",
+    "a": 0.9930823496921669,
+    "b": -0.028802359529748037,
+    "method": "maximum_likelihood",
+    "n_iter": 8
+  },
+  {
+    "member": "s1_m15_LightGBM_constrained",
+    "family": "LightGBM_constrained",
+    "a": 0.6446098073576202,
+    "b": -0.5690205159370271,
+    "method": "maximum_likelihood",
+    "n_iter": 11
+  },
+  {
+    "member": "s1_m16_LightGBM_constrained",
+    "family": "LightGBM_constrained",
+    "a": 0.8934437733715829,
+    "b": -0.24548756606577768,
+    "method": "maximum_likelihood",
+    "n_iter": 9
+  },
+  {
+    "member": "s1_m17_LightGBM_constrained",
+    "family": "LightGBM_constrained",
+    "a": 0.8197309837563755,
+    "b": -0.3847430376941304,
+    "method": "maximum_likelihood",
+    "n_iter": 7
+  },
+  {
+    "member": "s1_m18_LightGBM_constrained",
+    "family": "LightGBM_constrained",
+    "a": 0.8896661894166052,
+    "b": -0.2366957949537281,
+    "method": "maximum_likelihood",
+    "n_iter": 5
+  },
+  {
+    "member": "s1_m19_LightGBM_constrained",
+    "family": "LightGBM_constrained",
+    "a": 0.8442288424350354,
+    "b": -0.22948274896242843,
+    "method": "maximum_likelihood",
+    "n_iter": 9
+  },
+  {
+    "member": "s1_m20_LightGBM_constrained",
+    "family": "LightGBM_constrained",
+    "a": 0.8740888327902598,
+    "b": -0.25714641764606533,
+    "method": "maximum_likelihood",
+    "n_iter": 10
+  },
+  {
+    "member": "s1_m21_LightGBM_constrained",
+    "family": "LightGBM_constrained",
+    "a": 0.9371008875075812,
+    "b": -0.05968639330451109,
+    "method": "maximum_likelihood",
+    "n_iter": 8
+  },
+  {
+    "member": "s1_m22_LightGBM_constrained",
+    "family": "LightGBM_constrained",
+    "a": 1.0066469314712727,
+    "b": -0.004131726390615946,
+    "method": "maximum_likelihood",
+    "n_iter": 9
+  },
+  {
+    "member": "s1_m23_LightGBM_constrained",
+    "family": "LightGBM_constrained",
+    "a": 0.9560634815524667,
+    "b": -0.03717755353196717,
+    "method": "maximum_likelihood",
+    "n_iter": 8
+  },
+  {
+    "member": "s1_m24_LightGBM_constrained",
+    "family": "LightGBM_constrained",
+    "a": 0.9515741480747105,
+    "b": -0.11700879047398857,
+    "method": "maximum_likelihood",
+    "n_iter": 8
+  },
+  {
+    "member": "s1_m25_LightGBM_constrained",
+    "family": "LightGBM_constrained",
+    "a": 0.9475375197921786,
+    "b": -0.09804963411374988,
+    "method": "maximum_likelihood",
+    "n_iter": 9
+  },
+  {
+    "member": "s1_m26_LightGBM_constrained",
+    "family": "LightGBM_constrained",
+    "a": 0.7627558214223336,
+    "b": -0.3876699286277038,
+    "method": "maximum_likelihood",
+    "n_iter": 9
+  },
+  {
+    "member": "s1_m27_LightGBM_constrained",
+    "family": "LightGBM_constrained",
+    "a": 0.9560101849936823,
+    "b": -0.07349120282171794,
+    "method": "maximum_likelihood",
+    "n_iter": 9
+  },
+  {
+    "member": "s1_m28_LightGBM_constrained",
+    "family": "LightGBM_constrained",
+    "a": 0.9611188489243182,
+    "b": -0.07378790453178898,
+    "method": "maximum_likelihood",
+    "n_iter": 9
+  },
+  {
+    "member": "s1_m29_LightGBM_constrained",
+    "family": "LightGBM_constrained",
+    "a": 0.8592882550319312,
+    "b": -0.2897066768508453,
+    "method": "maximum_likelihood",
+    "n_iter": 10
+  },
+  {
+    "member": "s1_m30_LightGBM_constrained",
+    "family": "LightGBM_constrained",
+    "a": 0.9525973423742022,
+    "b": -0.09046134885732192,
+    "method": "maximum_likelihood",
+    "n_iter": 9
+  },
+  {
+    "member": "s1_m31_LightGBM_constrained",
+    "family": "LightGBM_constrained",
+    "a": 0.9225017317274454,
+    "b": -0.1872437735364472,
+    "method": "maximum_likelihood",
+    "n_iter": 8
+  },
+  {
+    "member": "s1_m32_LightGBM_constrained",
+    "family": "LightGBM_constrained",
+    "a": 1.0669871478267623,
+    "b": 0.1767225998675695,
+    "method": "maximum_likelihood",
+    "n_iter": 10
+  },
+  {
+    "member": "s1_m33_LightGBM_constrained",
+    "family": "LightGBM_constrained",
+    "a": 0.8432440566533558,
+    "b": -0.2754051775819411,
+    "method": "maximum_likelihood",
+    "n_iter": 10
+  },
+  {
+    "member": "s1_m34_LightGBM_constrained",
+    "family": "LightGBM_constrained",
+    "a": 0.714107112466819,
+    "b": -0.3693068889864207,
+    "method": "maximum_likelihood",
+    "n_iter": 11
+  },
+  {
+    "member": "s1_m35_LightGBM_constrained",
+    "family": "LightGBM_constrained",
+    "a": 0.5760400135848615,
+    "b": -0.7003482369522005,
+    "method": "maximum_likelihood",
+    "n_iter": 11
+  }
+]

@@ -1,0 +1,25 @@
+{
+  "dataset": "carclaims",
+  "partition": 1,
+  "strategy": "s2",
+  "index": 29,
+  "family": "CatBoost",
+  "fraction": 0.7639516094533156,
+  "subsample_seed": 2017947378,
+  "model_seed": 1738181997,
+  "auxiliary_seed": 163501640,
+  "hyperparameters": {},
+  "key": [
+    2,
+    1,
+    1,
+    2,
+    0,
+    29
+  ],
+  "n_train": 6479,
+  "train_frauds": 388,
+  "fit_seconds": 25.0,
+  "total_seconds": 25.09,
+  "warnings": []
+}

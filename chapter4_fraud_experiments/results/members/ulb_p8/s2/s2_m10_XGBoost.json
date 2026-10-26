@@ -1,0 +1,25 @@
+{
+  "dataset": "ulb",
+  "partition": 8,
+  "strategy": "s2",
+  "index": 10,
+  "family": "XGBoost",
+  "fraction": 0.6070893003432246,
+  "subsample_seed": 1982183985,
+  "model_seed": 742254860,
+  "auxiliary_seed": 603893695,
+  "hyperparameters": {},
+  "key": [
+    2,
+    2,
+    8,
+    2,
+    0,
+    10
+  ],
+  "n_train": 95096,
+  "train_frauds": 165,
+  "fit_seconds": 2.18,
+  "total_seconds": 2.28,
+  "warnings": []
+}

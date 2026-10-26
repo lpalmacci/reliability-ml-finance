@@ -1,0 +1,27 @@
+{
+  "dataset": "ulb",
+  "partition": 0,
+  "strategy": "s2",
+  "index": 25,
+  "family": "SVM_RBF",
+  "fraction": 0.7976702711661439,
+  "subsample_seed": 1292392282,
+  "model_seed": 293979776,
+  "auxiliary_seed": 1856912379,
+  "hyperparameters": {},
+  "key": [
+    2,
+    2,
+    0,
+    2,
+    0,
+    25
+  ],
+  "n_train": 124950,
+  "train_frauds": 216,
+  "fit_seconds": 4.16,
+  "total_seconds": 13.8,
+  "warnings": [
+    "FutureWarning: The `probability` parameter was deprecated in 1.9 and will be removed in version 1.11. Use `CalibratedClassifierCV(SVC(), ensemble=False)` instead of `SVC(proba"
+  ]
+}

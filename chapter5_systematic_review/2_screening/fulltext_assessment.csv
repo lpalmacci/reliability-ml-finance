@@ -1,0 +1,181 @@
+report_title,channel,source_after_deduplication,outcome,code,reason,study_id
+A Comprehensive Review of Generative AI in Finance,databases,SCOPUS,excluded,EC1,secondary study (topic-model review),
+A Financial Time Series Denoiser Based on Diffusion Models,databases,SCOPUS,included,,meets IC1-IC4,S122
+A GANs-Based Approach for Stock Price Anomaly Detection and Investment Risk Management,databases,SCOPUS,included,,meets IC1-IC4,S058
+A general framework for portfolio construction based on generative models of asset returns,databases,SCOPUS,excluded,EC2,"scenario generator based on copulas, no deep-learning component",
+A generative model of a limit order book using recurrent neural networks,databases,SCOPUS,included,,meets IC1-IC4,S052
+A Novel Stock Price Prediction and Trading Methodology Based on Active Learning Surrogated with CycleGAN and Deep Learning and System Engineering Integration: A Case Study on TSMC Stock Data,databases,SCOPUS,included,,meets IC1-IC4,S025
+Advances in Volatility Modelling; The Costs and Benefits of Synthetic Data for Global Banks,databases,SCOPUS,included,,meets IC1-IC4,S046
+Adversarial Inverse Reinforcement Learning for Market Making,databases,SCOPUS,included,,meets IC1-IC4,S135
+"Algorithms in future capital markets: A survey on AI, ML and associated algorithms in capital markets",databases,SCOPUS,excluded,EC1,secondary study (survey),
+An Efficient Method for Pricing Analysis Based on Neural Networks,databases,SCOPUS,included,,meets IC1-IC4,S007
+An Improved Stock Price Prediction Model Based on Generative Adversarial Network,databases,SCOPUS,included,,meets IC1-IC4,S081
+Arbitrage-Free Implied Volatility Surface Generation with Variational Autoencoders,databases,SCOPUS,included,,meets IC1-IC4,S094
+Assessment of differentially private synthetic data for utility and fairness in end-to-end machine learning pipelines for tabular data,databases,SCOPUS,excluded,EC3,static tabular data,
+Can GANs Learn the Stylized Facts of Financial Time Series?,databases,SCOPUS,included,,meets IC1-IC4,S069
+Comparative Study of Two Generative AI Models for Long Time-Series Generation,databases,SCOPUS,not retrieved,,full text not accessible (paywalled or unavailable),
+"Conditional Generators for Limit Order Book Environments: Explainability, Challenges, and Robustness",databases,SCOPUS,included,,meets IC1-IC4,S028
+Decision-Aware Conditional GANs for Time Series Data,databases,SCOPUS,included,,meets IC1-IC4,S111
+Deep learning approaches for forecasting the FOMC statement sentiment index,databases,SCOPUS,included,,meets IC1-IC4,S071
+Deep Learning for Systemic Risk Measures,databases,SCOPUS,included,,meets IC1-IC4,S037
+DeepPricing: pricing convertible bonds based on financial time-series generative adversarial networks,databases,SCOPUS,included,,meets IC1-IC4,S115
+Default Risk Model Using Conditional Generative Adversarial Net by High-Dimensional Financial Time-Series Generation,databases,SCOPUS,not retrieved,,full text not accessible (paywalled or unavailable),
+Dynamic Calibration of Order Flow Models with Generative Adversarial Networks,databases,SCOPUS,included,,meets IC1-IC4,S030
+Dynamic CVaR portfolio construction with attention-powered generative factor learning,databases,SCOPUS,included,,meets IC1-IC4,S112
+Enhancing Portfolio Construction with Synthetic Data,databases,SCOPUS,not retrieved,,full text not accessible (paywalled or unavailable),
+Enhancing stock price prediction using GANs and transformer-based attention mechanisms,databases,SCOPUS,included,,meets IC1-IC4,S075
+Enhancing stock return prediction in the Chinese market: A GAN-based approach,databases,SCOPUS,included,,meets IC1-IC4,S130
+Entity-based Financial Tabular Data Synthesis with Diffusion Models,databases,SCOPUS,excluded,EC3,static tabular data,
+Estimating the Value-at-Risk by Temporal VAE,databases,SCOPUS,included,,meets IC1-IC4,S016
+Fin-GAN: forecasting and classifying financial time series via generative adversarial networks,databases,SCOPUS,included,,meets IC1-IC4,S120
+FinDiff: Diffusion Models for Financial Tabular Data Generation,databases,SCOPUS,excluded,EC3,static tabular data,
+GAN-Augmented Naïve Bayes for identifying high-risk coronary artery disease patients using CT angiography data,databases,SCOPUS,excluded,EC6,not financial data (medical imaging),
+GAN-MP hybrid heuristic algorithm for non-convex portfolio optimization problem,databases,SCOPUS,included,,meets IC1-IC4,S057
+GANs and synthetic financial data: calculating VaR,databases,SCOPUS,included,,meets IC1-IC4,S004
+Generation of synthetic financial time series by diffusion models,databases,SCOPUS,included,,meets IC1-IC4,S114
+Generative adversarial networks for financial trading strategies fine-tuning and combination,databases,SCOPUS,included,,meets IC1-IC4,S063
+Generative Machine Learning for Multivariate Equity Returns,databases,SCOPUS,included,,meets IC1-IC4,S117
+Generative-CNN for Pattern Recognition in Finance,databases,SCOPUS,included,,meets IC1-IC4,S091
+Learning to simulate realistic limit order book markets from data as a World Agent,databases,SCOPUS,included,,meets IC1-IC4,S027
+MA-LSTM: A stock prediction model based on multi-level attention-based LSTM network,databases,SCOPUS,included,,meets IC1-IC4,S085
+Macroeconomic Conditioned Synthetic Financial Markets,databases,SCOPUS,included,,meets IC1-IC4,S104
+Mitigating Overfitting on Financial Datasets with Generative Adversarial Networks,databases,SCOPUS,not retrieved,,full text not accessible (paywalled or unavailable),
+Model Based Simulation vs Generative Modeling in Limit Order Books,databases,SCOPUS,included,,meets IC1-IC4,S021
+Modeling Asset Price Process: An Approach for Imaging Price Chart with Generative Diffusion Models,databases,SCOPUS,included,,meets IC1-IC4,S098
+NeuralFactors: A Novel Factor Learning Approach to Generative Modeling of Equities,databases,SCOPUS,included,,meets IC1-IC4,S043
+On Correlated Stock Market Time Series Generation,databases,SCOPUS,included,,meets IC1-IC4,S088
+Optimizing Multivariate Time Series Forecasting with Data Augmentation,databases,SCOPUS,included,,meets IC1-IC4,S008
+Portfolio Optimization via Credal Probabilistic Circuits,databases,SCOPUS,included,,meets IC1-IC4,S089
+Predicting FX market movements using GAN with limit order event data,databases,SCOPUS,included,,meets IC1-IC4,S099
+Predicting the Relationship between Stocks and Emotion Factors with GAN,databases,SCOPUS,included,,meets IC1-IC4,S133
+Quant GANs: deep generation of financial time series,databases,SCOPUS,included,,meets IC1-IC4,S129
+Quantifying credit portfolio sensitivity to asset correlations with interpretable generative neural networks,databases,SCOPUS,included,,meets IC1-IC4,S018
+Research on dynamic adjustment and risk management of quantitative portfolio optimization and high-frequency trading strategies based on machine learning,databases,SCOPUS,included,,meets IC1-IC4,S082
+Robust Hedging GANs: Towards Automated Robustification of Hedging Strategies,databases,SCOPUS,included,,meets IC1-IC4,S079
+Sig-wasserstein GANs for time series generation,databases,SCOPUS,included,,meets IC1-IC4,S092
+Simulating Asset Prices using Conditional Time-Series GAN,databases,SCOPUS,included,,meets IC1-IC4,S053
+"Simulating Multi-Asset Classes Prices Using Wasserstein Generative Adversarial Network: A Study of Stocks, Futures and Cryptocurrency",databases,SCOPUS,included,,meets IC1-IC4,S045
+Stock market simulator using hidden Markov generative model and its application in risk measurement,databases,SCOPUS,included,,meets IC1-IC4,S054
+Stock Price Prediction with Heavy-Tailed Distribution Time-Series Generation Based on WGAN-BiLSTM,databases,SCOPUS,included,,meets IC1-IC4,S055
+Synthetic data generation with deep generative models to enhance predictive tasks in trading strategies,databases,SCOPUS,included,,meets IC1-IC4,S019
+Tackling the Exponential Scaling of Signature-Based Generative Adversarial Networks for High-Dimensional Financial Time-Series Generation,databases,SCOPUS,not retrieved,,full text not accessible (paywalled or unavailable),
+The optimization path of agricultural industry structure and intelligent transformation by deep learning,databases,SCOPUS,excluded,EC6,not financial time-series data,
+The SEV-SV Model—Applications in Portfolio Optimization,databases,SCOPUS,excluded,EC2,"parametric stochastic model, no deep-learning component",
+Time Series Generation with GANs for Momentum Effect Simulation on Moscow Stock Exchange,databases,SCOPUS,included,,meets IC1-IC4,S056
+Towards Realistic Market Simulations: A Generative Adversarial Networks Approach,databases,SCOPUS,included,,meets IC1-IC4,S026
+VolGAN: A Generative Model for Arbitrage-Free Implied Volatility Surfaces,databases,SCOPUS,included,,meets IC1-IC4,S121
+A Comprehensive Systematic Review of AI Algorithms for Financial Market Prediction: From Machine Learning to Transformers,databases,SSRN,excluded,EC1,secondary study (systematic review of forecasting),
+A Data-Driven Market Simulator for Small Data Environments,databases,SSRN,included,,meets IC1-IC4,S017
+A Hybrid Approach on Conditional GAN for Portfolio Analysis,databases,SSRN,included,,meets IC1-IC4,S083
+A diffusion-based generative model for financial time series via geometric Brownian motion,databases,SSRN,included,,meets IC1-IC4,S059
+Advance Stock Market Prediction with Generative Artificial Intelligence (Gen Ai): A Review on Technical Indicators and Sentiment Approach,databases,SSRN,excluded,EC1,secondary study (narrative review),
+"Advanced Generative Adversarial Networks for Financial Time Series: Incorporating Stochastic Masking, Multi-Frequency Data, Hidden Markov Models and Vector Quantization",databases,SSRN,included,,meets IC1-IC4,S123
+Analyzing Deep Generated Financial Time Series for Various Asset Classes,databases,SSRN,included,,meets IC1-IC4,S103
+Application of Generative Adversarial Networks in Financial Time Series Data Augmentation,databases,SSRN,included,,meets IC1-IC4,S044
+Autoencoding Conditional GAN for Portfolio Allocation Diversification,databases,SSRN,included,,meets IC1-IC4,S084
+Beyond Monte Carlo: Harnessing Diffusion Models to Simulate Financial Market Dynamics,databases,SSRN,included,,meets IC1-IC4,S072
+Conditional Sig-Wasserstein GANs for Time Series Generation,databases,SSRN,included,,meets IC1-IC4,S077
+Data-driven Methods for Simulation and Forecasting of Financial Time Series,databases,SSRN,excluded,EC5,thesis (grey literature),
+Deep Generative Models Meet Statistical Methods: A Generalized Framework for Financial Regime Identification,databases,SSRN,included,,meets IC1-IC4,S093
+Deep Hedging: Learning to Simulate Equity Option Markets,databases,SSRN,included,,meets IC1-IC4,S128
+Diffusion Factor Models: Generating High-Dimensional Returns with Factor Structure,databases,SSRN,included,,meets IC1-IC4,S024
+Diffusion Model Based Factor Augmentation in Portfolio Management,databases,SSRN,included,,meets IC1-IC4,S137
+Diffusion Model Based on Stochastic Differential Equation with Transformer for Stock Price Prediction,databases,SSRN,included,,meets IC1-IC4,S127
+DisCorrGAN: A Disentangled and Correlation-Aware Generative Adversarial Networks for Multivariate Financial TimeSeries Generation,databases,SSRN,not retrieved,,full text not accessible (paywalled or unavailable),
+Encoded Value-at-Risk: A Predictive Machine for Financial Risk Management,databases,SSRN,included,,meets IC1-IC4,S009
+Financial Thought Experiment: A GAN-based Approach to Vast Robust Portfolio Selection,databases,SSRN,included,,meets IC1-IC4,S101
+Generating Financial Markets With Signatures,databases,SSRN,included,,meets IC1-IC4 (second report of the same study),S017
+Generating Multivariate Financial Time Series with MSSTD-Diff: A Diffusion Model with Multi-Scale Spatial-Temporal Dynamics,databases,SSRN,included,,meets IC1-IC4,S125
+"Generating Synthetic Data in Finance: Opportunities, Challenges and Pitfalls",databases,SSRN,excluded,EC1,secondary study (position paper),
+Generating the Term Structure of Interest Rates with Diffusion Models,databases,SSRN,included,,meets IC1-IC4,S040
+Generative Adversarial Networks Applied to Synthetic Financial Scenarios Generation,databases,SSRN,included,,meets IC1-IC4,S102
+Generative Adversarial Networks in Finance: An Overview,databases,SSRN,excluded,EC1,secondary study (overview),
+Generative Models for Financial Data,databases,SSRN,included,,meets IC1-IC4,S048
+Generative Models for Time Series in Finance,databases,SSRN,included,,meets IC1-IC4,S095
+"Generative Models in Finance:Market Generators, a Paradigm Shift in Financial Modeling",databases,SSRN,excluded,EC1,secondary study (position paper),
+Improving the Robustness of Trading Strategy Backtesting with Boltzmann Machines and Generative Adversarial Networks,databases,SSRN,included,,meets IC1-IC4,S073
+Interpretable GenAI: Synthetic Financial Time Series Generation with Probabilistic LSTM,databases,SSRN,included,,meets IC1-IC4,S107
+Limit Order Book Simulation with Generative Adversarial Networks,databases,SSRN,included,,meets IC1-IC4,S031
+MTSS-GAN: Multivariate Time Series Simulation Generative Adversarial Networks,databases,SSRN,included,,meets IC1-IC4,S109
+Normalizing Flows for Portfolio Optimization,databases,SSRN,included,,meets IC1-IC4,S096
+Pagan: Portfolio Analysis with Generative Adversarial Networks,databases,SSRN,included,,meets IC1-IC4,S086
+Simulating Economic Heavy-Tailed Distributions with Quantum Boltzmann Machines,databases,SSRN,included,,meets IC1-IC4,S097
+Solving Dynamic Portfolio Selection Problems Via Score-Based Diffusion Models,databases,SSRN,included,,meets IC1-IC4,S003
+Stock Prediction with FinGAN++: A Multimodal Generative Framework for Market Simulation and Sentiment-Conditioned Forecasting,databases,SSRN,included,,meets IC1-IC4,S068
+Stock Market Forecasting Using Dragan and Feature Matching,databases,SSRN,included,,meets IC1-IC4,S108
+Tail-GAN: Learning to Simulate Tail Risk Scenarios,databases,SSRN,included,,meets IC1-IC4,S032
+The Market Generator,databases,SSRN,included,,meets IC1-IC4,S062
+Time Series Simulation by Conditional Generative Adversarial Net,databases,SSRN,included,,meets IC1-IC4,S038
+Tracking-Based Green Portfolio Optimization: Bridging Sustainability and Market Performance,databases,SSRN,included,,meets IC1-IC4,S011
+Wasserstein GAN: Deep Generation Applied on Financial Time Series,databases,SSRN,included,,meets IC1-IC4,S100
+Learning to Manage Investment Portfolios beyond Simple Utility Functions,databases,ARXIV,included,,meets IC1-IC4,S106
+Robust Optimization in Causal Models and G-Causal Normalizing Flows,databases,ARXIV,included,,meets IC1-IC4,S119
+Factor-Based Conditional Diffusion Model for Portfolio Optimization,databases,ARXIV,included,,meets IC1-IC4,S041
+Long-Range Dependence in Financial Markets: Empirical Evidence and Generative Modeling Challenges,databases,ARXIV,included,,meets IC1-IC4,S047
+Nested Optimal Transport Distances,databases,ARXIV,included,,meets IC1-IC4,S015
+Painting the market: generative diffusion models for financial limit order book simulation and forecasting,databases,ARXIV,included,,meets IC1-IC4,S010
+DiffVolume: Diffusion Models for Volume Generation in Limit Order Books,databases,ARXIV,included,,meets IC1-IC4,S126
+ByteGen: A Tokenizer-Free Generative Model for Orderbook Events in Byte Space,databases,ARXIV,included,,meets IC1-IC4,S074
+"An Advanced Ensemble Deep Learning Framework for Stock Price Prediction Using VAE, Transformer, and LSTM Model",databases,ARXIV,included,,meets IC1-IC4,S105
+CoFinDiff: Controllable Financial Diffusion Model for Time Series Generation,databases,ARXIV,included,,meets IC1-IC4,S116
+TRADES: Generating Realistic Market Simulations with Diffusion Models,databases,ARXIV,included,,meets IC1-IC4,S013
+Synthetic Data for Portfolios: A Throw of the Dice Will Never Abolish Chance,databases,ARXIV,included,,meets IC1-IC4,S022
+Systematic comparison of deep generative models applied to multivariate financial time series,databases,ARXIV,included,,meets IC1-IC4,S020
+Developing Cryptocurrency Trading Strategy Based on Autoencoder-CNN-GANs Algorithms,databases,ARXIV,included,,meets IC1-IC4,S050
+Time-Causal VAE: Robust Financial Time Series Generator,databases,ARXIV,included,,meets IC1-IC4,S002
+Risk Management with Feature-Enriched Generative Adversarial Networks (FE-GAN),databases,ARXIV,included,,meets IC1-IC4,S023
+Distilling Analysis from Generative Models for Investment Decisions,databases,ARXIV,excluded,EC4,generated object is text (large language models),
+MarS: a Financial Market Simulation Engine Powered by Generative Foundation Model,databases,ARXIV,included,,meets IC1-IC4,S076
+Universal randomised signatures for generative time series modelling,databases,ARXIV,included,,meets IC1-IC4,S014
+DiffSTOCK: Probabilistic relational Stock Market Predictions using Diffusion Models,databases,ARXIV,included,,meets IC1-IC4,S034
+Robust Utility Optimization via a GAN Approach,databases,ARXIV,included,,meets IC1-IC4,S064
+Deep Generative Modeling for Financial Time Series with Application in VaR: A Comparative Review,databases,ARXIV,included,,meets IC1-IC4,S036
+Diffusion Variational Autoencoder for Tackling Stochasticity in Multi-Step Regression Stock Price Prediction,databases,ARXIV,included,,meets IC1-IC4,S061
+Market-GAN: Adding Control to Financial Market Data Generation with Semantic Context,databases,ARXIV,included,,meets IC1-IC4,S131
+Creating Disasters: Recession Forecasting with GAN-Generated Synthetic Time Series Data,databases,ARXIV,included,,meets IC1-IC4,S035
+Simulating financial time series using attention,databases,ARXIV,included,,meets IC1-IC4,S039
+Variational Heteroscedastic Volatility Model,databases,ARXIV,included,,meets IC1-IC4,S134
+Universal approximation of credit portfolio losses using Restricted Boltzmann Machines,databases,ARXIV,included,,meets IC1-IC4,S042
+Generative Adversarial Network (GAN) and Enhanced Root Mean Square Error (ERMSE): Deep Learning for Stock Price Movement Prediction,databases,ARXIV,included,,meets IC1-IC4,S067
+Intra-Day Price Simulation with Generative Adversarial Modelling of the Order Flow,databases,ARXIV,included,,meets IC1-IC4,S078
+Discriminating modelling approaches for Point in Time Economic Scenario Generation,databases,ARXIV,excluded,EC5,thesis (grey literature),
+Learning who is in the market from time series: market participant discovery through adversarial calibration of multi-agent simulators,databases,ARXIV,included,,meets IC1-IC4,S110
+Variational Autoencoders: A Hands-Off Approach to Volatility,databases,ARXIV,included,,meets IC1-IC4,S012
+CorrGAN: Sampling Realistic Financial Correlation Matrices Using Generative Adversarial Networks,databases,ARXIV,included,,meets IC1-IC4,S087
+Style Transfer with Time Series: Generating Synthetic Financial Data,databases,ARXIV,included,,meets IC1-IC4,S033
+On Feature Reduction using Deep Learning for Trend Prediction in Finance,databases,ARXIV,included,,meets IC1-IC4,S118
+Innovative Pattern Extraction and Synthetic High-Frequency Data Generation in European Carbon Emmision Markets Using GAN Networks,databases,SCOPUS (second pass),included,,meets IC1-IC4,S049
+Short-term forecasting of electricity prices using generative neural networks,databases,SCOPUS (second pass),not retrieved,,full text not accessible (paywalled or unavailable),
+Synthetic Data Augmentation for Deep Reinforcement Learning in Financial Trading,databases,SCOPUS (second pass),included,,meets IC1-IC4,S080
+Quantum Generative Models of Mid-Price Movement in Limit Order Books,databases,SCOPUS (second pass),excluded,EC2,"quantum hidden-Markov-type model, no deep-learning component",
+Generative AI for End-to-End Limit Order Book Modelling: A Token-Level Autoregressive Generative Model of Message Flow Using a Deep State Space Network,databases,SCOPUS (second pass),included,,meets IC1-IC4,S090
+Green finance growth prediction model based on time-series conditional generative adversarial networks,databases,SCOPUS (second pass),included,,meets IC1-IC4,S001
+Extreme Risk Spillover from Commodity Markets to Green Finance Markets: New Evidence Utilizing GAN and GARCH Model,databases,SCOPUS (second pass),included,,meets IC1-IC4,S132
+Housing GANs: Deep Generation of Housing Market Data,databases,SCOPUS (second pass),excluded,EC3,cross-sectional housing data,
+Time-series Generative Adversarial Networks,other_methods,ML conference proceedings,excluded,EC7,general-purpose generator; methodological reference set,R13
+Towards generating real-world time series data,other_methods,ML conference proceedings,excluded,EC7,general-purpose generator; methodological reference set,R10
+Conditional Loss and Deep Euler Scheme for Time Series Generation,other_methods,ML conference proceedings,excluded,EC7,general-purpose generator; methodological reference set,R11
+Time-series Transformer Generative Adversarial Networks,other_methods,ML conference proceedings,excluded,EC7,general-purpose generator; methodological reference set,R12
+TimeTransformer AAE: Connecting Temporal Convolutional Networks and Transformer for Time Series Generation,other_methods,ML conference proceedings,excluded,EC7,general-purpose generator; methodological reference set,R07
+TimeVAE: A Variational Auto-Encoder for Multivariate Time Series Generation,other_methods,ML conference proceedings,excluded,EC7,general-purpose generator; methodological reference set,R03
+Generative Modeling of Regular and Irregular Time Series Data via Koopman VAEs,other_methods,ML conference proceedings,excluded,EC7,general-purpose generator; methodological reference set,R08
+On the constrained time-series generation problem,other_methods,ML conference proceedings,included,,meets IC1-IC4,S029
+Regular Time-series Generation using SGM,other_methods,ML conference proceedings,excluded,EC7,general-purpose generator; methodological reference set,R06
+Diffusion-TS: Interpretable Diffusion for General Time Series Generation,other_methods,ML conference proceedings,excluded,EC7,general-purpose generator; methodological reference set,R14
+FIDE: FrequencyInflated Conditional Diffusion Model for Extreme-Aware Time Series Generation,other_methods,ML conference proceedings,excluded,EC7,general-purpose generator; methodological reference set,R04
+Utilizing image transforms and diffusion models for generative modeling of short and long time series,other_methods,ML conference proceedings,excluded,EC7,general-purpose generator; methodological reference set,R09
+Sdformer: Similarity-driven discrete transformer for time series generation,other_methods,ML conference proceedings,excluded,EC7,general-purpose generator; methodological reference set,R02
+Population Aware Diffusion for Time Series Generation,other_methods,ML conference proceedings,excluded,EC7,general-purpose generator; methodological reference set,R05
+Deep Latent State Space Models for Time-Series Generation,other_methods,ML conference proceedings,excluded,EC7,general-purpose generator; methodological reference set,R15
+Generative Time-series Modeling with Fourier Flows,other_methods,ML conference proceedings,excluded,EC7,general-purpose generator; methodological reference set,R01
+TSGBench: Time Series Generation Benchmark,other_methods,ML conference proceedings,excluded,EC1,benchmark study (methodological source),M01
+CTBench: Cryptocurrency Time Series Generation Benchmark,other_methods,ML conference proceedings,included,,meets IC1-IC4,S006
+Modeling financial time-series with generative adversarial networks,other_methods,author's reference library,included,,meets IC1-IC4,S113
+Denoising diffusion probabilistic model for realistic financial correlation matrices,other_methods,author's reference library,included,,meets IC1-IC4,S065
+Enhancing mean-variance portfolio optimization through GANs-based anomaly detection,other_methods,author's reference library,included,,meets IC1-IC4,S060
+Stock market prediction based on generative adversarial network,other_methods,author's reference library,included,,meets IC1-IC4,S136
+Stock price manipulation detection using generative adversarial networks,other_methods,author's reference library,included,,meets IC1-IC4,S070
+MacroVAE: counterfactual financial scenario generation via macroeconomic conditioning,other_methods,author's reference library,included,,meets IC1-IC4,S066
+CMS-VAE: a strategy-aware variational autoencoder for high-fidelity crypto market simulation,other_methods,author's reference library,included,,meets IC1-IC4,S005
+Generative learning for financial time series with irregular and scale-invariant patterns,other_methods,author's reference library,included,,meets IC1-IC4,S051
+Factor-GAN: enhancing stock price prediction and factor investment with generative adversarial networks,other_methods,author's reference library,included,,meets IC1-IC4,S124

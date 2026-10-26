@@ -1,0 +1,43 @@
+item,topic,checklist_item_abridged,location_or_adaptation
+1,Title,Identify the report as a systematic review.,Title of the chapter
+2,Abstract,See the PRISMA 2020 for Abstracts checklist.,Abstract
+3,Rationale,Describe the rationale for the review in the context of existing knowledge.,Sections 1.1 and 1.2
+4,Objectives,Provide an explicit statement of the objectives or questions the review addresses.,Section 1.3
+5,Eligibility criteria,Specify the inclusion and exclusion criteria and how studies were grouped for the syntheses.,"Section 2.2, table of eligibility criteria; Section 2.5"
+6,Information sources,Specify all sources searched or consulted and the date when each was last searched.,Section 2.1; Appendix A
+7,Search strategy,"Present the full search strategies, including filters and limits.",Appendix A
+8,Selection process,"Specify the methods used to decide eligibility: number of reviewers, independence, automation tools.",Section 2.3
+9,Data collection process,"Specify the methods used to collect data: number of reviewers, independence, confirmation of data, automation tools.",Section 2.4
+10a,Data items (outcomes),List and define the outcomes for which data were sought.,Section 2.4; codebook in the replication package
+10b,Data items (other variables),List and define all other variables for which data were sought.,Section 2.4; codebook in the replication package
+11,Study risk of bias assessment,Specify the methods used to assess risk of bias in the included studies.,"Adapted: seven-item quality rubric, Section 2.4"
+12,Effect measures,Specify the effect measures used in the synthesis.,Not applicable: no common effect measure; results reported in the original metrics (Section 2.5)
+13a,Synthesis methods (eligibility),Describe how studies were assigned to each synthesis.,Section 2.5; Section 5
+13b,Synthesis methods (data preparation),Describe methods to prepare the data for presentation or synthesis.,Section 2.5: no conversion of metrics; unreported items coded as not reported
+13c,Synthesis methods (tabulation),Describe methods to tabulate or display results.,Sections 4 and 6; Table S1
+13d,Synthesis methods (synthesis),Describe the methods used to synthesise results and their rationale.,Section 2.5: structured narrative synthesis (SWiM); evaluation practices treated as data
+13e,Synthesis methods (heterogeneity),Describe methods to explore causes of heterogeneity.,Section 2.5: grouping by application domain and technical challenge
+13f,Synthesis methods (sensitivity),Describe sensitivity analyses.,Section 6.3: robustness of the fidelity and utility classification; Section 8.2: restriction to peer-reviewed studies
+14,Reporting bias assessment,Describe methods to assess risk of bias due to missing results.,Not formally assessed; mitigated by including preprints and negative results (Sections 2.2 and 8.2)
+15,Certainty assessment,Describe methods to assess certainty in the body of evidence.,Not applicable to methodological studies; strength of evidence described with the quality rubric (Section 4.2)
+16a,Study selection,"Describe the results of the search and selection, ideally with a flow diagram.",Section 2.3 and PRISMA flow diagram
+16b,Study selection (exclusions),"Cite studies that might appear to meet the criteria but were excluded, and explain why.",Tables S2 and S3
+17,Study characteristics,Cite each included study and present its characteristics.,Section 4; Table S1
+18,Risk of bias in studies,Present assessments of risk of bias for each included study.,quality-rubric table (Section 4.2); Table S1 (quality scores)
+19,Results of individual studies,"Present, for each study, summary statistics and estimates.",Section 5 (results in the original metrics); Table S1
+20a,Results of syntheses (characteristics),Summarise the characteristics and risk of bias of the contributing studies.,Section 4.2; opening paragraphs of each subsection of Section 5
+20b,Results of syntheses (statistical),Present the results of all statistical syntheses.,Not applicable (no meta-analysis); descriptive frequencies in Sections 4 and 6
+20c,Results of syntheses (heterogeneity),Present results of investigations of heterogeneity.,Section 5; fidelity-utility table (Section 6.3)
+20d,Results of syntheses (sensitivity),Present results of sensitivity analyses.,Sections 6.3 and 8.2
+21,Reporting biases,Present assessments of risk of bias due to missing results.,Not formally assessed (Section 8.2)
+22,Certainty of evidence,Present assessments of certainty in the body of evidence.,Not applicable; see items 15 and 23b
+23a,Discussion (interpretation),Provide a general interpretation of the results in the context of other evidence.,Section 6.3; Section 8.1
+23b,Discussion (limitations of evidence),Discuss limitations of the evidence included in the review.,Section 6; Section 7.1
+23c,Discussion (limitations of review),Discuss limitations of the review processes used.,Section 8.2
+23d,Discussion (implications),"Discuss implications for practice, policy and future research.",Section 7; Section 8.1
+24a,Registration,"Provide registration information, or state that the review was not registered.",Not registered (Sections 2 and 8.2)
+24b,Protocol,"Indicate where the protocol can be accessed, or state that it was not prepared.",No protocol was published in advance; the procedure is documented in Section 2 and in the replication package
+24c,Amendments,Describe and explain any amendments to the protocol.,Second-pass check of excluded Scopus titles and reinstatement of studies excluded on outcome grounds (Sections 2.2 and 2.3)
+25,Support,Describe sources of financial or non-financial support.,Section 8.3
+26,Competing interests,Declare any competing interests.,Section 8.3
+27,"Availability of data, code and other materials",Report which materials are available and where.,Section 8.3; replication package

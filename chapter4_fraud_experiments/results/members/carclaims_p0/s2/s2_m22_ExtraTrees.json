@@ -1,0 +1,25 @@
+{
+  "dataset": "carclaims",
+  "partition": 0,
+  "strategy": "s2",
+  "index": 22,
+  "family": "ExtraTrees",
+  "fraction": 0.7658652926376533,
+  "subsample_seed": 1440992930,
+  "model_seed": 604702851,
+  "auxiliary_seed": 1998865254,
+  "hyperparameters": {},
+  "key": [
+    2,
+    1,
+    0,
+    2,
+    0,
+    22
+  ],
+  "n_train": 6495,
+  "train_frauds": 389,
+  "fit_seconds": 0.19,
+  "total_seconds": 0.3,
+  "warnings": []
+}

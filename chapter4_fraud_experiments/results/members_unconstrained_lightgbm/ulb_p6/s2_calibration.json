@@ -1,0 +1,290 @@
+[
+  {
+    "member": "s2_m00_LightGBM",
+    "family": "LightGBM",
+    "a": 4.3216779824113205e-06,
+    "b": -6.186888486331511,
+    "method": "maximum_likelihood",
+    "n_iter": 32
+  },
+  {
+    "member": "s2_m01_XGBoost",
+    "family": "XGBoost",
+    "a": 0.6928046410536877,
+    "b": -0.08310847377669718,
+    "method": "maximum_likelihood",
+    "n_iter": 6
+  },
+  {
+    "member": "s2_m02_CatBoost",
+    "family": "CatBoost",
+    "a": 0.7032231439861589,
+    "b": -2.8321591901073377,
+    "method": "maximum_likelihood",
+    "n_iter": 9
+  },
+  {
+    "member": "s2_m03_RandomForest",
+    "family": "RandomForest",
+    "a": 0.895674614844232,
+    "b": -0.38718671213389144,
+    "method": "maximum_likelihood",
+    "n_iter": 6
+  },
+  {
+    "member": "s2_m04_ExtraTrees",
+    "family": "ExtraTrees",
+    "a": 1.6202348513828586,
+    "b": -0.2963713141853032,
+    "method": "maximum_likelihood",
+    "n_iter": 8
+  },
+  {
+    "member": "s2_m05_LogReg",
+    "family": "LogReg",
+    "a": 0.8993739660200627,
+    "b": -6.430218449667979,
+    "method": "maximum_likelihood",
+    "n_iter": 12
+  },
+  {
+    "member": "s2_m06_MLP",
+    "family": "MLP",
+    "a": 0.2361637086023938,
+    "b": -2.091125476581627,
+    "method": "maximum_likelihood",
+    "n_iter": 13
+  },
+  {
+    "member": "s2_m07_SVM_RBF",
+    "family": "SVM_RBF",
+    "a": 3.1091849826589364,
+    "b": -2.261896718452608,
+    "method": "maximum_likelihood",
+    "n_iter": 11
+  },
+  {
+    "member": "s2_m08_TabPFN",
+    "family": "TabPFN",
+    "a": 0.9496135073520379,
+    "b": -0.05701966764332082,
+    "method": "maximum_likelihood",
+    "n_iter": 4
+  },
+  {
+    "member": "s2_m09_LightGBM",
+    "family": "LightGBM",
+    "a": 0.001309581547828028,
+    "b": -6.413228250846371,
+    "method": "maximum_likelihood",
+    "n_iter": 24
+  },
+  {
+    "member": "s2_m10_XGBoost",
+    "family": "XGBoost",
+    "a": 0.605544094802278,
+    "b": -1.1800686903693047,
+    "method": "maximum_likelihood",
+    "n_iter": 9
+  },
+  {
+    "member": "s2_m11_CatBoost",
+    "family": "CatBoost",
+    "a": 0.7540567626838297,
+    "b": -2.7165868065397527,
+    "method": "maximum_likelihood",
+    "n_iter": 10
+  },
+  {
+    "member": "s2_m12_RandomForest",
+    "family": "RandomForest",
+    "a": 0.9972931801155226,
+    "b": -0.07352763354731091,
+    "method": "maximum_likelihood",
+    "n_iter": 1
+  },
+  {
+    "member": "s2_m13_ExtraTrees",
+    "family": "ExtraTrees",
+    "a": 0.9651845221928032,
+    "b": -0.716057127355555,
+    "method": "maximum_likelihood",
+    "n_iter": 8
+  },
+  {
+    "member": "s2_m14_LogReg",
+    "family": "LogReg",
+    "a": 0.9556342455223081,
+    "b": -6.285147929327798,
+    "method": "maximum_likelihood",
+    "n_iter": 12
+  },
+  {
+    "member": "s2_m15_MLP",
+    "family": "MLP",
+    "a": 0.2257857421836495,
+    "b": -2.1109764107752222,
+    "method": "maximum_likelihood",
+    "n_iter": 11
+  },
+  {
+    "member": "s2_m16_SVM_RBF",
+    "family": "SVM_RBF",
+    "a": 3.228039001895208,
+    "b": -2.3035276112843794,
+    "method": "maximum_likelihood",
+    "n_iter": 12
+  },
+  {
+    "member": "s2_m17_TabPFN",
+    "family": "TabPFN",
+    "a": 1.0197092979596538,
+    "b": 0.7779293932399417,
+    "method": "maximum_likelihood",
+    "n_iter": 6
+  },
+  {
+    "member": "s2_m18_LightGBM",
+    "family": "LightGBM",
+    "a": 5.957253869248487e-05,
+    "b": -6.12580330438386,
+    "method": "maximum_likelihood",
+    "n_iter": 30
+  },
+  {
+    "member": "s2_m19_XGBoost",
+    "family": "XGBoost",
+    "a": 0.7362814399083177,
+    "b": -0.048105145088343876,
+    "method": "maximum_likelihood",
+    "n_iter": 3
+  },
+  {
+    "member": "s2_m20_CatBoost",
+    "family": "CatBoost",
+    "a": 0.7078924574945187,
+    "b": -3.1127950302640395,
+    "method": "maximum_likelihood",
+    "n_iter": 9
+  },
+  {
+    "member": "s2_m21_RandomForest",
+    "family": "RandomForest",
+    "a": 0.9972963582524997,
+    "b": -0.07348451412577714,
+    "method": "maximum_likelihood",
+    "n_iter": 1
+  },
+  {
+    "member": "s2_m22_ExtraTrees",
+    "family": "ExtraTrees",
+    "a": 0.9501039112589249,
+    "b": -0.8337627839509572,
+    "method": "maximum_likelihood",
+    "n_iter": 8
+  },
+  {
+    "member": "s2_m23_LogReg",
+    "family": "LogReg",
+    "a": 0.840993989928866,
+    "b": -6.272087313932625,
+    "method": "maximum_likelihood",
+    "n_iter": 12
+  },
+  {
+    "member": "s2_m24_MLP",
+    "family": "MLP",
+    "a": 0.24803636567060455,
+    "b": -1.9285042201746743,
+    "method": "maximum_likelihood",
+    "n_iter": 6
+  },
+  {
+    "member": "s2_m25_SVM_RBF",
+    "family": "SVM_RBF",
+    "a": 3.212857976599178,
+    "b": -2.2341413183656815,
+    "method": "maximum_likelihood",
+    "n_iter": 12
+  },
+  {
+    "member": "s2_m26_TabPFN",
+    "family": "TabPFN",
+    "a": 1.0735400101637802,
+    "b": 0.983879537450939,
+    "method": "maximum_likelihood",
+    "n_iter": 9
+  },
+  {
+    "member": "s2_m27_LightGBM",
+    "family": "LightGBM",
+    "a": 0.00032319032589362865,
+    "b": -5.836873935049501,
+    "method": "maximum_likelihood",
+    "n_iter": 24
+  },
+  {
+    "member": "s2_m28_XGBoost",
+    "family": "XGBoost",
+    "a": 0.5818019555886527,
+    "b": -1.4292998199600826,
+    "method": "maximum_likelihood",
+    "n_iter": 12
+  },
+  {
+    "member": "s2_m29_CatBoost",
+    "family": "CatBoost",
+    "a": 0.7250453354874432,
+    "b": -2.813564709197279,
+    "method": "maximum_likelihood",
+    "n_iter": 10
+  },
+  {
+    "member": "s2_m30_RandomForest",
+    "family": "RandomForest",
+    "a": 1.0495385011643303,
+    "b": -0.07815925575445413,
+    "method": "maximum_likelihood",
+    "n_iter": 3
+  },
+  {
+    "member": "s2_m31_ExtraTrees",
+    "family": "ExtraTrees",
+    "a": 1.1337456481672528,
+    "b": -0.5335102841801632,
+    "method": "maximum_likelihood",
+    "n_iter": 8
+  },
+  {
+    "member": "s2_m32_LogReg",
+    "family": "LogReg",
+    "a": 0.8959779113923474,
+    "b": -6.286549981420158,
+    "method": "maximum_likelihood",
+    "n_iter": 12
+  },
+  {
+    "member": "s2_m33_MLP",
+    "family": "MLP",
+    "a": 0.22851449501274992,
+    "b": -1.921509267552027,
+    "method": "maximum_likelihood",
+    "n_iter": 12
+  },
+  {
+    "member": "s2_m34_SVM_RBF",
+    "family": "SVM_RBF",
+    "a": 3.0148415030032107,
+    "b": -2.2331549397147374,
+    "method": "maximum_likelihood",
+    "n_iter": 11
+  },
+  {
+    "member": "s2_m35_TabPFN",
+    "family": "TabPFN",
+    "a": 0.9453935156728148,
+    "b": -0.06797189766220117,
+    "method": "maximum_likelihood",
+    "n_iter": 4
+  }
+]

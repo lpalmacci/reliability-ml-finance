@@ -1,0 +1,34 @@
+{
+  "dataset": "carclaims",
+  "partition": 1,
+  "strategy": "s1",
+  "index": 19,
+  "family": "LightGBM_constrained",
+  "fraction": 0.6146871814702958,
+  "subsample_seed": 1205233138,
+  "model_seed": 1133459214,
+  "auxiliary_seed": 1212769715,
+  "hyperparameters": {
+    "num_leaves": 11,
+    "learning_rate": 0.026706123197985942,
+    "max_depth": 4,
+    "feature_fraction": 0.6427365150324694,
+    "bagging_fraction": 0.9284065091940876,
+    "lambda_l2": 9.924472431191818,
+    "min_data_in_leaf": 65,
+    "num_boost_round": 132
+  },
+  "key": [
+    2,
+    1,
+    1,
+    1,
+    0,
+    19
+  ],
+  "n_train": 5213,
+  "train_frauds": 312,
+  "fit_seconds": 0.37,
+  "total_seconds": 0.59,
+  "warnings": []
+}

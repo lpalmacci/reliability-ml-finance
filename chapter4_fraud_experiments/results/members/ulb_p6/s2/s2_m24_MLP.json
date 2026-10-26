@@ -1,0 +1,25 @@
+{
+  "dataset": "ulb",
+  "partition": 6,
+  "strategy": "s2",
+  "index": 24,
+  "family": "MLP",
+  "fraction": 0.7328660685564773,
+  "subsample_seed": 905186265,
+  "model_seed": 189402177,
+  "auxiliary_seed": 485327086,
+  "hyperparameters": {},
+  "key": [
+    2,
+    2,
+    6,
+    2,
+    0,
+    24
+  ],
+  "n_train": 114799,
+  "train_frauds": 199,
+  "fit_seconds": 9.4,
+  "total_seconds": 9.47,
+  "warnings": []
+}

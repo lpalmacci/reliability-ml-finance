@@ -1,0 +1,25 @@
+{
+  "dataset": "ulb",
+  "partition": 5,
+  "strategy": "s2",
+  "index": 0,
+  "family": "LightGBM",
+  "fraction": 0.8173935310852651,
+  "subsample_seed": 2091711235,
+  "model_seed": 201910652,
+  "auxiliary_seed": 784413055,
+  "hyperparameters": {},
+  "key": [
+    2,
+    2,
+    5,
+    2,
+    0,
+    0
+  ],
+  "n_train": 128039,
+  "train_frauds": 222,
+  "fit_seconds": 1.66,
+  "total_seconds": 1.86,
+  "warnings": []
+}

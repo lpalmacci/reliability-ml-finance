@@ -1,0 +1,25 @@
+{
+  "dataset": "carclaims",
+  "partition": 0,
+  "strategy": "s2",
+  "index": 10,
+  "family": "XGBoost",
+  "fraction": 0.7557437549729007,
+  "subsample_seed": 1593827952,
+  "model_seed": 366561390,
+  "auxiliary_seed": 1748498189,
+  "hyperparameters": {},
+  "key": [
+    2,
+    1,
+    0,
+    2,
+    0,
+    10
+  ],
+  "n_train": 6409,
+  "train_frauds": 384,
+  "fit_seconds": 0.48,
+  "total_seconds": 0.49,
+  "warnings": []
+}

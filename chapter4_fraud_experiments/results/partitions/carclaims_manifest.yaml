@@ -1,0 +1,125 @@
+dataset: carclaims
+file: fraud_oracle.csv
+sha256_dataset: d7dab6086aa186fc82c607d50919067a1599cea45afb4965511fd7da9e935e09
+rows: 15419
+frauds: 923
+variables: 30
+proportions:
+  train: 0.55
+  calibration: 0.1
+  validation: 0.15
+  test: 0.2
+groups:
+  groups: 15419
+  groups_with_several_rows: 0
+  rows_in_groups_with_several_rows: 0
+  excess_rows: 0
+  discordant_groups: 0
+  rows_in_discordant_groups: 0
+  frauds_in_discordant_groups: 0
+partitions:
+  0:
+    key:
+    - 1
+    - 1
+    - 0
+    - 0
+    - 0
+    - 0
+    rows:
+      train: 8481
+      calibration: 1541
+      validation: 2313
+      test: 3084
+    frauds:
+      train: 508
+      calibration: 92
+      validation: 138
+      test: 185
+    sha256_indices: c958c7f05dca3d3ce49089761a6d13827e24edc535c6ec27855abb9a9a1e6134
+    file: carclaims_p0.npz
+    sha256_file: 016d659dca2f8b1993e0cec4f699303fbf6cbd947d274874c77b3318f70141df
+  1:
+    key:
+    - 1
+    - 1
+    - 1
+    - 0
+    - 0
+    - 0
+    rows:
+      train: 8481
+      calibration: 1541
+      validation: 2313
+      test: 3084
+    frauds:
+      train: 508
+      calibration: 92
+      validation: 138
+      test: 185
+    sha256_indices: 29c9bf1457cd2418896b43a959cd034acc3d6e1d8734625190c95e93b5e2b15a
+    file: carclaims_p1.npz
+    sha256_file: 9df874cd107ccf8ede58bf9f26efad907fdf040f4f5c64096f3fab98692f26e2
+  2:
+    key:
+    - 1
+    - 1
+    - 2
+    - 0
+    - 0
+    - 0
+    rows:
+      train: 8481
+      calibration: 1541
+      validation: 2313
+      test: 3084
+    frauds:
+      train: 508
+      calibration: 92
+      validation: 138
+      test: 185
+    sha256_indices: 97f040504d370124f7fb104c37a231193d942d9f475cd5b28db77a4ecdc0a3e4
+    file: carclaims_p2.npz
+    sha256_file: 00713ff7a69d2ad9ee98568a12356e69793d50b679bbe5ac8df210e1a4e8f617
+  3:
+    key:
+    - 1
+    - 1
+    - 3
+    - 0
+    - 0
+    - 0
+    rows:
+      train: 8481
+      calibration: 1541
+      validation: 2313
+      test: 3084
+    frauds:
+      train: 508
+      calibration: 92
+      validation: 138
+      test: 185
+    sha256_indices: c7844ac5132f8975cfd82e76e81e5cf90a0667822e1e1bb5858a634dc09c2c39
+    file: carclaims_p3.npz
+    sha256_file: 80623b03a647a629f237baac79d95334046a05861f43c63ddfbcdc1d450e94c9
+  4:
+    key:
+    - 1
+    - 1
+    - 4
+    - 0
+    - 0
+    - 0
+    rows:
+      train: 8481
+      calibration: 1541
+      validation: 2313
+      test: 3084
+    frauds:
+      train: 508
+      calibration: 92
+      validation: 138
+      test: 185
+    sha256_indices: d1369ef193d8f23d7ec89c9301c9df51d48d7bfd3177d13d43cb268c980bbe90
+    file: carclaims_p4.npz
+    sha256_file: 378ecf31e148c1e077f926d9f2d6ce69ab30aa77912d2ad9bf7c7f5e660637ff

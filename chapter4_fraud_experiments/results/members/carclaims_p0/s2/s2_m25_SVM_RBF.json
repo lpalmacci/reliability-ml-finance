@@ -1,0 +1,27 @@
+{
+  "dataset": "carclaims",
+  "partition": 0,
+  "strategy": "s2",
+  "index": 25,
+  "family": "SVM_RBF",
+  "fraction": 0.6516060462061903,
+  "subsample_seed": 38041754,
+  "model_seed": 780163852,
+  "auxiliary_seed": 693736354,
+  "hyperparameters": {},
+  "key": [
+    2,
+    1,
+    0,
+    2,
+    0,
+    25
+  ],
+  "n_train": 5526,
+  "train_frauds": 331,
+  "fit_seconds": 0.66,
+  "total_seconds": 4.18,
+  "warnings": [
+    "FutureWarning: The `probability` parameter was deprecated in 1.9 and will be removed in version 1.11. Use `CalibratedClassifierCV(SVC(), ensemble=False)` instead of `SVC(proba"
+  ]
+}

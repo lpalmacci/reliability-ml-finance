@@ -1,0 +1,25 @@
+{
+  "dataset": "ulb",
+  "partition": 0,
+  "strategy": "s2",
+  "index": 11,
+  "family": "CatBoost",
+  "fraction": 0.7740184508147608,
+  "subsample_seed": 655374114,
+  "model_seed": 998688071,
+  "auxiliary_seed": 1984122386,
+  "hyperparameters": {},
+  "key": [
+    2,
+    2,
+    0,
+    2,
+    0,
+    11
+  ],
+  "n_train": 121245,
+  "train_frauds": 210,
+  "fit_seconds": 21.52,
+  "total_seconds": 21.64,
+  "warnings": []
+}

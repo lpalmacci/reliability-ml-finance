@@ -1,0 +1,64 @@
+dataset: ulb
+partition: 7
+version: unconstrained
+validation_diagnostics:
+  s2:
+    n_validation: 42721
+    share_degenerate: 0.0
+    share_probabilities_at_clip: 0.0328949592836206
+    share_at_clip_by_family:
+      CatBoost: 6.437115236066572e-05
+      ExtraTrees: 0.009017813253435078
+      LightGBM: 0.036317033777299224
+      LogReg: 0.033689520376395686
+      MLP: 0.211260270124763
+      RandomForest: 0.0
+      SVM_RBF: 0.005705624868331734
+      TabPFN: 0.0
+      XGBoost: 0.0
+    border_share: 0.0
+    keff: 6.175453946683157
+    keff_rho_within: 0.7202480784206755
+    keff_rho_between: -0.04464421239640464
+    min_distinct_values_per_member: 227
+    validation_thresholds:
+      prevalence_validation: 0.0017321691907960957
+      pbar_quantiles:
+        q01: 0.00013175376327029557
+        q25: 0.0002470569854348533
+        q50: 0.0003074201096493808
+        q75: 0.0004472615003383028
+        q99: 0.005385127284092974
+      tau_F1:
+        tau: 0.25
+        share_positive: 0.0016151307319585216
+        error_rate: 0.0003511153765127221
+        FP: 5
+        FN: 10
+      tau_cost:
+        tau: 0.009900990099009901
+        share_positive: 0.005126284497085742
+        error_rate: 0.003862269141639943
+        FP: 155
+        FN: 10
+border_share_beyond_1pc:
+  s2: false
+grid:
+  grid_bound: 1.0e-06
+  grid_points: 1000
+timings:
+  preparation_s: 3.5
+  s2:
+    members_s_this_run: 13.8
+    members_s_by_family:
+      LightGBM: 13.73
+      XGBoost: 6.23
+      CatBoost: 98.12
+      RandomForest: 19.91
+      ExtraTrees: 7.7
+      LogReg: 0.41
+      MLP: 35.87
+      SVM_RBF: 58.37
+      TabPFN: 213.4
+    members_s_total: 453.7
+    diagnostics_s: 2.2

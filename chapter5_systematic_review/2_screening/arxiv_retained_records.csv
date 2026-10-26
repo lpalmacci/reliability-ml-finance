@@ -1,0 +1,59 @@
+record,title,link,screening_decision
+AX001,Learning to Manage Investment Portfolios beyond Simple Utility Functions,https://arxiv.org/abs/2510.26165,retained
+AX002,Robust Optimization in Causal Models and G-Causal Normalizing Flows,https://arxiv.org/abs/2510.15458,retained
+AX003,Factor-Based Conditional Diffusion Model for Portfolio Optimization,https://arxiv.org/abs/2509.22088,retained
+AX004,Long-Range Dependence in Financial Markets: Empirical Evidence and Generative Modeling Challenges,https://arxiv.org/abs/2509.19663,retained
+AX005,Nested Optimal Transport Distances,https://arxiv.org/abs/2509.06702,retained
+AX006,Painting the market: generative diffusion models for financial limit order book simulation and forecasting,https://arxiv.org/abs/2509.05107,retained
+AX007,DiffVolume: Diffusion Models for Volume Generation in Limit Order Books,https://arxiv.org/abs/2508.08698,retained
+AX008,ByteGen: A Tokenizer-Free Generative Model for Orderbook Events in Byte Space,https://arxiv.org/abs/2508.02247,retained
+AX009,Solving dynamic portfolio selection problems via score-based diffusion models,https://arxiv.org/abs/2507.09916,retained
+AX010,Diffusion Factor Models: Generating High-Dimensional Returns with Factor Structure,https://arxiv.org/abs/2504.06566,retained
+AX011,"An Advanced Ensemble Deep Learning Framework for Stock Price Prediction Using VAE, Transformer, and LSTM Model",https://arxiv.org/abs/2503.22192,retained
+AX012,CoFinDiff: Controllable Financial Diffusion Model for Time Series Generation,https://arxiv.org/abs/2503.04164,retained
+AX013,TRADES: Generating Realistic Market Simulations with Diffusion Models,https://arxiv.org/abs/2502.07071,retained
+AX014,Synthetic Data for Portfolios: A Throw of the Dice Will Never Abolish Chance,https://arxiv.org/abs/2501.03993,retained
+AX015,Beyond Monte Carlo: Harnessing Diffusion Models to Simulate Financial Market Dynamics,https://arxiv.org/abs/2412.00036,retained
+AX016,Systematic comparison of deep generative models applied to multivariate financial time series,https://arxiv.org/abs/2412.06417,retained
+AX017,Developing Cryptocurrency Trading Strategy Based on Autoencoder-CNN-GANs Algorithms,https://arxiv.org/abs/2412.18202,retained
+AX018,Time-Causal VAE: Robust Financial Time Series Generator,https://arxiv.org/abs/2411.02947,retained
+AX019,Risk Management with Feature-Enriched Generative Adversarial Networks (FE-GAN),https://arxiv.org/abs/2411.15519,retained
+AX020,Can GANs Learn the Stylized Facts of Financial Time Series?,https://arxiv.org/abs/2410.09850,retained
+AX021,Generation of synthetic financial time series by diffusion models,https://arxiv.org/abs/2410.18897,retained
+AX022,Distilling Analysis from Generative Models for Investment Decisions,https://arxiv.org/abs/2410.07225,retained
+AX023,MarS: a Financial Market Simulation Engine Powered by Generative Foundation Model,https://arxiv.org/abs/2409.07486,retained
+AX024,A Financial Time Series Denoiser Based on Diffusion Models,https://arxiv.org/abs/2409.02138,retained
+AX025,NeuralFactors: A Novel Factor Learning Approach to Generative Modeling of Equities,https://arxiv.org/abs/2408.01499,retained
+AX026,Universal randomised signatures for generative time series modelling,https://arxiv.org/abs/2406.10214,retained
+AX027,DiffSTOCK: Probabilistic relational Stock Market Predictions using Diffusion Models,https://arxiv.org/abs/2403.14063,retained
+AX028,Robust Utility Optimization via a GAN Approach,https://arxiv.org/abs/2403.15243,retained
+AX029,Deep Generative Modeling for Financial Time Series with Application in VaR: A Comparative Review,https://arxiv.org/abs/2401.10370,retained
+AX030,Generative Machine Learning for Multivariate Equity Returns,https://arxiv.org/abs/2311.14735,retained
+AX031,Diffusion Variational Autoencoder for Tackling Stochasticity in Multi-Step Regression Stock Price Prediction,https://arxiv.org/abs/2309.00073,retained
+AX032,Market-GAN: Adding Control to Financial Market Data Generation with Semantic Context,https://arxiv.org/abs/2309.07708,retained
+AX033,"Conditional Generators for Limit Order Book Environments: Explainability, Challenges, and Robustness",https://arxiv.org/abs/2306.12806,retained
+AX034,Creating Disasters: Recession Forecasting with GAN-Generated Synthetic Time Series Data,https://arxiv.org/abs/2302.10490,retained
+AX035,Learning to simulate realistic limit order book markets from data as a World Agent,https://arxiv.org/abs/2210.09897,retained
+AX036,Generative Adversarial Networks Applied to Synthetic Financial Scenarios Generation,https://arxiv.org/abs/2209.03935,retained
+AX037,A Hybrid Approach on Conditional GAN for Portfolio Analysis,https://arxiv.org/abs/2208.07159,retained
+AX038,Autoencoding Conditional GAN for Portfolio Allocation Diversification,https://arxiv.org/abs/2207.05701,retained
+AX039,Simulating financial time series using attention,https://arxiv.org/abs/2207.00493,retained
+AX040,Variational Heteroscedastic Volatility Model,https://arxiv.org/abs/2204.05806,retained
+AX041,Tail-GAN: Learning to Simulate Tail Risk Scenarios,https://arxiv.org/abs/2203.01664,retained
+AX042,Universal approximation of credit portfolio losses using Restricted Boltzmann Machines,https://arxiv.org/abs/2202.11060,retained
+AX043,Generative Adversarial Network (GAN) and Enhanced Root Mean Square Error (ERMSE): Deep Learning for Stock Price Movement Prediction,https://arxiv.org/abs/2112.03946,retained
+AX044,Towards Realistic Market Simulations: a Generative Adversarial Networks Approach,https://arxiv.org/abs/2110.13287,retained
+AX045,Intra-Day Price Simulation with Generative Adversarial Modelling of the Order Flow,https://arxiv.org/abs/2109.13905,retained
+AX046,Discriminating modelling approaches for Point in Time Economic Scenario Generation,https://arxiv.org/abs/2108.08818,retained
+AX047,Learning who is in the market from time series: market participant discovery through adversarial calibration of multi-agent simulators,https://arxiv.org/abs/2108.00664,retained
+AX048,Generative Adversarial Networks in finance: an overview,https://arxiv.org/abs/2106.06364,retained
+AX049,Variational Autoencoders: A Hands-Off Approach to Volatility,https://arxiv.org/abs/2102.03945,retained
+AX050,Improving the Robustness of Trading Strategy Backtesting with Boltzmann Machines and Generative Adversarial Networks,https://arxiv.org/abs/2007.04838,retained
+AX051,A Data-driven Market Simulator for Small Data Environments,https://arxiv.org/abs/2006.14498,retained
+AX052,Deep Hedging: Learning to Simulate Equity Option Markets,https://arxiv.org/abs/1911.01700,retained
+AX053,CorrGAN: Sampling Realistic Financial Correlation Matrices Using Generative Adversarial Networks,https://arxiv.org/abs/1910.09504,retained
+AX054,PAGAN: Portfolio Analysis with Generative Adversarial Networks,https://arxiv.org/abs/1909.10578,retained
+AX055,Quant GANs: Deep Generation of Financial Time Series,https://arxiv.org/abs/1907.06673,retained
+AX056,Generative Adversarial Networks for Financial Trading Strategies Fine-Tuning and Combination,https://arxiv.org/abs/1901.01751,retained
+AX057,Style Transfer with Time Series: Generating Synthetic Financial Data,https://arxiv.org/abs/1906.03232,retained
+AX058,On Feature Reduction using Deep Learning for Trend Prediction in Finance,https://arxiv.org/abs/1704.03205,retained

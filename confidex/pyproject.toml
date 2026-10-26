@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "confidex"
+version = "0.5.1"
+description = "Per-sample reliability of ensemble classifications from the reconstructed law of the members' probabilities"
+readme = "README.md"
+license = "Apache-2.0"
+authors = [{ name = "Luca Palmacci" }]
+requires-python = ">=3.10"
+dependencies = ["numpy>=1.24", "scipy>=1.10"]
+
+[project.optional-dependencies]
+test = ["pytest>=7"]
+
+[tool.setuptools]
+packages = ["confidex"]

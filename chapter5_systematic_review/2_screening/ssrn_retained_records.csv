@@ -1,0 +1,47 @@
+record,title,link,screening_decision
+SR001,A Comprehensive Systematic Review of AI Algorithms for Financial Market Prediction: From Machine Learning to Transformers,https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5481992,retained
+SR002,A Data-Driven Market Simulator for Small Data Environments,https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3632431,retained
+SR003,A Hybrid Approach on Conditional GAN for Portfolio Analysis,,retained
+SR004,A diffusion-based generative model for financial time series via geometric Brownian motion,,retained
+SR005,Advance Stock Market Prediction with Generative Artificial Intelligence (Gen Ai): A Review on Technical Indicators and Sentiment Approach,,retained
+SR006,"Advanced Generative Adversarial Networks for Financial Time Series: Incorporating Stochastic Masking, Multi-Frequency Data, Hidden Markov Models and Vector Quantization",,retained
+SR007,Analyzing Deep Generated Financial Time Series for Various Asset Classes,,retained
+SR008,Application of Generative Adversarial Networks in Financial Time Series Data Augmentation,,retained
+SR009,Autoencoding Conditional GAN for Portfolio Allocation Diversification,,retained
+SR010,Beyond Monte Carlo: Harnessing Diffusion Models to Simulate Financial Market Dynamics,,retained
+SR011,Conditional Sig-Wasserstein GANs for Time Series Generation,,retained
+SR012,Data-driven Methods for Simulation and Forecasting of Financial Time Series,,retained
+SR013,Deep Generative Models Meet Statistical Methods: A Generalized Framework for Financial Regime Identification,,retained
+SR014,Deep Hedging: Learning to Simulate Equity Option Markets,,retained
+SR015,Diffusion Factor Models: Generating High-Dimensional Returns with Factor Structure,,retained
+SR016,Diffusion Model Based Factor Augmentation in Portfolio Management,,retained
+SR017,Diffusion Model Based on Stochastic Differential Equation with Transformer for Stock Price Prediction,,retained
+SR018,DisCorrGAN: A Disentangled and Correlation-Aware Generative Adversarial Networks for Multivariate Financial TimeSeries Generation,,retained
+SR019,Encoded Value-at-Risk: A Predictive Machine for Financial Risk Management,,retained
+SR020,Fin-GAN: Forecasting and Classifying Financial Time Series via Generative Adversarial Networks,,retained
+SR021,Financial Thought Experiment: A GAN-based Approach to Vast Robust Portfolio Selection,,retained
+SR022,GANs and synthetic financial data: calculating VaR,,retained
+SR023,Generating Financial Markets With Signatures,,retained
+SR024,Generating Multivariate Financial Time Series with MSSTD-Diff: A Diffusion Model with Multi-Scale Spatial-Temporal Dynamics,,retained
+SR025,"Generating Synthetic Data in Finance: Opportunities, Challenges and Pitfalls",,retained
+SR026,Generating the Term Structure of Interest Rates with Diffusion Models,,retained
+SR027,Generative Adversarial Networks Applied to Synthetic Financial Scenarios Generation,,retained
+SR028,Generative Adversarial Networks in Finance: An Overview,,retained
+SR029,Generative Models for Financial Data,,retained
+SR030,Generative Models for Time Series in Finance,,retained
+SR031,"Generative Models in Finance:Market Generators, a Paradigm Shift in Financial Modeling",,retained
+SR032,Improving the Robustness of Trading Strategy Backtesting with Boltzmann Machines and Generative Adversarial Networks,,retained
+SR033,Interpretable GenAI: Synthetic Financial Time Series Generation with Probabilistic LSTM,,retained
+SR034,Limit Order Book Simulation with Generative Adversarial Networks,,retained
+SR035,MTSS-GAN: Multivariate Time Series Simulation Generative Adversarial Networks,,retained
+SR036,Normalizing Flows for Portfolio Optimization,,retained
+SR037,Pagan: Portfolio Analysis with Generative Adversarial Networks,,retained
+SR038,Simulating Economic Heavy-Tailed Distributions with Quantum Boltzmann Machines,,retained
+SR039,Solving Dynamic Portfolio Selection Problems Via Score-Based Diffusion Models,,retained
+SR040,Stock Prediction with FinGAN++: A Multimodal Generative Framework for Market Simulation and Sentiment-Conditioned Forecasting,,retained
+SR041,Stock Market Forecasting Using Dragan and Feature Matching,,retained
+SR042,Tail-GAN: Learning to Simulate Tail Risk Scenarios,,retained
+SR043,The Market Generator,,retained
+SR044,Time Series Simulation by Conditional Generative Adversarial Net,,retained
+SR045,Tracking-Based Green Portfolio Optimization: Bridging Sustainability and Market Performance,,retained
+SR046,Wasserstein GAN: Deep Generation Applied on Financial Time Series,,retained

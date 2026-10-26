@@ -1,0 +1,21 @@
+created: '2026-10-24T03:25:27'
+versions:
+  python: 3.12.11
+  numpy: 2.5.3
+  scipy: 1.18.1
+  pandas: 2.3.3
+  scikit-learn: 1.9.0
+  lightgbm: 4.7.0
+  xgboost: 3.4.1
+  catboost: 1.2.10
+  tabpfn-client: 0.6.1
+  confidex: 0.5.1
+  joblib: 1.6.0
+  pyarrow: 25.0.1
+git:
+  commit: ''
+  uncommitted_changes: false
+script: train_members.py
+dataset: ulb
+partition: 2
+version: unconstrained

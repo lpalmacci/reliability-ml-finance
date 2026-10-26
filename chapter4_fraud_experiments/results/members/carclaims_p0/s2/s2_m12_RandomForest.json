@@ -1,0 +1,25 @@
+{
+  "dataset": "carclaims",
+  "partition": 0,
+  "strategy": "s2",
+  "index": 12,
+  "family": "RandomForest",
+  "fraction": 0.690505815562765,
+  "subsample_seed": 1715510213,
+  "model_seed": 1194253798,
+  "auxiliary_seed": 1523395177,
+  "hyperparameters": {},
+  "key": [
+    2,
+    1,
+    0,
+    2,
+    0,
+    12
+  ],
+  "n_train": 5856,
+  "train_frauds": 351,
+  "fit_seconds": 0.3,
+  "total_seconds": 0.4,
+  "warnings": []
+}

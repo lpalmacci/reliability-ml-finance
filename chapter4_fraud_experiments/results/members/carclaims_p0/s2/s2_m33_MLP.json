@@ -1,0 +1,25 @@
+{
+  "dataset": "carclaims",
+  "partition": 0,
+  "strategy": "s2",
+  "index": 33,
+  "family": "MLP",
+  "fraction": 0.7469078255119443,
+  "subsample_seed": 1766938458,
+  "model_seed": 257419699,
+  "auxiliary_seed": 514077429,
+  "hyperparameters": {},
+  "key": [
+    2,
+    1,
+    0,
+    2,
+    0,
+    33
+  ],
+  "n_train": 6334,
+  "train_frauds": 379,
+  "fit_seconds": 2.64,
+  "total_seconds": 2.64,
+  "warnings": []
+}

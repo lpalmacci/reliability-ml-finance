@@ -1,0 +1,230 @@
+dataset: ulb
+file: ulb_creditcard.csv
+sha256_dataset: 76274b691b16a6c49d3f159c883398e03ccd6d1ee12d9d8ee38f4b4b98551a89
+rows: 284807
+frauds: 492
+variables: 29
+proportions:
+  train: 0.55
+  calibration: 0.1
+  validation: 0.15
+  test: 0.2
+groups:
+  groups: 275663
+  groups_with_several_rows: 5149
+  rows_in_groups_with_several_rows: 14293
+  excess_rows: 9144
+  discordant_groups: 0
+  rows_in_discordant_groups: 0
+  frauds_in_discordant_groups: 0
+partitions:
+  0:
+    key:
+    - 1
+    - 2
+    - 0
+    - 0
+    - 0
+    - 0
+    rows:
+      train: 156644
+      calibration: 28481
+      validation: 42721
+      test: 56961
+    frauds:
+      train: 271
+      calibration: 49
+      validation: 74
+      test: 98
+    sha256_indices: a0a33c93585839f1f79f2cf0836237f205a723a0ad814130daae0b813896ec5c
+    file: ulb_p0.npz
+    sha256_file: 7c059fbfdfca19a4b6b9e05f6668edd1c11c299b2d28b1a0d37237ce84ef09c9
+  1:
+    key:
+    - 1
+    - 2
+    - 1
+    - 0
+    - 0
+    - 0
+    rows:
+      train: 156644
+      calibration: 28481
+      validation: 42721
+      test: 56961
+    frauds:
+      train: 271
+      calibration: 49
+      validation: 74
+      test: 98
+    sha256_indices: 1adfa422497d90bc8acff06d8ba8ec59c69982a2dacd255db5b0fe96d4ad0e4e
+    file: ulb_p1.npz
+    sha256_file: 553686c4ab406a40f410d3fa0484c107209a82982ee265aa6122d50dfddb6b8c
+  2:
+    key:
+    - 1
+    - 2
+    - 2
+    - 0
+    - 0
+    - 0
+    rows:
+      train: 156644
+      calibration: 28481
+      validation: 42721
+      test: 56961
+    frauds:
+      train: 271
+      calibration: 49
+      validation: 74
+      test: 98
+    sha256_indices: 6c20b062259dbaf037950930ae0460b0169004c197718d633c642a712d7bbb7b
+    file: ulb_p2.npz
+    sha256_file: f9f0e812ffb2fd9ef47a0ab2b30b9c4c8c9713734a48db4f4464fc5d71d49d37
+  3:
+    key:
+    - 1
+    - 2
+    - 3
+    - 0
+    - 0
+    - 0
+    rows:
+      train: 156644
+      calibration: 28480
+      validation: 42722
+      test: 56961
+    frauds:
+      train: 271
+      calibration: 48
+      validation: 75
+      test: 98
+    sha256_indices: 7bc72f80987013d7ca64de94269a967a1096cc1d5c0f99c93d16d99649305a02
+    file: ulb_p3.npz
+    sha256_file: e6c4269321beefe72884f3b727674c18a8ebd0fcd0807604854174d36ab6fa34
+  4:
+    key:
+    - 1
+    - 2
+    - 4
+    - 0
+    - 0
+    - 0
+    rows:
+      train: 156644
+      calibration: 28481
+      validation: 42721
+      test: 56961
+    frauds:
+      train: 271
+      calibration: 49
+      validation: 74
+      test: 98
+    sha256_indices: f808787d0868e485574623a9722671305f6b71d3ba2a2a40cccfed9a7e3740fc
+    file: ulb_p4.npz
+    sha256_file: a2cbb22894ff4123906b34332f39ab57aaa9af0605178acb908d0e084f264621
+  5:
+    key:
+    - 1
+    - 2
+    - 5
+    - 0
+    - 0
+    - 0
+    rows:
+      train: 156644
+      calibration: 28481
+      validation: 42721
+      test: 56961
+    frauds:
+      train: 271
+      calibration: 49
+      validation: 74
+      test: 98
+    sha256_indices: fa8b91de6bbf3a72b01b1834ba8941525efb056edbbcf8c409f60078975316f0
+    file: ulb_p5.npz
+    sha256_file: dcb58e5c47132156080e892cf37a683892442f92668fe7bfbc9b38d89269a125
+  6:
+    key:
+    - 1
+    - 2
+    - 6
+    - 0
+    - 0
+    - 0
+    rows:
+      train: 156644
+      calibration: 28481
+      validation: 42721
+      test: 56961
+    frauds:
+      train: 271
+      calibration: 49
+      validation: 74
+      test: 98
+    sha256_indices: f221e9e62e45f066b4fd8214361694c87c14cd4c7036fc70c6b5f3a01afe991f
+    file: ulb_p6.npz
+    sha256_file: 4f4a1753d5748967d12f99345f038e5e65b563acdc8c62774a69c0cc9aa084af
+  7:
+    key:
+    - 1
+    - 2
+    - 7
+    - 0
+    - 0
+    - 0
+    rows:
+      train: 156644
+      calibration: 28481
+      validation: 42721
+      test: 56961
+    frauds:
+      train: 271
+      calibration: 49
+      validation: 74
+      test: 98
+    sha256_indices: b98c812fd06417836e2002303fa3e79bf08ea6a6d761f61ccedf59659861202b
+    file: ulb_p7.npz
+    sha256_file: 84ac6800b6d1302b21eb036fd816c7786e9a810f333af58d47164cf166cae073
+  8:
+    key:
+    - 1
+    - 2
+    - 8
+    - 0
+    - 0
+    - 0
+    rows:
+      train: 156644
+      calibration: 28481
+      validation: 42721
+      test: 56961
+    frauds:
+      train: 271
+      calibration: 49
+      validation: 74
+      test: 98
+    sha256_indices: 925ced9c31727afd27ee1bd084489b27a0d2d0bb52329dca9cfaf157bd7b5c71
+    file: ulb_p8.npz
+    sha256_file: b4c6a3d25e08efc3868117eb55c2a4b9cb5ac0718d4a0f81437c89395d6450f7
+  9:
+    key:
+    - 1
+    - 2
+    - 9
+    - 0
+    - 0
+    - 0
+    rows:
+      train: 156644
+      calibration: 28481
+      validation: 42721
+      test: 56961
+    frauds:
+      train: 271
+      calibration: 49
+      validation: 74
+      test: 98
+    sha256_indices: 11f8b647a0d3eb9ecc42c79b22708d03accdfe84b9b996476f8426851a93b7b8
+    file: ulb_p9.npz
+    sha256_file: 1f1767a810f664ef81b789d34120d3601ec462c609e2f584936dc48317753039

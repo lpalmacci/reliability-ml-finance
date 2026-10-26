@@ -1,0 +1,44 @@
+created: '2026-10-24T03:44:36'
+versions:
+  python: 3.12.11
+  numpy: 2.5.3
+  scipy: 1.18.1
+  pandas: 2.3.3
+  scikit-learn: 1.9.0
+  lightgbm: 4.7.0
+  xgboost: 3.4.1
+  catboost: 1.2.10
+  tabpfn-client: 0.6.1
+  confidex: 0.5.1
+  joblib: 1.6.0
+  pyarrow: 25.0.1
+git:
+  commit: ''
+  uncommitted_changes: false
+script: run_evaluation.py
+members: final
+code_sha256:
+  fraud/__init__.py: 552988f5c572e09dfd95bae4138f0747924d60c7782848f2c0c0718f96420650
+  fraud/ablations.py: ab80ef7703e870ef32b48b17f4ae75e42ec8f56a1ea7f9d1e2f3e9a92e998ebf
+  fraud/data.py: 2147e41eebd947f36747c0ebe793cb4843f2e1e7d918332023ef598f477bf9da
+  fraud/defaults.py: c3940c9b0e5381032a06820cf7b4c210c9ecd398da82d26d81359f3957d15c7b
+  fraud/evaluate.py: e8eceb120bcec678c4ad392180d6ee6ddb352fbe3fbf47c9bb76f759bc0f5023
+  fraud/families.py: d2bc4e998103dcb8a4dc48b6b1a024ba2269f4d7c499122010e5d1d14a33accd
+  fraud/loader.py: e8fedf8852227b9bb2527530410fec2091644e1071109b4826f6a0f6338a6e53
+  fraud/manifest.py: b18c8102f571cb58797259472b23089aa8be7298949b2361b6d0ca6c426b8310
+  fraud/members.py: 884660f5b1f44a8267665e90cdd92013e37a3967ec43a1bf82571de460509313
+  fraud/model_registry.py: 32a5f4008728611a68dc1b93cade0269af05da489042962ae3797ddb152d3dff
+  fraud/ordinal_maps.py: 2727611f9202ddf4d75514a4360ac77ef931fc41b2976ce2a43a0220ffa72db8
+  fraud/performance.py: a85e2fec25c61470c37a2558930c0460157d73f70f9dcbf2bef3bc31f683e411
+  fraud/plan.py: a9bdd8185a29ce5378f75a4e58e1a4e737db9bb6f08fea14ca58075fc6c0b104
+  fraud/preprocessor.py: 4f95b98893ed7c2c7051360645023a5f0b3106abec1588b4eb336fd7d99b22bb
+  fraud/readings.py: 72ab40757e96f7e580124abea5aabeea129416674a1a71ab3fdb1fe29c39664e
+  fraud/registry.py: 62d81f21c871ccf211de3bbea0ac9a29dd8b6c8a5f148cc5c279492634158233
+  fraud/resampling.py: 7143e1e6030884d7b96e07d5cd7a4fa3fd3fe262a9b8d3f0be0a5883974bfcac
+  fraud/seeds.py: 59a0fa95b42a52b1d5192a2e04ab5a7dba7d67965add7749d2c68af7a7f6c66a
+  fraud/specs.py: 926cd5173333647a9be9713310e1332f5959c4cc93ec325caef447ad9b67a5e8
+  fraud/tabpfn_service.py: 2d9ebb36b9516875d47356c4f30e5942b9816565a0ec909a4ebff300333c1b98
+  fraud/thresholds.py: 1025c917be10b077f3144170cf2e45128198c1c07b151cf192f6f7d39a371087
+  query_tabpfn.py: ebeb58677898bf6dd0e0f3b4dc397972343850d2b0316ead9547656ccf0a2697
+  run_evaluation.py: 373b75d74442ad3d53fa0bbc5534b32c4988c645ce669d2db69cfa59c91c16a6
+  train_members.py: 873b65fb866f94b2e9a6f2d9ba25fb35fa2d55b97dee1069c312d82e706cb004

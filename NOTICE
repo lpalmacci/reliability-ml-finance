@@ -1,0 +1,36 @@
+Replication package of the doctoral thesis "Reliability of Machine Learning Outputs in Finance"
+(Luca Palmacci, Sapienza University of Rome), Chapters 3, 4 and 5.
+Copyright 2026 Luca Palmacci
+
+The code is licensed under the Apache License 2.0 (LICENSE). The model of the members' probabilities
+implemented in confidex/ is joint work with Stefano Galiani, Davide Petturiti and Barbara Vantaggi:
+S. Galiani, D. Petturiti, B. Vantaggi, L. Palmacci (2026), "Bayesian Per-Sample Confidence Estimation
+via Decoupled Ensemble Modeling", IPMU 2026.
+
+The systematic review of Chapter 5 (chapter5_systematic_review/) is the work of the author alone. Its
+screening records, coding sheet and extraction notes may be reused for research purposes with citation of
+the thesis.
+
+Third-party data, redistributed unchanged except where stated in chapter4_fraud_experiments/data/README.md:
+
+- chapter4_fraud_experiments/data/ulb_creditcard.csv.gz: "Credit Card Fraud Detection", Machine
+  Learning Group of the Universite Libre de Bruxelles and Worldline (Kaggle mlg-ulb/creditcardfraud).
+  Made available under the Open Database License (ODbL) 1.0,
+  https://opendatacommons.org/licenses/odbl/1-0/; any rights in individual contents of the database are
+  licensed under the Database Contents License (DbCL) 1.0, https://opendatacommons.org/licenses/dbcl/1-0/.
+  Reference: A. Dal Pozzolo, O. Caelen, R. A. Johnson, G. Bontempi (2015), "Calibrating probability with
+  undersampling for unbalanced classification", IEEE Symposium Series on Computational Intelligence.
+
+- chapter4_fraud_experiments/data/fraud_oracle.csv: "Vehicle Insurance Claim Fraud Detection" (Kaggle
+  shivamb/vehicle-claim-fraud-detection), CC0 1.0 as declared by the uploader; line endings converted
+  from CRLF to LF. Reference: C. Phua, D. Alahakoon, V. Lee (2004), "Minority report in fraud detection:
+  classification of skewed data", ACM SIGKDD Explorations Newsletter 6(1), 50-59.
+
+- chapter4_fraud_experiments/results/tabpfn/: scores returned by the TabPFN service of Prior Labs
+  (model TabPFN v3, client tabpfn-client 0.6.1), obtained in October 2026. References: N. Hollmann et al.
+  (2025), "Accurate predictions on small data with a tabular foundation model", Nature 637, 319-326;
+  L. Grinsztajn et al. (2026), "TabPFN-3: Technical Report", arXiv:2605.13986.
+
+- chapter5_systematic_review/2_screening/: bibliographic metadata (authors, titles, years, sources, DOIs
+  and links) of the records retrieved from Scopus, SSRN and arXiv on 10 November 2025, limited to what is
+  needed to document the selection. No abstracts, full texts or complete database exports are included.

@@ -1,0 +1,25 @@
+{
+  "dataset": "carclaims",
+  "partition": 3,
+  "strategy": "s2",
+  "index": 18,
+  "family": "LightGBM",
+  "fraction": 0.6423705944027607,
+  "subsample_seed": 1741579020,
+  "model_seed": 1079233128,
+  "auxiliary_seed": 1205649894,
+  "hyperparameters": {},
+  "key": [
+    2,
+    1,
+    3,
+    2,
+    0,
+    18
+  ],
+  "n_train": 5447,
+  "train_frauds": 326,
+  "fit_seconds": 1.64,
+  "total_seconds": 1.86,
+  "warnings": []
+}

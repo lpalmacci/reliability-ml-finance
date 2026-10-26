@@ -1,0 +1,71 @@
+{
+  "dataset": "carclaims",
+  "partition": 0,
+  "strategy": "s2",
+  "index": 35,
+  "family": "TabPFN",
+  "fraction": 0.6040138651858694,
+  "subsample_seed": 604564862,
+  "model_seed": 1027027047,
+  "auxiliary_seed": 90457210,
+  "hyperparameters": {},
+  "key": [
+    2,
+    1,
+    0,
+    2,
+    0,
+    35
+  ],
+  "n_train": 5122,
+  "fit_seconds": 7.2,
+  "predict_seconds": 2.7,
+  "server": {
+    "test_set_num_rows": 6938,
+    "test_set_num_cols": 37,
+    "n_estimators": 8,
+    "billing_model_version": "v3",
+    "execution_mode": "standard",
+    "cache_outcome": "not_requested",
+    "task": "classification",
+    "package_version": "9.0.0",
+    "tabpfn_config": {
+      "categorical_features_indices": [
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29
+      ],
+      "average_before_softmax": false,
+      "random_state": 1027027047,
+      "inference_config": {
+        "TRANSFORM_DATES": false,
+        "TRANSFORM_TEXT": false
+      },
+      "inference_precision": "auto",
+      "ignore_pretraining_limits": false,
+      "fit_mode": "fit_preprocessors",
+      "model_path": "/app/tabpfn_models/tabpfn-v3-classifier-v3_default.ckpt",
+      "balance_probabilities": false
+    },
+    "classes": [
+      0,
+      1
+    ]
+  },
+  "member_tokens": 10000
+}

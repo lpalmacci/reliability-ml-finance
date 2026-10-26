@@ -1,0 +1,102 @@
+dataset: carclaims
+partition: 4
+version: final
+validation_diagnostics:
+  s1:
+    n_validation: 2313
+    share_degenerate: 0.0
+    share_probabilities_at_clip: 0.0
+    share_at_clip_by_family:
+      LightGBM_constrained: 0.0
+    border_share: 0.0
+    keff: 18.149764849564477
+    keff_rho_within: -0.026451061989535327
+    keff_rho_between: .nan
+    min_distinct_values_per_member: 2313
+    validation_thresholds:
+      prevalence_validation: 0.05966277561608301
+      pbar_quantiles:
+        q01: 0.0041271408680455994
+        q25: 0.009601174706741385
+        q50: 0.017507036765657437
+        q75: 0.09326646412393634
+        q99: 0.24321877333310363
+      tau_F1:
+        tau: 0.13028255237258116
+        share_positive: 0.1392131431041937
+        error_rate: 0.13575443147427582
+        FP: 249
+        FN: 65
+      tau_cost:
+        tau: 0.1
+        share_positive: 0.22135754431474275
+        error_rate: 0.19887591872027668
+        FP: 417
+        FN: 43
+  s2:
+    n_validation: 2313
+    share_degenerate: 0.0
+    share_probabilities_at_clip: 0.00647307489071432
+    share_at_clip_by_family:
+      CatBoost: 0.0
+      ExtraTrees: 0.023670557717250323
+      LightGBM: 0.0
+      LogReg: 0.0
+      MLP: 0.0
+      RandomForest: 0.03458711629917856
+      SVM_RBF: 0.0
+      TabPFN: 0.0
+      XGBoost: 0.0
+    border_share: 0.0
+    keff: 12.224235415400566
+    keff_rho_within: 0.5227541395780063
+    keff_rho_between: -0.0786664398230559
+    min_distinct_values_per_member: 1736
+    validation_thresholds:
+      prevalence_validation: 0.05966277561608301
+      pbar_quantiles:
+        q01: 0.003936694553955089
+        q25: 0.01442300810763273
+        q50: 0.02739679660807764
+        q75: 0.09586507784274036
+        q99: 0.19517660756648794
+      tau_F1:
+        tau: 0.12095635652118714
+        share_positive: 0.1392131431041937
+        error_rate: 0.13661910938175528
+        FP: 250
+        FN: 66
+      tau_cost:
+        tau: 0.1
+        share_positive: 0.22265456117596194
+        error_rate: 0.19584954604409857
+        FP: 415
+        FN: 38
+border_share_beyond_1pc:
+  s1: false
+  s2: false
+grid:
+  grid_bound: 1.0e-06
+  grid_points: 1000
+timings:
+  preparation_s: 0.2
+  s1:
+    members_s_this_run: 80.4
+    members_s_by_family:
+      LightGBM_constrained: 80.25
+    members_s_total: 80.2
+    diagnostics_s: 0.2
+  s2:
+    members_s_this_run: 127.7
+    members_s_by_family:
+      LightGBM: 17.65
+      XGBoost: 8.0
+      CatBoost: 69.39
+      RandomForest: 1.62
+      ExtraTrees: 1.23
+      LogReg: 0.3
+      MLP: 11.06
+      SVM_RBF: 18.35
+      TabPFN: 111.5
+    members_s_total: 239.1
+    diagnostics_s: 0.2

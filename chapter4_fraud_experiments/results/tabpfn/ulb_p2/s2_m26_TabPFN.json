@@ -1,0 +1,52 @@
+{
+  "dataset": "ulb",
+  "partition": 2,
+  "strategy": "s2",
+  "index": 26,
+  "family": "TabPFN",
+  "fraction": 0.6181640102576279,
+  "subsample_seed": 2065590080,
+  "model_seed": 528585711,
+  "auxiliary_seed": 1115306049,
+  "hyperparameters": {},
+  "key": [
+    2,
+    2,
+    2,
+    2,
+    0,
+    26
+  ],
+  "n_train": 96831,
+  "fit_seconds": 5.1,
+  "predict_seconds": 37.4,
+  "server": {
+    "test_set_num_rows": 128163,
+    "test_set_num_cols": 29,
+    "n_estimators": 8,
+    "billing_model_version": "v3",
+    "execution_mode": "standard",
+    "cache_outcome": "not_requested",
+    "task": "classification",
+    "package_version": "9.0.0",
+    "tabpfn_config": {
+      "categorical_features_indices": [],
+      "average_before_softmax": false,
+      "random_state": 528585711,
+      "inference_config": {
+        "TRANSFORM_DATES": false,
+        "TRANSFORM_TEXT": false
+      },
+      "inference_precision": "auto",
+      "ignore_pretraining_limits": false,
+      "fit_mode": "fit_preprocessors",
+      "model_path": "/app/tabpfn_models/tabpfn-v3-classifier-v3_default.ckpt",
+      "balance_probabilities": false
+    },
+    "classes": [
+      0,
+      1
+    ]
+  },
+  "member_tokens": 56426
+}

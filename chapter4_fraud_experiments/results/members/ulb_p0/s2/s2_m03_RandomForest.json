@@ -1,0 +1,25 @@
+{
+  "dataset": "ulb",
+  "partition": 0,
+  "strategy": "s2",
+  "index": 3,
+  "family": "RandomForest",
+  "fraction": 0.701713799854415,
+  "subsample_seed": 2145885950,
+  "model_seed": 654011180,
+  "auxiliary_seed": 861337948,
+  "hyperparameters": {},
+  "key": [
+    2,
+    2,
+    0,
+    2,
+    0,
+    3
+  ],
+  "n_train": 109919,
+  "train_frauds": 190,
+  "fit_seconds": 4.15,
+  "total_seconds": 4.62,
+  "warnings": []
+}

@@ -1,0 +1,31 @@
+created: '2026-10-07T01:30:54'
+versions:
+  python: 3.12.11
+  numpy: 2.5.3
+  scipy: 1.18.1
+  pandas: 2.3.3
+  scikit-learn: 1.9.0
+  lightgbm: 4.7.0
+  xgboost: 3.4.1
+  catboost: 1.2.10
+  tabpfn-client: 0.6.1
+  confidex: 0.5.0
+  joblib: 1.6.0
+  pyarrow: 25.0.1
+git:
+  commit: 21129ae857cf03f5f60943154e5269eee93203f8
+  uncommitted_changes: true
+  chapter4_tracked: false
+script: query_tabpfn.py
+model_path: v3_default
+datasets:
+- ulb
+initial_usage:
+  daily_tokens_used: 1449121
+  daily_token_limit: 5000000
+  monthly_tokens_used: 1449121
+  monthly_token_limit: 20000000
+  daily_reset_time: 2026-10-07 00:00:00 UTC
+  monthly_reset_time: 2026-11-01 00:00:00 UTC
+note: Written by the last run of the original (Italian) version of query_tabpfn.py;
+  keys translated to English for this repository, values unchanged.
