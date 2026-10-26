@@ -8,7 +8,7 @@ are three levels of verification, from the quickest to the most complete.
 |---|---|---|---|
 | 1 | The numbers of the chapter follow from the frozen result tables | `make verify-frozen` | about 1 minute |
 | 2 | The pipeline of the simulated studies runs end to end (small sizes; no market data, no Quant GAN) | `make quick J=3` | about 25 minutes |
-| 3 | The full study, re-run from scratch | `make all`, then `make verify` | about 25 hours (the Quant GAN uses the Apple GPU if present) |
+| 3 | The full study, re-run from the data with the trained Quant GANs of the thesis | `make all`, then `make verify` (see §3 for the number of workers) | about 20 hours (about 35 if the Quant GAN is retrained) |
 
 Times are for the machine used for the thesis: Apple M2 Pro (12 cores, 16 GB), macOS,
 Python 3.12.11; CPU only, except the Quant GAN, which uses the GPU (MPS).
@@ -55,9 +55,27 @@ The numbers of a quick run are not those of the thesis.
 ## 3. Full study
 
 ```sh
-make all       # test, train, meta, case, thesis
+make all       # test, weights, train, meta, case, exploratory, real, qgan, thesis
 make verify    # = uv run python scripts/verify.py
 ```
+
+On a machine with 16 GB, as the one of the thesis, run the same targets with different numbers of
+workers (as in the full runs of October 2026; the results do not depend on the number of workers):
+
+```sh
+make test weights
+make train meta case exploratory real J=6    # about 13 hours
+make qgan J=3                                # about 7 hours with the installed Quant GANs
+make thesis verify
+```
+
+`make all` first installs the Quant GANs trained for the thesis (`make weights`, see *Determinism*):
+the training scripts skip a model that is already present, so the Quant GAN is not retrained. To
+retrain it, run the targets of `make all` without `weights`.
+
+The protocol stages of the Quant GAN take about 3 GB per worker: with six workers the machine of the
+thesis ran out of memory, and the run resumed from the task cache with three. Retraining the Quant GANs
+(without `make weights`) runs four models at a time on the GPU, about 4 GB each.
 
 `make all` runs the steps below in order. Each step writes its tables to `results/<step>/`
 with a `.provenance.json` file (configuration hash, commit, package version). Steps E1-E7
@@ -66,6 +84,7 @@ and produces the same output.
 
 | Step | Command | Output | Time (workers) |
 |---|---|---|---|
+| Trained Quant GANs of the thesis (G3) | `make weights` | `results/q0/`, `results/runs/qgan/`, `results/real/runs*/qgan/` | 1 min |
 | Training of the neural generators (G1, G2) | `python -m tavp.experiments.train` | `results/runs/` | 1.5 h (3) |
 | E1 negative control and L1 null | `python -m tavp.experiments.e1_null` | `results/e1/` | 1 h (4) |
 | E2 planted defects | `python -m tavp.experiments.e2_defects` | `results/e2/` | 3.5 h (4) |
@@ -85,10 +104,13 @@ and produces the same output.
 | E10 protocol on the pseudo-real oracles (D8) | `train`, `e1_null`, `e4_case`, `e5_compare`, `e8_attain` with `--config configs/real.yaml` | `results/real/` | 2.5 h (6) |
 | E10 multistart refit of B2, sensitivity (D8) | `python -m tavp.experiments.e10_multistart --config configs/real.yaml --protocol`, then `--config configs/full.yaml` | `results/real/e10ms/`, `results/e10ms/` | 20 min (5) |
 | E11 level L4 on the market (D8) | `python -m tavp.experiments.e11_market_l4 --config configs/real.yaml` | `results/real/e11/` | 1.5 h (6) |
-| Q0 fidelity check of the Quant GAN on the experiment of its paper (addendum) | `python -m tavp.experiments.q0_fidelity` | `results/q0/` | 35 min (GPU) |
-| Q0b single bounded tuning round and confirmation (addendum) | `python -m tavp.experiments.q0_tune` | `results/q0/tune*`, `results/q0/confirm*` | 70 min (GPU) |
-| E13 Quant GAN: training, stylized facts, levels L0-L3, L4 on held-out histories (addendum, D10) | `python -m tavp.experiments.e13_qgan --stage train`, then `--stage facts`, `--stage protocol`, `--stage l4` | `results/runs/qgan/`, `results/e13/` | 5 h (GPU, 4 models at a time) |
-| E13 Quant GAN on the market (addendum, D10; after E11) | `python -m tavp.experiments.e11_market_l4 --config configs/real.yaml --qgan` | `results/real/runs_market/qgan/`, `results/real/e11/` | 2 h (GPU) |
+| Q0 fidelity check of the Quant GAN on the experiment of its paper (addendum) | `python -m tavp.experiments.q0_fidelity` | `results/q0/` | 35 min (GPU; seconds with `make weights`) |
+| Q0b single bounded tuning round and confirmation (addendum) | `python -m tavp.experiments.q0_tune` | `results/q0/tune*`, `results/q0/confirm*` | 70 min (GPU; seconds with `make weights`) |
+| E13 Quant GAN: training, stylized facts, levels L0-L3, L4 on held-out histories (addendum, D10) | `python -m tavp.experiments.e13_qgan --stage train`, then `--stage facts`, `--stage protocol`, `--stage l4` | `results/runs/qgan/`, `results/e13/` | 5 h (GPU, 4 models at a time; 2.5 h with `make weights`, 3 workers) |
+| E13 Quant GAN on the market (addendum, D10; after E11) | `python -m tavp.experiments.e11_market_l4 --config configs/real.yaml --qgan` | `results/real/runs_market/qgan/`, `results/real/e11/` | 4.5 h (GPU, 4 models at a time; minutes with `make weights`) |
+| E13 Quant GAN on the pseudo-real oracles (D11) | `python -m tavp.experiments.e13_qgan --config configs/real.yaml --stage train`, then `--stage protocol` | `results/real/runs/qgan/`, `results/real/e13/` | 3 h of training (GPU, 4 at a time) and 1 h of protocol (3) |
+| E7 robustness of the Quant GAN (D11) | `python -m tavp.experiments.e7_robust --with-qgan` | `results/e7_*/` | 2 h (3) |
+| E14 extreme returns P8 and variance ratio P7 matched to the Quant GAN (D11) | `python -m tavp.experiments.e14_qgan_defects` | `results/e14/` | 1 h (3) |
 | Descriptive curves for the figures | `python -m tavp.experiments.e4_curves` | `results/e4_curves/` | 2 min |
 | Tables, figures, numbers | `make thesis` | `thesis_assets/` | 1 min |
 
@@ -102,9 +124,27 @@ platform and library versions the study is reproduced exactly. On a different pl
 neural training and floating-point reductions can differ in the last digits; such
 differences propagate to the trained generators, so that some numbers of the case study may
 differ slightly, while the meta-validation (E1, E2, E6 meta), which uses only the oracles,
-is unaffected by training. The Quant GAN trains and samples on the Apple GPU (MPS) when it is available:
-on the same machine it is deterministic, and its outputs differ from those on the CPU by floating-point rounding
-(at most about 1e-7 relative).
+is unaffected by training.
+
+The exception is the training of the Quant GAN, which uses the Apple GPU (MPS) when it is available and is
+not reproducible bit for bit even on the same machine. Retrained on the thesis machine with the same code,
+seeds and library versions, about half of the Quant GANs coincided bit for bit with those of the thesis,
+and the others differed from the first checkpoint (step 250) on: the GPU does not guarantee the same order
+of floating-point operations from one run to the next. Sampling from a trained model is deterministic, and
+on the CPU its outputs differ from those on the GPU by floating-point rounding (at most about 1e-7
+relative). The 97 Quant GANs of the thesis are therefore included in `weights/` (64 MB, see
+`weights/README.md`); `make weights` checks their SHA-256 and installs them into `results/`, and `make all`
+does so first.
+
+A full run on the thesis machine (2026-10-24 to 2026-10-26), from a fresh clone and a new environment,
+reproduced byte for byte every result that does not involve the Quant GAN; one column of `e1/l3` differs by
+6e-16, without effect on any number. With the Quant GANs retrained, 441 of the 8,473 numbers of the chapter
+differed, all of them numbers of the Quant GAN: the generators are still unfit on every process, and the
+variance ratio and the extreme returns explain its failures as in the chapter (70% and none, against 75% and
+none), but hypothesis HQ5, which rests on a margin of one attainable cell on process D2, is no longer
+supported, and some statements of the chapter on single processes no longer hold. With the Quant GANs of
+`weights/`, `make verify` printed `VERIFIED`: all 8,473 numbers, the tables and the validation cards coincided
+byte for byte with those of the thesis.
 
 This was checked on 2026-10-14 with a clean-room run on the thesis machine: a fresh clone of
 the repository, a new environment from `uv.lock`, then `make test`, `make verify-frozen`

@@ -16,8 +16,9 @@ independent implementation of the specification of the paper (arXiv:1907.06673):
 Settings that the paper does not report (optimiser, learning rates, batch size, number of steps, weight of
 the penalty) and the rule that selects the checkpoint are fixed in configs/generators/qgan.yaml; the
 checkpoint is chosen on the training data only, as the authors chose the best of several saved parameter
-sets by their evaluation metrics (Section 7.4). The model runs on the Apple GPU (MPS) when available;
-on the same machine training and sampling are deterministic.
+sets by their evaluation metrics (Section 7.4). The model runs on the Apple GPU (MPS) when available.
+Sampling from a trained model is deterministic, but training on the GPU is not reproducible bit for bit,
+even on the same machine; the trained models of the thesis are in weights/ (REPRODUCE.md, Determinism).
 """
 
 from __future__ import annotations

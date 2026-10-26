@@ -3,7 +3,8 @@
 Every experiment of the chapter, with its question, its status, the code that runs it, where its
 results are written and where the chapter reports them. Status: **P** pre-registered (tag
 `prereg`); **A** pre-registered by addendum before it was run (tag `prereg-qgan`); **D** added after
-the results, with its design recorded in [`DEVIATIONS.md`](DEVIATIONS.md) before its own results.
+the results and recorded in [`DEVIATIONS.md`](DEVIATIONS.md), with its date, reason and design; for D8 and D11 the
+design was committed before any of their results, as their entries state.
 Commands take `--config` (default `configs/full.yaml`) and `--jobs`; `make all` runs them in order.
 
 | Exp. | Question | Status | Command (`python -m ...`) | Results | Chapter |

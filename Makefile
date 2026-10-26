@@ -1,5 +1,6 @@
 # Reproduce the results of the chapter (see REPRODUCE.md). `make quick` is a smoke run;
-# `make all` is the full study (about 25 hours on a 12-core laptop; the Quant GAN uses the Apple GPU if present).
+# `make all` is the full study (about 20 hours on a 12-core laptop with 16 GB; use J=3 for `make qgan`, see REPRODUCE.md).
+# It first installs the Quant GANs trained for the thesis (`make weights`), which are then not retrained.
 UV ?= uv
 export OMP_NUM_THREADS=1
 export VECLIB_MAXIMUM_THREADS=1
@@ -11,7 +12,7 @@ XCFG ?= configs/exploratory.yaml
 J ?=
 JOBS = $(if $(J),--jobs $(J),)
 
-.PHONY: test quick all train meta case exploratory real qgan thesis verify verify-frozen freeze clean
+.PHONY: test quick all weights train meta case exploratory real qgan thesis verify verify-frozen freeze clean
 
 test:
 	$(UV) run pytest -q
@@ -75,7 +76,12 @@ qgan:
 thesis:
 	$(PY) tavp.report.build --config $(CFG) $(JOBS)
 
-all: test train meta case exploratory real qgan thesis
+# Trained Quant GANs of the thesis (weights/): training on the GPU is not reproducible bit for bit, so the numbers of
+# the Quant GAN are regenerated exactly only from these models. The training scripts skip a model already present.
+weights:
+	$(UV) run python scripts/install_weights.py
+
+all: test weights train meta case exploratory real qgan thesis
 
 quick:
 	$(MAKE) test train meta case thesis CFG=configs/quick.yaml J=$(J)

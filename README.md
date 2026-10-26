@@ -43,7 +43,9 @@ make verify-frozen      # check the frozen results and recompute every number of
 make quick J=4          # smoke run of the simulated studies with small sizes (15-30 minutes)
 ```
 
-`make all` runs the full study (about 25 hours on a 12-core laptop). `make thesis` rebuilds the
+`make all` runs the full study (about 20 hours on a 12-core laptop), starting from the Quant GANs
+trained for the thesis, which are included in `weights/` because their training on the GPU is not
+reproducible bit for bit (`REPRODUCE.md`, *Determinism*). `make thesis` rebuilds the
 tables, figures and numbers from `results/`; `make verify` compares them with the frozen
 snapshot of the thesis.
 
@@ -75,6 +77,7 @@ third_party/tcvae/  Time-Causal VAE code (upstream commit a43effe, unmodified, A
 scripts/            data download, optional Tail-GAN download, freeze and verification
 tests/              unit tests
 results/frozen/     the snapshot of results used in the thesis (other outputs are regenerated)
+weights/            the 97 trained Quant GANs of the thesis, installed into results/ by `make weights`
 thesis_assets/      tables, figures, validation cards and numbers.tex used by the chapter
 ```
 

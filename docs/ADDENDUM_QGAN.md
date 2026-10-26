@@ -126,3 +126,12 @@ runs 4 and 5 per process and regime, three runs per window on the market, the pr
 (E10), the robustness variants of E7 and the test of its properties as planted defects (E14); its design was committed
 before any of these results (`docs/DEVIATIONS.md`). The hypotheses above are not changed: they are evaluated on runs
 1-3 as stated, and their outcomes on the five runs are reported alongside in the same table.
+
+## Note on determinism (added 2026-10-26, after the results)
+
+The statement under *The generator* (hardware) that training and sampling are deterministic on the same machine proved
+wrong for training. In a full rerun on the thesis machine, with the same code, seeds and library versions, about
+half of the Quant GANs coincided bit for bit with those of the thesis, and the others differed from the first
+checkpoint on; sampling from a trained model is deterministic. The trained models used in the thesis are therefore
+included in `weights/` (`weights/README.md`, `REPRODUCE.md`, *Determinism*). The pre-registered text above is left
+as it was committed under the tag `prereg-qgan`.
