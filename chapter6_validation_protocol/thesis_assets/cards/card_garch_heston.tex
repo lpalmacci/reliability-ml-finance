@@ -1,0 +1,20 @@
+\begin{tabular}{lrrrrrrrrr}
+\toprule
+\multicolumn{10}{p{13.5cm}}{L0: process hashes consistent; scenarios valid; 97\% of comparisons resolvable; 5 training runs, 50 contexts.} \\
+\midrule
+ & \multicolumn{4}{c}{Sharpe} & \multicolumn{2}{c}{MaxDD} & \multicolumn{3}{c}{Return} \\
+\cmidrule(lr){2-5}\cmidrule(lr){6-7}\cmidrule(lr){8-10}
+L2 pass rate & mean & $q_{.05}$ & $q_{.50}$ & $q_{.95}$ & mean & $q_{.95}$ & mean & VaR & ES \\
+\midrule
+BH & \textbf{0.00}$^{\dagger}$ & \textbf{0.20}$^{\dagger}$ & \textbf{0.00}$^{\dagger}$ & \textbf{0.06}$^{\dagger}$ & \textbf{0.40} & \textbf{0.63} & \textbf{0.20}$^{\dagger}$ & \textbf{0.00}$^{\dagger}$ & \textbf{0.22}$^{\dagger}$ \\
+TF & \textbf{0.12}$^{\dagger}$ & \textbf{0.73} & \textbf{0.10}$^{\dagger}$ & \textbf{0.25}$^{\dagger}$ & \textbf{0.61} & \textbf{0.44} & \textbf{0.46}$^{\dagger}$ & \textbf{0.46} & \textbf{0.00} \\
+VT & \textbf{0.00}$^{\dagger}$ & \textbf{0.20}$^{\dagger}$ & \textbf{0.00}$^{\dagger}$ & \textbf{0.07}$^{\dagger}$ & \textbf{0.80} & \textbf{0.90} & \textbf{0.21}$^{\dagger}$ & \textbf{0.31}$^{\dagger}$ & \textbf{0.44}$^{\dagger}$ \\
+TVF & \textbf{0.08}$^{\dagger}$ & \textbf{0.64}$^{\dagger}$ & \textbf{0.10}$^{\dagger}$ & \textbf{0.26}$^{\dagger}$ & \textbf{0.68} & \textbf{0.81} & \textbf{0.45}$^{\dagger}$ & \textbf{0.44} & \textbf{0.43} \\
+\midrule
+\multicolumn{10}{p{13.5cm}}{L1 flagged (power at least 0.5): ACF($|r|$), ACF($r$), Hill index, kurtosis, kurtosis (20 days), kurtosis (5 days), leverage, marginal $W_1$, mean, signature distance, skewness, standard deviation, sliced $W_2$.} \\
+\multicolumn{10}{p{13.5cm}}{L3 pass rate: TF 1.00 (mean regret 0.003, Kendall 0.90); TVF 1.00 (mean regret 0.001, Kendall 0.82); VT 1.00 (mean regret 0.001, Kendall 0.91).} \\
+\multicolumn{10}{p{13.5cm}}{L4: 1 of 12 cells rejected (BH/maxdd).} \\
+\multicolumn{10}{p{13.5cm}}{\textbf{Verdict: not fit for the declared use.}} \\
+\multicolumn{10}{p{13.5cm}}{$^{\dagger}$Not attainable with this amount of data. Attainable cells passed: 0 of 13; attainable rules of L3 failed: none. \textbf{Verdict on the attainable cells: not fit.}} \\
+\bottomrule
+\end{tabular}

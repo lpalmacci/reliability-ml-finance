@@ -1,0 +1,12 @@
+{
+  "vol_generator": 0.17775282854948254,
+  "vol_oracle": 0.17994520450702248,
+  "relative_error": 0.012183575347540776,
+  "threshold": 0.2,
+  "power_k": 1.0,
+  "package_version": "0.1.0",
+  "git_commit": "0992c5a",
+  "config": "configs/full.yaml",
+  "config_hash": "15e61ed02c69",
+  "time": "2026-10-13 21:17:37"
+}

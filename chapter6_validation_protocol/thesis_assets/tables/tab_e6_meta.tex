@@ -1,0 +1,21 @@
+\begin{tabular}{llrrrrrrr}
+\toprule
+& & \multicolumn{2}{c}{cells rejected} & \multicolumn{4}{c}{smallest $p$-value} & \\
+\cmidrule(lr){3-4}\cmidrule(lr){5-8}
+Process & Generator & applied & pre-reg. & KS & Kupiec & moments & Berkowitz & coverage \\
+\midrule
+D1 GBM & oracle & 0/12 & 0/12 & 0.021 & 0.032 & 0.0180 & 8.4e-02 & 0.90 \\
+D1 GBM & oracle P1 d1 & 0/12 & 0/12 & 0.024 & 0.023 & 0.0172 & 9.2e-02 & 0.90 \\
+D1 GBM & oracle P5 d1 & 8/12 & 7/12 & 0.000 & 0.000 & 0.0000 & 1.4e-30 & 0.90 \\
+D2 Heston & oracle & 1/12 & 3/12 & 0.006 & 0.011 & 0.0008 & 5.9e-07 & 0.89 \\
+D2 Heston & oracle P1 d1 & 0/12 & 3/12 & 0.080 & 0.057 & 0.0075 & 2.3e-07 & 0.89 \\
+D2 Heston & oracle P5 d1 & 7/12 & 5/12 & 0.000 & 0.000 & 0.0000 & 7.4e-17 & 0.90 \\
+D3 GJR-GARCH-$t$ & oracle & 0/12 & 1/12 & 0.010 & 0.015 & 0.0520 & 9.9e-06 & 0.90 \\
+D3 GJR-GARCH-$t$ & oracle P1 d1 & 0/12 & 1/12 & 0.004 & 0.116 & 0.1125 & 1.6e-05 & 0.90 \\
+D3 GJR-GARCH-$t$ & oracle P2 d1 & 2/12 & 2/12 & 0.001 & 0.002 & 0.0005 & 6.4e-09 & 0.89 \\
+D3 GJR-GARCH-$t$ & oracle P5 d1 & 8/12 & 7/12 & 0.000 & 0.000 & 0.0000 & 1.4e-15 & 0.90 \\
+D4 Regimes & oracle & 0/12 & 0/12 & 0.592 & 0.098 & 0.2411 & 8.0e-02 & 0.90 \\
+D4 Regimes & oracle P1 d1 & 0/12 & 0/12 & 0.294 & 0.098 & 0.1971 & 7.5e-02 & 0.90 \\
+D4 Regimes & oracle P5 d1 & 7/12 & 5/12 & 0.000 & 0.000 & 0.0000 & 3.2e-08 & 0.90 \\
+\bottomrule
+\end{tabular}

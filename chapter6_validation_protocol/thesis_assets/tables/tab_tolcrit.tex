@@ -1,0 +1,21 @@
+\begin{tabular}{llrrrrrrrrrrrr}
+\toprule
+Training data & Generator & \multicolumn{3}{c}{D1} & \multicolumn{3}{c}{D2} & \multicolumn{3}{c}{D3} & \multicolumn{3}{c}{D4} \\
+\cmidrule(lr){3-5}\cmidrule(lr){6-8}\cmidrule(lr){9-11}\cmidrule(lr){12-14}
+& & $\kappa^\ast$ & $\kappa^\ast_{\mathcal{A}}$ & L3 & $\kappa^\ast$ & $\kappa^\ast_{\mathcal{A}}$ & L3 & $\kappa^\ast$ & $\kappa^\ast_{\mathcal{A}}$ & L3 & $\kappa^\ast$ & $\kappa^\ast_{\mathcal{A}}$ & L3 \\
+\midrule
+Known law & $O$ oracle (negative control) & \textbf{0.71} & -- & \textbf{0.001} & \textbf{0.86} & -- & \textbf{0.013} & \textbf{0.92} & -- & \textbf{0.000} & \textbf{0.84} & -- & \textbf{0.006} \\
+\addlinespace
+10 years & $\hat{O}$ oracle, estimated drift & 8.60 & \textbf{0.89} & 0.126 & 6.12 & \textbf{0.91} & \textbf{0.013} & 7.99 & \textbf{0.97} & \textbf{0.000} & 14.3 & \textbf{0.75} & \textbf{0.039} \\
+ & G1 TC-VAE & 11.5 & 3.15 & 0.194 & 9.16 & 5.67 & 0.153 & 12.9 & 8.21 & \textbf{0.048} & 28.0 & 19.5 & 0.251 \\
+ & G3 Quant GAN & 8.76 & 1.87 & 0.115 & 15.9 & 3.90 & 0.169 & 12.3 & 4.79 & 0.288 & 18.2 & 3.18 & 0.062 \\
+ & B1 stationary bootstrap & 8.71 & \textbf{0.90} & 0.108 & 9.59 & 4.67 & 0.160 & 13.5 & 9.55 & 0.101 & 12.3 & 3.38 & 0.077 \\
+ & B2 GJR-GARCH-$t$ & 8.33 & \textbf{0.94} & 0.108 & 14.9 & 10.5 & \textbf{0.022} & 11.1 & 4.90 & \textbf{0.013} & 14.6 & 4.43 & \textbf{0.048} \\
+\addlinespace
+151{,}040 returns & $\hat{O}$ oracle, estimated drift & 2.06 & \textbf{0.81} & \textbf{0.017} & 1.43 & \textbf{0.99} & \textbf{0.009} & 2.27 & \textbf{0.97} & \textbf{0.012} & 1.35 & \textbf{0.89} & \textbf{0.002} \\
+ & G1 TC-VAE & 4.20 & 3.44 & 0.069 & 8.17 & 8.17 & \textbf{0.034} & 6.50 & 6.50 & 0.055 & 5.98 & 5.98 & 0.057 \\
+ & G3 Quant GAN & 3.04 & 1.69 & \textbf{0.018} & 13.4 & 13.4 & 0.168 & 12.8 & 7.80 & 0.237 & 13.8 & 13.8 & 0.058 \\
+ & B1 stationary bootstrap & 2.02 & \textbf{0.82} & \textbf{0.011} & 1.83 & 1.72 & \textbf{0.013} & 3.30 & 1.53 & \textbf{0.003} & 1.99 & 1.81 & \textbf{0.009} \\
+ & B2 GJR-GARCH-$t$ & 1.99 & \textbf{0.82} & \textbf{0.005} & 12.2 & 12.2 & \textbf{0.022} & 1.33 & \textbf{0.85} & \textbf{0.000} & 5.81 & 5.81 & \textbf{0.047} \\
+\bottomrule
+\end{tabular}

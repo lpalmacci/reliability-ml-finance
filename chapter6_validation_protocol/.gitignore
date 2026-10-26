@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.DS_Store
+results/*
+!results/frozen/
+runs/
+# except the trained Quant GANs of the thesis, installed into results/ by scripts/install_weights.py
+!weights/**/runs/
+*.egg-info/
+# Market data (copyrighted; downloaded by scripts/get_french.py)
+data/french/
+third_party_ext/

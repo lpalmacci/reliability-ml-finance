@@ -1,0 +1,6 @@
+# Exploratory analyses (not pre-registered; see docs/DEVIATIONS.md, D2).
+extends: full.yaml
+runtime:
+  train_generators: [vae_mlp_wide]
+generators:
+  vae_mlp_wide: {config: generators/vae_mlp_wide.yaml, seeds: 3, regimes: [single]}

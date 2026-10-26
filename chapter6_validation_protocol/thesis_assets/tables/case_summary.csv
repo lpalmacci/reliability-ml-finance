@@ -1,0 +1,33 @@
+dgp,label,expl,runs,l1,l2,l2min,l2max,l3,l4,fit
+gbm,"G1 TC-VAE, single history",False,5,12,6,4,11,"TF, TVF",1/12,False
+gbm,"G1 TC-VAE, rich",False,5,11,9,10,16,"TF, TVF",--,False
+gbm,"G3 Quant GAN, single history",False,5,11,9,8,19,"TF, TVF",0/12,False
+gbm,"G3 Quant GAN, rich",False,5,3,20,18,36,none,--,False
+gbm,G2 non-causal VAE,False,3,12,0,0,1,"TF, TVF, VT",12/12,False
+gbm,B1 stationary bootstrap,False,5,8,14,13,35,"TF, TVF",0/12,False
+gbm,B2 GJR-GARCH-$t$,False,5,5,14,12,32,"TF, TVF",0/12,False
+gbm,"X1 non-causal VAE, 256 units",True,3,12,0,0,2,"TF, TVF, VT",--,False
+heston,"G1 TC-VAE, single history",False,5,12,1,4,7,"TF, TVF",1/12,False
+heston,"G1 TC-VAE, rich",False,5,11,1,2,8,none,--,False
+heston,"G3 Quant GAN, single history",False,5,13,3,2,12,"TF, TVF",1/12,False
+heston,"G3 Quant GAN, rich",False,5,10,2,2,10,"TF, TVF",--,False
+heston,G2 non-causal VAE,False,3,13,0,0,1,"TF, TVF, VT",12/12,False
+heston,B1 stationary bootstrap,False,5,13,2,0,14,"TF, TVF",1/12,False
+heston,B2 GJR-GARCH-$t$,False,5,13,0,0,12,none,1/12,False
+heston,"X1 non-causal VAE, 256 units",True,3,12,0,0,1,"TF, TVF, VT",--,False
+gjr_garch_t,"G1 TC-VAE, single history",False,5,5,0,0,14,none,4/12,False
+gjr_garch_t,"G1 TC-VAE, rich",False,5,5,4,4,9,TVF,--,False
+gjr_garch_t,"G3 Quant GAN, single history",False,5,5,2,0,10,"TF, TVF",1/12,False
+gjr_garch_t,"G3 Quant GAN, rich",False,5,2,5,4,8,"TF, TVF",--,False
+gjr_garch_t,G2 non-causal VAE,False,3,8,0,0,1,"TF, TVF, VT",12/12,False
+gjr_garch_t,B1 stationary bootstrap,False,5,5,3,4,9,TVF,2/12,False
+gjr_garch_t,B2 GJR-GARCH-$t$,False,5,3,2,2,23,none,0/12,False
+gjr_garch_t,"X1 non-causal VAE, 256 units",True,3,5,0,0,2,"TF, TVF, VT",--,False
+regime,"G1 TC-VAE, single history",False,5,13,0,0,6,"TF, TVF",12/12,False
+regime,"G1 TC-VAE, rich",False,5,13,2,4,8,TVF,--,False
+regime,"G3 Quant GAN, single history",False,5,13,1,2,10,"TF, TVF",2/12,False
+regime,"G3 Quant GAN, rich",False,5,10,7,5,19,TVF,--,False
+regime,G2 non-causal VAE,False,3,13,0,0,1,"TF, TVF, VT",12/12,False
+regime,B1 stationary bootstrap,False,5,13,5,5,8,"TF, TVF",0/12,False
+regime,B2 GJR-GARCH-$t$,False,5,12,3,5,10,none,0/12,False
+regime,"X1 non-causal VAE, 256 units",True,3,12,0,0,1,"TF, TVF, VT",--,False

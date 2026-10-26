@@ -1,0 +1,43 @@
+\begin{tabular}{llrrrrlrl}
+\toprule
+& & & L1 & \multicolumn{2}{c}{L2 cells passed} & L3 & L4 & \\
+\cmidrule(lr){5-6}
+Process & Generator & runs & flagged & pooled & per run & failed rules & rejected & Verdict \\
+\midrule
+D1 GBM & G1 TC-VAE, single history & 5 & 12/13 & 6/36 & 4--11 & TF, TVF & 1/12 & not fit \\
+ & G1 TC-VAE, rich & 5 & 11/13 & 9/36 & 10--16 & TF, TVF & -- & not fit \\
+ & G3 Quant GAN, single history & 5 & 11/13 & 9/36 & 8--19 & TF, TVF & 0/12 & not fit \\
+ & G3 Quant GAN, rich & 5 & 3/13 & 20/36 & 18--36 & none & -- & not fit \\
+ & G2 non-causal VAE & 3 & 12/13 & 0/36 & 0--1 & TF, TVF, VT & 12/12 & not fit \\
+ & B1 stationary bootstrap & 5 & 8/13 & 14/36 & 13--35 & TF, TVF & 0/12 & not fit \\
+ & B2 GJR-GARCH-$t$ & 5 & 5/13 & 14/36 & 12--32 & TF, TVF & 0/12 & not fit \\
+ & X1 non-causal VAE, 256 units$^{\dagger}$ & 3 & 12/13 & 0/36 & 0--2 & TF, TVF, VT & -- & not fit \\
+\addlinespace
+D2 Heston & G1 TC-VAE, single history & 5 & 12/13 & 1/36 & 4--7 & TF, TVF & 1/12 & not fit \\
+ & G1 TC-VAE, rich & 5 & 11/13 & 1/36 & 2--8 & none & -- & not fit \\
+ & G3 Quant GAN, single history & 5 & 13/13 & 3/36 & 2--12 & TF, TVF & 1/12 & not fit \\
+ & G3 Quant GAN, rich & 5 & 10/13 & 2/36 & 2--10 & TF, TVF & -- & not fit \\
+ & G2 non-causal VAE & 3 & 13/13 & 0/36 & 0--1 & TF, TVF, VT & 12/12 & not fit \\
+ & B1 stationary bootstrap & 5 & 13/13 & 2/36 & 0--14 & TF, TVF & 1/12 & not fit \\
+ & B2 GJR-GARCH-$t$ & 5 & 13/13 & 0/36 & 0--12 & none & 1/12 & not fit \\
+ & X1 non-causal VAE, 256 units$^{\dagger}$ & 3 & 12/13 & 0/36 & 0--1 & TF, TVF, VT & -- & not fit \\
+\addlinespace
+D3 GJR-GARCH-$t$ & G1 TC-VAE, single history & 5 & 5/13 & 0/36 & 0--14 & none & 4/12 & not fit \\
+ & G1 TC-VAE, rich & 5 & 5/13 & 4/36 & 4--9 & TVF & -- & not fit \\
+ & G3 Quant GAN, single history & 5 & 5/13 & 2/36 & 0--10 & TF, TVF & 1/12 & not fit \\
+ & G3 Quant GAN, rich & 5 & 2/13 & 5/36 & 4--8 & TF, TVF & -- & not fit \\
+ & G2 non-causal VAE & 3 & 8/13 & 0/36 & 0--1 & TF, TVF, VT & 12/12 & not fit \\
+ & B1 stationary bootstrap & 5 & 5/13 & 3/36 & 4--9 & TVF & 2/12 & not fit \\
+ & B2 GJR-GARCH-$t$ & 5 & 3/13 & 2/36 & 2--23 & none & 0/12 & not fit \\
+ & X1 non-causal VAE, 256 units$^{\dagger}$ & 3 & 5/13 & 0/36 & 0--2 & TF, TVF, VT & -- & not fit \\
+\addlinespace
+D4 Regimes & G1 TC-VAE, single history & 5 & 13/13 & 0/36 & 0--6 & TF, TVF & 12/12 & not fit \\
+ & G1 TC-VAE, rich & 5 & 13/13 & 2/36 & 4--8 & TVF & -- & not fit \\
+ & G3 Quant GAN, single history & 5 & 13/13 & 1/36 & 2--10 & TF, TVF & 2/12 & not fit \\
+ & G3 Quant GAN, rich & 5 & 10/13 & 7/36 & 5--19 & TVF & -- & not fit \\
+ & G2 non-causal VAE & 3 & 13/13 & 0/36 & 0--1 & TF, TVF, VT & 12/12 & not fit \\
+ & B1 stationary bootstrap & 5 & 13/13 & 5/36 & 5--8 & TF, TVF & 0/12 & not fit \\
+ & B2 GJR-GARCH-$t$ & 5 & 12/13 & 3/36 & 5--10 & none & 0/12 & not fit \\
+ & X1 non-causal VAE, 256 units$^{\dagger}$ & 3 & 12/13 & 0/36 & 0--1 & TF, TVF, VT & -- & not fit \\
+\bottomrule
+\end{tabular}

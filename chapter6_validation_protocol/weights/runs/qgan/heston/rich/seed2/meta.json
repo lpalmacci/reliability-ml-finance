@@ -1,0 +1,58 @@
+{
+ "name": "qgan",
+ "target_hash": "5576bf42f937",
+ "cfg": {
+  "noise_dim": 3,
+  "hidden": 80,
+  "lr_d": 0.0001,
+  "lr_g": 3e-05,
+  "betas": [
+   0.0,
+   0.9
+  ],
+  "batch": 64,
+  "r1_gamma": 10.0,
+  "steps": 12000,
+  "checkpoint_every": 250,
+  "select_paths": 200,
+  "select_length": 2000,
+  "select_lags": 250,
+  "select_horizons": [
+   1,
+   5,
+   20,
+   100
+  ],
+  "select_metrics": [
+   "emd_1",
+   "emd_5",
+   "emd_20",
+   "emd_100",
+   "dy_1",
+   "dy_5",
+   "dy_20",
+   "dy_100",
+   "acf_id",
+   "acf_abs",
+   "acf_sq",
+   "leverage"
+  ],
+  "device": "auto"
+ },
+ "seed": 1795550472,
+ "selected_step": 4500,
+ "preprocessing": {
+  "m1": 0.0001903870434711709,
+  "s1": 0.012734945003657567,
+  "m2": -0.00943857370249454,
+  "s2": 0.999955447122577,
+  "lambertw": {
+   "mu": 0.01319332800582773,
+   "s": 0.8029043338751713,
+   "delta": 0.13517506901636284
+  }
+ },
+ "train_returns": 151040,
+ "device": "mps",
+ "train_seconds": 2227.017486810684
+}

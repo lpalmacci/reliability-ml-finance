@@ -1,0 +1,26 @@
+\begin{tabular}{llrp{3.6cm}rp{3.0cm}r}
+\toprule
+& & \multicolumn{2}{c}{L1} & \multicolumn{2}{c}{L2} & L3 \\
+\cmidrule(lr){3-4}\cmidrule(lr){5-6}\cmidrule(lr){7-7}
+Defect & Process & $\delta^{*}$ & statistics flagged at $\delta=1$ & $\delta^{*}$ & failed cells at $\delta=1$ & $\delta^{*}$ \\
+\midrule
+P1 shuffle & D1 GBM & -- & none & -- & 0/36 & -- \\
+P1 shuffle & D2 Heston & 0.25 & ACF($|r|$), leverage & 0.25 & 18/36 (TF, TVF, VT) & -- \\
+P1 shuffle & D3 GJR-GARCH-$t$ & -- & none & 0.25 & 12/36 (TF, TVF, VT) & 1 \\
+P1 shuffle & D4 Regimes & 0.25 & ACF($|r|$), kurt. (5d), leverage & 0.25 & 5/36 (TVF, VT) & 0.75 \\
+P2 thinner tails & D3 GJR-GARCH-$t$ & 0.25 & Hill index, marginal $W_1$ & 0.25 & 10/36 (BH, TF, TVF, VT) & -- \\
+P3 no leverage & D2 Heston & 0.25 & leverage, skewness, sliced $W_2$ \dots & 0.25 & 23/36 (BH, TF, TVF, VT) & 1 \\
+P3 no leverage & D3 GJR-GARCH-$t$ & 0.75 & marginal $W_1$, Hill index & 0.25 & 18/36 (BH, TF, TVF, VT) & -- \\
+P4 lower persistence & D2 Heston & 0.25 & ACF($|r|$), leverage, skewness & 0.25 & 11/36 (BH, TF, TVF, VT) & -- \\
+P4 lower persistence & D3 GJR-GARCH-$t$ & 0.25 & ACF($|r|$), Hill index, marginal $W_1$ & 0.25 & 21/36 (BH, TF, TVF, VT) & -- \\
+P4 lower persistence & D4 Regimes & 0.25 & ACF($|r|$), kurt. (20d), kurt. (5d) \dots & 0.25 & 24/36 (BH, TF, TVF, VT) & -- \\
+P5 volatility scale & D1 GBM & 0.25 & marginal $W_1$, signature, std. dev. \dots & 0.25 & 26/36 (BH, TF, TVF, VT) & 1 \\
+P5 volatility scale & D2 Heston & 0.25 & marginal $W_1$, signature, std. dev. \dots & 0.25 & 26/36 (BH, TF, TVF, VT) & -- \\
+P5 volatility scale & D3 GJR-GARCH-$t$ & 0.25 & marginal $W_1$, std. dev. & 0.25 & 27/36 (BH, TF, TVF, VT) & -- \\
+P5 volatility scale & D4 Regimes & 0.25 & marginal $W_1$, signature, std. dev. \dots & 0.25 & 22/36 (BH, TF, TVF, VT) & -- \\
+P6 drift & D1 GBM & 0.75 & mean, signature, sliced $W_2$ \dots & 0.25 & 23/36 (BH, TF, TVF, VT) & -- \\
+P6 drift & D2 Heston & 0.75 & mean, signature, sliced $W_2$ & 0.25 & 24/36 (BH, TF, TVF, VT) & -- \\
+P6 drift & D3 GJR-GARCH-$t$ & 0.75 & mean & 0.25 & 24/36 (BH, TF, TVF, VT) & -- \\
+P6 drift & D4 Regimes & 0.75 & mean, signature, sliced $W_2$ \dots & 0.25 & 24/36 (BH, TF, TVF, VT) & -- \\
+\bottomrule
+\end{tabular}
